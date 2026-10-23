@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="ca">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TalentLab per a orientadores</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cstyle%3Eg%7Bcolor:%231F1D1A%7D@media (prefers-color-scheme:dark)%7Bg%7Bcolor:%23EDECE9%7D%7D%3C/style%3E%3Cg%3E%3Ccircle cx='14' cy='14' r='12.5' fill='none' stroke='currentColor' stroke-width='1.4' stroke-dasharray='2.2 2.6'/%3E%3Ccircle cx='14' cy='14' r='7' fill='none' stroke='currentColor' stroke-width='1.6'/%3E%3Ccircle cx='14' cy='14' r='2.6' fill='currentColor'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Geist:wght@300;400;500;600&display=swap">
+<style>
+:root {
+  /* Disseny: a dalt, la foto a sang amb la simulació de l'eina (Claude Design);
+     després, la ruta dels passos en vertical. Des del 15/10/2026, el sistema visual 8
+     de l'eina («Blocs agrupats»): Geist, amb la Bricolage als destacats, sense majúscules, i els
+     mateixos colors, que diuen una sola cosa: verd, el que l'eina ha comprovat; lila,
+     el que proposa la IA; groc, per aclarir; taronja, no compleix; blau, el que diu
+     l'orientadora. Un portal que falla, sense color i amb «!»; el que no quadra, en groc. La resta, en tinta. I des del
+     16/10/2026, les decisions de la cerca: els botons rectangulars (radi 10, 8 els petits),
+     el que es tria en un carril gris amb el triat en blanc, i res per sota de 14 px. */
+  --paper: #FFFFFF;
+  --paper-2: #F3F2EF;
+  --fons: #F8F7F5;
+  --card: #FFFFFF;
+  --hover: #F7F6F4;
+  --ink: #1F1D1A;
+  --ink-hover: #3A3733;
+  --ink-2: #514E49;
+  --ink-3: #6D6A65;
+  --rule: #ECEAE6;
+  --rule-2: #DAD7D2;
+  --vora-hover: #BDB9B3;
+  --vora-disc: #CAC7C2;
+  --grid: #F1F0EE;
+  --neutre-fons: #F1F0EE;
+  --verd: #1D6047;
+  --verd-fons: #E4F2EA;
+  --ia: #6E3EAD;
+  --ia-fons: #F1EAFD;
+  --groc: #7A5500;
+  --groc-fons: #FBF1D6;
+  --taronja: #A13D15;
+  --taronja-fons: #FBE7DF;
+  --tu: #1F4FA8;
+  --tu-fons: #E4ECFA;
+  --zona: rgba(31, 29, 26, .06);
+  --banda: #1F1D1A;
+  --banda-tinta: #F3F2EF;
+  --banda-tinta-2: #A8A49E;
+  --banda-linia: #3A3733;
+  --ombra-bloc: 0 1px 2px rgba(31, 29, 26, .04);
+  --ombra: 0 1px 2px rgba(31, 29, 26, .05), 0 22px 44px -26px rgba(31, 29, 26, .28);
+  --f-text: "Geist", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-display: var(--f-text);
+  --f-mono: var(--f-text);
+  /* Les icones de les etiquetes, de traç, com a màscara (les mateixes que a l'eina). */
+  --ic-ok: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.2 4.2L19 7'/%3E%3C/svg%3E");
+  --ic-ia: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4l1.9 6.1L20 12l-6.1 1.9L12 20l-1.9-6.1L4 12l6.1-1.9z'/%3E%3C/svg%3E");
+  --ic-preg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.2 9.2a2.9 2.9 0 1 1 4.2 2.6c-.9.5-1.4 1.1-1.4 2.1v.4M12 18.2v.1'/%3E%3C/svg%3E");
+  --ic-no: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 7l10 10M17 7L7 17'/%3E%3C/svg%3E");
+  --ic-tu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 11.5a3.3 3.3 0 1 0 0-6.6 3.3 3.3 0 0 0 0 6.6zM5.5 19.5a6.5 6.5 0 0 1 13 0'/%3E%3C/svg%3E");
+  --ic-neutre: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 12h10'/%3E%3C/svg%3E");
+  --ic-avis: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 6.5v7M12 17.5v.1'/%3E%3C/svg%3E");
+  /* L'amplada del contingut creix amb la pantalla, fins a 1600 px a les grans (Claude Design, v16) */
+  --amplada: clamp(1160px, 86vw, 1600px);
+  /* L'alçada de la capçalera: creix a les pantalles grans */
+  --cap-alt: 64px;
+  --gutter: clamp(16px, 4vw, 32px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131210; --paper-2: #191816; --fons: #201F1C; --card: #1C1B19; --hover: #26241F;
+    --ink: #EDECE9; --ink-hover: #D6D3CE; --ink-2: #ABA8A3; --ink-3: #8A8781;
+    --rule: #2C2B28; --rule-2: #3D3B37; --vora-hover: #57544F; --vora-disc: #4A4844; --grid: #201F1C; --neutre-fons: #2A2926;
+    --verd: #7FD1A9; --verd-fons: #15322A;
+    --ia: #C9AEF5; --ia-fons: #2B2140;
+    --groc: #E9C46A; --groc-fons: #3A2F12;
+    --taronja: #F0A47E; --taronja-fons: #3A2217;
+    --tu: #A3BDF5; --tu-fons: #1B2744;
+    --zona: rgba(237, 236, 233, .07);
+    --banda: #1C1B19; --banda-tinta: #EDECE9; --banda-tinta-2: #ABA8A3; --banda-linia: #3A3733;
+    --ombra-bloc: 0 1px 2px rgba(0, 0, 0, .3);
+    --ombra: 0 1px 2px rgba(0, 0, 0, .4), 0 22px 44px -26px rgba(0, 0, 0, .7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131210; --paper-2: #191816; --fons: #201F1C; --card: #1C1B19; --hover: #26241F;
+  --ink: #EDECE9; --ink-hover: #D6D3CE; --ink-2: #ABA8A3; --ink-3: #8A8781;
+  --rule: #2C2B28; --rule-2: #3D3B37; --vora-hover: #57544F; --vora-disc: #4A4844; --grid: #201F1C; --neutre-fons: #2A2926;
+  --verd: #7FD1A9; --verd-fons: #15322A;
+  --ia: #C9AEF5; --ia-fons: #2B2140;
+  --groc: #E9C46A; --groc-fons: #3A2F12;
+  --taronja: #F0A47E; --taronja-fons: #3A2217;
+  --tu: #A3BDF5; --tu-fons: #1B2744;
+  --zona: rgba(237, 236, 233, .07);
+  --banda: #1C1B19; --banda-tinta: #EDECE9; --banda-tinta-2: #ABA8A3; --banda-linia: #3A3733;
+  --ombra-bloc: 0 1px 2px rgba(0, 0, 0, .3);
+  --ombra: 0 1px 2px rgba(0, 0, 0, .4), 0 22px 44px -26px rgba(0, 0, 0, .7);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 1.0625rem/1.6 var(--f-text); font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+h1, h2, h3, p, ul, ol, dl, dd, figure, blockquote, fieldset { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+a { color: inherit; }
+svg { max-width: 100%; }
+button, input, textarea { font: inherit; color: inherit; }
+p { text-wrap: pretty; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+section[id] { scroll-margin-top: calc(var(--cap-alt) + 8px); }
+.amplada { width: min(100% - 2 * var(--gutter), var(--amplada)); margin-inline: auto; }
+.eyebrow { font: 500 .875rem/1.4 var(--f-text); color: var(--ink-3); }
+.petit { font-size: .875rem; font-weight: 300; line-height: 1.5; color: var(--ink-3); }
+.ic { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Botons */
+.boto {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 12px 24px; border-radius: 10px;
+  border: 1px solid var(--ink); background: var(--ink); color: var(--paper);
+  font: 500 .9375rem/1.2 var(--f-text); text-decoration: none; cursor: pointer;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.boto:hover { background: var(--ink-hover); border-color: var(--ink-hover); }
+.boto.secundari { background: var(--card); color: var(--ink); border-color: var(--rule-2); }
+.boto.secundari:hover { background: var(--hover); border-color: var(--vora-hover); }
+.boto.petit-b { min-height: 32px; padding: 6px 14px; font-size: .875rem; border-radius: 8px; }
+.boto[aria-disabled="true"] { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+.falsa { pointer-events: none; }
+
+/* Etiquetes: cada color, una cosa */
+.chip, .estat {
+  display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px 0 8px;
+  border-radius: 999px; border: 0; background: var(--neutre-fons); color: var(--ink-2);
+  font: 500 .875rem/1 var(--f-text); white-space: nowrap; --ic: var(--ic-neutre);
+}
+.chip:not(:has(svg))::before, .estat:not(:has(svg:first-child))::before { content: ""; flex: none; width: 12px; height: 12px; background: currentColor; -webkit-mask: var(--ic) center / 12px 12px no-repeat; mask: var(--ic) center / 12px 12px no-repeat; }
+.chip .ic { width: 12px; height: 12px; stroke-width: 2.6; }
+.chip.verd, .estat.verd { background: var(--verd-fons); color: var(--verd); --ic: var(--ic-ok); }
+.chip.ia { background: var(--ia-fons); color: var(--ia); --ic: var(--ic-ia); }
+.chip.aclarir, .estat.aclarir { background: var(--groc-fons); color: var(--groc); --ic: var(--ic-preg); }
+.chip.taronja, .estat.taronja { background: var(--taronja-fons); color: var(--taronja); --ic: var(--ic-no); }
+.chip.tu, .estat.tu { background: var(--tu-fons); color: var(--tu); --ic: var(--ic-tu); }
+.chip.neutre { background: var(--neutre-fons); color: var(--ink-2); }
+.chip.avis { background: var(--neutre-fons); color: var(--ink); --ic: var(--ic-avis); }
+
+/* Capçalera */
+.cap {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30;
+  background: transparent; border-bottom: 1px solid transparent;
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.cap.avall {
+  background: var(--paper); background: color-mix(in srgb, var(--paper) 88%, transparent);
+  -webkit-backdrop-filter: saturate(1.3) blur(12px); backdrop-filter: saturate(1.3) blur(12px);
+  border-bottom-color: var(--rule);
+}
+.cap-in { display: flex; align-items: center; gap: 28px; min-height: var(--cap-alt); }
+.marca {
+  display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none;
+  font: 600 1.25rem/1 var(--f-display); letter-spacing: -.025em;
+}
+.marca svg { width: 28px; height: 28px; flex: none; }
+.nav { display: flex; gap: 24px; margin-left: auto; }
+.nav a { color: var(--ink-2); text-decoration: none; font-size: .9375rem; font-weight: 500; white-space: nowrap; }
+.nav a:hover { color: var(--ink); }
+@media (max-width: 900px) { .nav { display: none; } .cap .boto { margin-left: auto; } }
+/* Més gran a les pantalles grans (Claude Design, v16): la marca, els enllaços i «Parlem-ne», a 17 px */
+@media (min-width: 1440px) {
+  :root { --cap-alt: 80px; }
+  .cap-in { gap: 36px; }
+  .marca { font-size: 1.5rem; gap: 12px; }
+  .marca svg { width: 34px; height: 34px; }
+  .nav { gap: 32px; }
+  .nav a { font-size: 1.0625rem; }
+  .cap .boto.petit-b { min-height: 0; padding: 11px 22px; font-size: 1.0625rem; }
+}
+@media (min-width: 1800px) {
+  :root { --cap-alt: 88px; }
+  .marca { font-size: 1.75rem; }
+  .marca svg { width: 38px; height: 38px; }
+  .nav { gap: 40px; }
+}
+
+/* Portada */
+.hero { position: relative; overflow: hidden; padding-block: clamp(36px, 6vw, 80px) clamp(56px, 7vw, 96px); }
+.accions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.prova-social { display: flex; align-items: flex-start; gap: 10px; margin-top: 28px; font-size: .9375rem; color: var(--ink-2); }
+.prova-social .ic { width: 18px; height: 18px; margin-top: 3px; }
+
+/* La franja de les fonts */
+.fonts { background: var(--paper-2); border-block: 1px solid var(--rule); }
+.fonts-in { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 28px; padding-block: 18px; }
+.fonts-llista { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .9375rem; font-weight: 500; }
+.fonts-llista li::after { content: "·"; margin-left: 16px; color: var(--ink-3); }
+.fonts-llista li:last-child::after { content: none; }
+/* La franja dels logos, enganxada sota la portada (en Raül, 23/10/2026, amb la seva composició): tres grups centrats,
+   cada un amb el seu rètol al costat (qui l'impulsa, qui hi col·labora i qui l'ha fet), sobre el blanc de la pàgina i
+   amb un filet a l'amplada del contingut. En fosc, els logos passen a la tinta clara; el d'en Raül hi conserva el blau. */
+:root { --logo-filtre: none; --logo-filtre-raul: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --logo-filtre: brightness(0) invert(.9); --logo-filtre-raul: invert(.93) hue-rotate(180deg); }
+}
+:root[data-theme="dark"] { --logo-filtre: brightness(0) invert(.9); --logo-filtre-raul: invert(.93) hue-rotate(180deg); }
+.suport { background: var(--paper); }
+.suport-in {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 20px clamp(40px, 8vw, 120px);
+  padding-block: clamp(20px, 2vw, 28px); border-bottom: 1px solid var(--rule-2);
+}
+.suport-grup { display: flex; align-items: center; gap: 16px 28px; }
+.suport-eti { font-size: 1rem; font-weight: 300; line-height: 1.2; color: var(--ink-2); white-space: nowrap; }
+.suport-logo { display: block; width: auto; height: clamp(40px, 3.6vw, 54px); filter: var(--logo-filtre); }
+.suport-logo.raul { height: clamp(32px, 2.9vw, 42px); filter: var(--logo-filtre-raul); }
+.suport-enllac { display: block; border-radius: 6px; transition: opacity .15s; }
+.suport-enllac:hover { opacity: .7; }
+@media (max-width: 640px) {
+  .suport-in { flex-direction: column; gap: 24px; }
+  .suport-grup { flex-direction: column; gap: 10px; }
+}
+/* Per sota de 860 px la portada acaba amb la targeta dels passos, no amb la foto: un respir abans de la franja */
+@media (max-width: 859px) { .hero.hero-foto { padding-bottom: 28px; } }
+/* Com funciona (Claude Design, v16): «Seguiu la Laia», sis pestanyes en un carril amb la píndola blanca que
+   llisca fins a la triada, i a sota dues piles al mateix lloc, la dels textos i la de les maquetes, perquè res no
+   salti en canviar. El text entra de baix (o de dalt, si es torna) i la maqueta del costat, amb un desenfocament
+   curt; les frases de sota s'encenen al ritme de la maqueta (cf-punt), i a dins de cada maqueta, una animació que
+   explica el pas (a-…), que torna a començar cada vegada que s'obre. */
+.visualment-amagat { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.cf {
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  min-height: calc(100svh - var(--cap-alt)); display: flex; flex-direction: column; justify-content: center;
+  padding-block: clamp(48px, 6vw, 112px) clamp(64px, 7vw, 128px);
+  /* Les maquetes que esperen a la dreta no fan lliscar la pàgina de costat */
+  overflow-x: clip;
+}
+.cf-cap { display: grid; width: fit-content; max-width: 100%; margin-inline: auto; }
+.cf-titol { display: grid; justify-items: center; gap: clamp(14px, 1.2vw, 22px); margin-bottom: clamp(40px, 4.5vw, 80px); text-align: center; }
+.cf-titol h2 { font: 650 clamp(1.6rem, 3.4vw, 3rem)/1.04 var(--f-titols); letter-spacing: -.032em; text-wrap: balance; }
+.cf-titol p { margin-top: -9px; font-size: 1.3125rem; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+.cf-prova::after { content: "↗"; margin-left: 8px; }
+.ep-carril {
+  position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 17px; padding: 3px;
+  border-radius: 12px; background: var(--fons);
+}
+.ep-pindola {
+  position: absolute; left: 0; top: 0; width: 0; height: 0; opacity: 0; border-radius: 9px; background: var(--card);
+  box-shadow: 0 1px 3px rgba(31, 29, 26, .12); pointer-events: none;
+}
+.ep-pindola.llesta { transition: transform .55s cubic-bezier(.3, .7, .2, 1), width .55s cubic-bezier(.3, .7, .2, 1), height .55s cubic-bezier(.3, .7, .2, 1); }
+.ep-pas {
+  position: relative; z-index: 1; display: flex; flex: 1 1 auto; align-items: center; justify-content: center; gap: 10px;
+  padding: 6px 14px 6px 8px; white-space: nowrap; border: 0; border-radius: 9px; background: transparent; text-align: left; cursor: pointer;
+}
+.ep-num {
+  flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 999px;
+  border: 1px solid var(--rule-2); background: var(--card); color: var(--ink); font: 600 .875rem/1 var(--f-text);
+  transition: background-color .4s ease, color .4s ease, border-color .4s ease;
+}
+.ep-pas.fet .ep-num { background: transparent; }
+.ep-pas[aria-selected="true"] .ep-num { background: var(--ink); color: var(--paper); }
+.ep-t { font: 500 1rem/1.1 var(--f-titols); letter-spacing: -.025em; color: var(--ink); }
+.cf-escena { display: flex; flex-wrap: wrap; align-items: stretch; gap: clamp(28px, 5vw, 112px); margin-block: clamp(40px, 4.5vw, 80px) 30px; }
+.cf-textos { flex: 1 1 340px; max-width: 540px; min-width: 0; display: grid; }
+.cf .pas-text { grid-area: 1 / 1; display: grid; gap: 20px; align-content: start; padding-top: 0; }
+.cf .pas-text h3 { display: block; font: 700 clamp(2rem, 3.4vw, 2.875rem)/1.02 var(--f-titols); letter-spacing: -.04em; text-wrap: balance; }
+.cf .pas-text > p { font-size: 1.1875rem; line-height: 1.5; text-wrap: pretty; }
+.cf-punts { display: grid; gap: 22px; margin-top: 12px; }
+.cf-punt { display: grid; gap: 6px; padding-top: 16px; border-top: 1px solid var(--rule); opacity: .32; transition: opacity .45s ease; }
+.cf-punt.encesa { opacity: 1; }
+.cf-punt h4 { margin: 0; font: 600 1.125rem/1.3 var(--f-text); color: var(--ink); }
+.cf-punt p { font-size: 1rem; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+.cf-maqs { position: relative; flex: 1.35 1 460px; min-width: 0; min-height: 460px; }
+.cf-escena.apilada .cf-maqs { min-height: 600px; }
+.cf-maqs-in { position: absolute; inset: 0; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); }
+.cf-panel { grid-area: 1 / 1; display: grid; min-height: 0; }
+/* L'entrada i la sortida: el que no és obert espera a un costat, el d'abans a dalt (o a l'esquerra) i el de
+   després a baix (o a la dreta), i en obrir-ne un hi llisca */
+.cf .pas-text, .cf-panel {
+  opacity: 0; visibility: hidden; filter: blur(8px);
+  transition: opacity .28s ease-in, transform .32s ease-in, filter .28s ease-in, visibility 0s linear .32s;
+}
+.cf .pas-text { transform: translateY(calc(var(--costat, 1) * 14px)); }
+.cf-panel { transform: translateX(calc(var(--costat, 1) * 48px)) scale(.96); transition-duration: .3s, .36s, .3s, 0s; transition-delay: 0s, 0s, 0s, .36s; }
+.cf .pas-text.actiu, .cf-panel.actiu { opacity: 1; visibility: visible; transform: none; filter: none; }
+.cf .pas-text.actiu { transition: opacity .5s ease .12s, transform .8s var(--ease) .12s, filter .6s ease .12s, visibility 0s linear 0s; }
+.cf-panel.actiu { transition: opacity .5s ease, transform .85s var(--ease), filter .6s ease, visibility 0s linear 0s; }
+.cf .maq { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.cf .maq-cap { justify-content: flex-start; }
+.cf .maq-cos { gap: 12px; }
+.cf .pasr { padding-block: 8px; }
+.cf .fitxa { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.cf .fitxa > div { padding-block: 10px; }
+.cf .maq > .maq-cos, .cf .requisits { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.cf .cv { align-content: center; }
+.cf .maq-peu { margin-top: auto; }
+.cf .requisits li { padding-block: 10px; }
+.cf .ofertes li { padding-block: 10px; }
+/* La barra del navegador de cada maqueta: l'adreça del pas, i qui hi treballa */
+.maq-nav { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 10px 14px; border-bottom: 1px solid var(--rule); background: var(--paper-2); }
+.maq-llums { display: flex; gap: 7px; }
+.maq-llums i { width: 11px; height: 11px; border-radius: 999px; background: #FF5F57; }
+.maq-llums i:nth-child(2) { background: #FEBC2E; }
+.maq-llums i:nth-child(3) { background: #28C840; }
+.maq-url {
+  justify-self: center; display: flex; align-items: center; gap: 6px; width: 100%; max-width: 340px; min-width: 0; padding: 4px 12px;
+  border-radius: 7px; border: 1px solid var(--rule-2); background: var(--card); font: 400 .75rem/1.3 var(--f-text); color: var(--ink-3); white-space: nowrap; overflow: hidden;
+}
+.maq-url svg { flex: none; width: 10px; height: 12px; }
+.maq-url > span { overflow: hidden; text-overflow: ellipsis; }
+.maq-url b { font-weight: 400; color: var(--ink-2); }
+.maq-qui { display: flex; align-items: center; gap: 10px; white-space: nowrap; font: 400 .75rem/1.2 var(--f-text); color: var(--ink-3); }
+.maq-avatar { position: relative; width: 24px; height: 24px; flex: none; border-radius: 999px; background: #D9D4CE url(avatar-raul.png) center / cover no-repeat; }
+.maq-avatar::after { content: ""; position: absolute; right: -1px; bottom: -1px; width: 8px; height: 8px; border-radius: 999px; background: #28C840; box-shadow: 0 0 0 2px var(--paper-2); }
+.maq-peu .boto span { margin-left: -2px; }
+.maq-peu .xips { display: flex; flex-wrap: wrap; gap: 6px; }
+/* El peu de cada maqueta és la caixa del pas següent, com a l'eina (estatPas): la rajola, «Pas següent · …» i el botó. */
+.maq-seg { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: 8px 12px; background: var(--card); box-shadow: inset 0 1.5px 0 var(--ink); }
+.seg-n { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--fons); font: 600 .875rem/1 var(--f-text); color: var(--ink); }
+.seg-n .ic { width: 16px; height: 16px; color: var(--verd); }
+.seg-t { display: grid; gap: 2px; min-width: 0; }
+.seg-rot { font: 500 .875rem/1.2 var(--f-text); color: var(--ink-3); }
+.seg-d { font: 600 .875rem/1.35 var(--f-text); color: var(--ink); }
+.maq-seg .boto { flex: none; }
+@media (max-width: 520px) { .maq-seg { grid-template-columns: 36px minmax(0, 1fr); } .maq-seg .boto { grid-column: 2; justify-self: start; } }
+@media (max-width: 620px) {
+  .ep-t { font-size: .875rem; }
+  .maq-qui > span:first-child { display: none; }
+}
+/* Les animacions de dins: esperen que es vegi el slider (vist) */
+.cf-escena:not(.vist) .cf-panel * { animation-play-state: paused !important; }
+.cf-panel.actiu .a-sube { animation: aSube .5s var(--ease) both; animation-delay: var(--d); }
+.cf-panel.actiu .a-pop { animation: aPop .45s var(--ease) both; animation-delay: var(--d); }
+.cf-panel.actiu .a-avis { animation: aAvis .7s var(--ease) both; animation-delay: var(--d); }
+.cf-panel.actiu .a-ratlla { transform-origin: left; animation: aRatlla .6s var(--ease) both; animation-delay: var(--d); }
+.cf-panel.actiu .a-queda { animation: aQueda .5s var(--ease) both; animation-delay: var(--d); }
+.cf-panel.actiu .a-caixa { animation: aCaixa .35s var(--ease) both; animation-delay: var(--d); }
+.cf-panel.actiu .a-caixa::after { animation: aTic .3s var(--ease) both; animation-delay: calc(var(--d) + .15s); }
+.cf .fitxa s { text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 58% / 100% 1.5px no-repeat; }
+.cf-panel.actiu .a-ratllat { animation: aRatllat .5s var(--ease) both; animation-delay: var(--d); }
+@keyframes aSube { from { opacity: 0; transform: translateY(10px); } }
+@keyframes aPop { 0% { opacity: 0; transform: scale(.6); } 65% { opacity: 1; transform: scale(1.08); } 100% { transform: none; } }
+@keyframes aAvis { 0% { opacity: 0; transform: scale(.6); } 40% { opacity: 1; transform: scale(1.06); } 60% { transform: translateX(-3px); } 80% { transform: translateX(3px); } 100% { transform: none; } }
+@keyframes aRatlla { from { transform: scaleX(0); } }
+@keyframes aQueda { from { opacity: .35; background-color: var(--neutre-fons); } 40% { opacity: 1; background-color: var(--neutre-fons); } }
+@keyframes aCaixa { from { background-color: transparent; border-color: var(--ink-3); } }
+@keyframes aTic { from { opacity: 0; transform: rotate(45deg) scale(.3); } }
+@keyframes aRatllat { from { background-size: 0 1.5px; color: var(--ink); } }
+@media (prefers-reduced-motion: reduce) {
+  .cf .pas-text, .cf-panel, .cf-punt, .ep-pindola.llesta { transition: none !important; }
+}
+
+/* Seccions */
+.seccio { padding-block: clamp(64px, 9vw, 120px); }
+.seccio.alt { background: var(--paper-2); }
+.cap-seccio { display: grid; gap: 16px; max-width: 46rem; margin-bottom: clamp(36px, 5vw, 60px); }
+.seccio h2 { font: 600 clamp(1.95rem, 3.7vw, 3rem)/1.04 var(--f-display); letter-spacing: -.032em; text-wrap: balance; }
+.entrada { max-width: 40em; font-size: clamp(1.0625rem, 1.3vw, 1.15rem); color: var(--ink-2); }
+
+/* El problema, amb les proves (en Raül, 21/10/2026): el que eren «El dia a dia» i «Els detalls», en una sola
+   secció. Tres problemes, cadascun amb la seva prova en xifra gran, sobre la banda fosca; a sota, tres proves més
+   en una línia. Les xifres són de cerques de debò, amb la data. */
+.banda { background: var(--banda); color: var(--banda-tinta); }
+.banda .eyebrow, .banda .entrada { color: var(--banda-tinta-2); }
+.pb { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(24px, 3vw, 40px); }
+.pb li { display: grid; gap: 12px; align-content: start; padding-top: 24px; border-top: 1px solid var(--banda-linia); }
+.xifra { font: 650 clamp(2.4rem, 4vw, 3.25rem)/1 var(--f-titols); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.xifra span { margin: 0 .12em; font-weight: 400; color: var(--banda-tinta-2); }
+.xifra span.mot { margin: 0 .2em; font-size: .42em; font-weight: 500; letter-spacing: 0; }
+.pb h3 { margin: 0; font: 600 1.25rem/1.3 var(--f-text); letter-spacing: -.01em; }
+.pb .text { color: var(--banda-tinta); opacity: .88; }
+.data { font: 300 .875rem/1.4 var(--f-text); color: var(--banda-tinta-2); }
+.pb-mes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px clamp(24px, 3vw, 40px); margin-top: clamp(36px, 4vw, 56px); padding-top: 20px; border-top: 1px solid var(--banda-linia); color: var(--banda-tinta-2); }
+.pb-mes b { margin-right: 8px; font: 650 1.25rem/1 var(--f-titols); letter-spacing: -.02em; color: var(--banda-tinta); }
+@media (max-width: 900px) { .pb, .pb-mes { grid-template-columns: minmax(0, 1fr); } .pb { gap: 28px; } }
+
+/* Com funciona: la ruta */
+.passos { --sep: clamp(56px, 7vw, 96px); display: grid; }
+.pas { display: grid; grid-template-columns: 48px minmax(0, .9fr) minmax(0, 1.1fr); column-gap: clamp(20px, 3.5vw, 52px); padding-bottom: var(--sep); }
+.pas:last-child { padding-bottom: 0; }
+.rail { position: relative; display: flex; justify-content: center; }
+.rail::after {
+  content: ""; position: absolute; left: 50%; top: 52px; bottom: calc(var(--sep) * -1 + 6px);
+  border-left: 1.5px solid var(--rule-2); transform: translateX(-50%);
+}
+.pas:last-child .rail::after { content: none; }
+.pas.obres .rail::after { border-left-style: dashed; }
+.num {
+  position: relative; z-index: 1; display: grid; place-items: center; width: 44px; height: 44px; flex: none;
+  border-radius: 50%; border: 1.5px solid var(--ink); background: var(--paper);
+  font: 600 .9375rem/1 var(--f-text); color: var(--ink);
+}
+.pas.properament .num { border-style: dashed; color: var(--ink-2); }
+.pas-text { display: grid; gap: 14px; align-content: start; padding-top: 6px; }
+.pas-text h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font: 600 clamp(1.45rem, 2.2vw, 1.8rem)/1.12 var(--f-display); letter-spacing: -.025em; }
+.pas-text > p { color: var(--ink-2); }
+.punts { display: grid; gap: 10px; margin-top: 4px; font-size: .9688rem; }
+.punts li { display: flex; gap: 10px; align-items: flex-start; }
+.punts .ic { width: 18px; height: 18px; margin-top: 3px; }
+.pas-maq { min-width: 0; }
+@media (max-width: 920px) {
+  .pas { grid-template-columns: 40px minmax(0, 1fr); column-gap: 16px; }
+  .rail { grid-row: 1 / span 2; }
+  .pas-maq { grid-column: 2; margin-top: 28px; }
+  .num { width: 38px; height: 38px; font-size: .875rem; }
+  .rail::after { top: 44px; }
+}
+
+/* Maquetes */
+.maq { margin: 0; overflow: hidden; background: var(--card); border: 1px solid var(--rule); border-radius: 14px; box-shadow: var(--ombra); font-size: .875rem; line-height: 1.5; }
+.maq-cap { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--rule); }
+.maq-titol { min-width: 0; font-weight: 600; color: var(--ink); }
+.maq-eti { flex: none; font: 500 .875rem/1 var(--f-text); color: var(--ink-3); }
+.maq-cos { display: grid; gap: 14px; padding: 16px; }
+.maq-peu { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 12px 16px; border-top: 1px solid var(--rule); background: var(--fons); }
+.sub-eti { margin-bottom: 6px; font: 500 .875rem/1.3 var(--f-text); color: var(--ink-3); }
+
+.fitxa > div { display: grid; grid-template-columns: minmax(7em, 32%) minmax(0, 1fr); gap: 12px; align-items: center; padding: 9px 16px; border-bottom: 1px solid var(--rule); }
+.fitxa > div:last-child { border-bottom: 0; }
+.fitxa dt { font-size: .875rem; color: var(--ink-3); }
+.fitxa dd { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-width: 0; }
+.fitxa s { color: var(--ink-3); text-decoration-thickness: 1.5px; }
+
+.diag-h { font: 600 1.0625rem/1.3 var(--f-display); letter-spacing: -.01em; }
+.codi { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 6px; font-size: .875rem; color: var(--ink-2); }
+.diag p + p { margin-top: 4px; }
+/* Les entitats en targetes de tres, com a l'eina (entitatsTargetes) */
+.entitats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.entitats li { display: grid; gap: 2px; align-content: start; justify-items: start; padding: 10px; border-radius: 10px; background: var(--fons); }
+.entitats li b { font-weight: 600; color: var(--ink); line-height: 1.3; }
+.entitats li > span:not(.chip) { font-size: .875rem; font-weight: 300; color: var(--ink-3); }
+.entitats li .chip { margin-top: 6px; }
+@media (max-width: 520px) { .entitats { grid-template-columns: minmax(0, 1fr); } }
+.maq-cap .xips { display: flex; flex-wrap: wrap; gap: 6px; }
+.hipotesi { display: grid; gap: 8px; justify-items: start; padding: 12px; border-radius: 12px; background: var(--ia-fons); color: var(--ia); }
+.hipotesi .chip.ia { background: var(--card); }
+
+.noms { display: flex; flex-wrap: wrap; gap: 6px; }
+.nom { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: var(--ia-fons); color: var(--ia); font-size: .875rem; font-weight: 500; }
+.nom i { font: 500 .875rem/1 var(--f-text); font-style: normal; opacity: .75; }
+.on { display: flex; align-items: center; gap: 6px; font-size: .875rem; color: var(--ink-2); }
+.on .ic { width: 16px; height: 16px; }
+.portals { display: flex; flex-wrap: wrap; gap: 6px; }
+.portal { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--rule-2); font-size: .875rem; font-weight: 500; }
+.portal b { font: 500 .875rem/1 var(--f-mono); }
+.llista-h { padding: 10px 16px; border-top: 1px solid var(--rule); font: 500 .875rem/1 var(--f-text); color: var(--ink-3); }
+.llista-h b { color: var(--ink); }
+.ofertes li { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 16px; border-top: 1px solid var(--rule); }
+.estrella { font-size: 1rem; line-height: 1; color: var(--ink-3); }
+.proposada .estrella { color: var(--ink); }
+.o-titol { font-weight: 600; line-height: 1.35; color: var(--ink); }
+.o-meta { margin-top: 2px; font-size: .875rem; font-weight: 300; color: var(--ink-3); }
+@media (max-width: 520px) {
+  .ofertes li { grid-template-columns: 20px minmax(0, 1fr); }
+  .ofertes li .chip { grid-column: 2; justify-self: start; }
+}
+
+.requisits li { position: relative; display: grid; gap: 6px; padding: 12px 16px; border-top: 1px solid var(--rule); }
+.requisits li:first-child { border-top: 0; }
+.rq-cap { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.rq-nom { flex: 1 1 12em; min-width: 0; font-weight: 600; color: var(--ink); }
+.rq-n { font: 500 .875rem/1 var(--f-mono); color: var(--ink-3); }
+.estat .ic { width: 14px; height: 14px; }
+/* El selector d'estat: l'etiqueta amb la fletxa, dins d'una píndola amb vora. */
+button.estat { height: 32px; padding: 0 8px 0 10px; border-radius: 8px; border: 1px solid var(--rule-2); cursor: pointer; box-shadow: 0 0 0 0 transparent; }
+button.estat:hover { border-color: var(--vora-hover); }
+button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0 0 3px var(--zona); }
+.cita { font-size: .875rem; color: var(--ink-2); }
+.rq-pop { display: grid; gap: 8px; margin-top: 4px; padding: 14px; border-radius: 16px; border: 1px solid var(--rule); background: var(--card); box-shadow: 0 2px 4px rgba(31, 29, 26, .04), 0 16px 40px -12px rgba(31, 29, 26, .22); }
+.rq-pop-t { font-size: .875rem; font-weight: 600; }
+.rq-opcions { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 2px; padding: 3px; border-radius: 10px; background: var(--rule); }
+.rq-opcions button { min-height: 32px; padding: 4px 8px; border: 0; border-radius: 8px; background: transparent; color: var(--ink-2); font-size: .875rem; font-weight: 500; line-height: 1.2; cursor: pointer; }
+.rq-opcions button:hover { background: rgba(255, 255, 255, .6); color: var(--ink); }
+.rq-opcions button[aria-pressed="true"] { background: var(--card); color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px rgba(31, 29, 26, .12); }
+.tu-nota { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: .875rem; color: var(--ink-3); }
+.enllac { padding: 0; border: 0; background: none; color: var(--ink); font-size: inherit; font-weight: 500; text-decoration: underline; text-decoration-color: var(--vora-hover); text-underline-offset: 3px; cursor: pointer; }
+.enllac:hover { text-decoration-color: var(--ink); }
+.recompte { font: 500 .875rem/1.4 var(--f-mono); color: var(--ink-2); }
+/* Les pestanyes d'estat de Requisits, com a l'eina (resumTabs): el número i el nom, cada estat amb el seu color. */
+.rq-tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 16px 4px; }
+.rq-tab { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: 999px; font: 500 .875rem/1 var(--f-text); color: var(--ink-2); background: var(--fons); }
+.rq-tab b { font: 500 .875rem/1 var(--f-mono); }
+.rq-tab.triat { background: var(--card); color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule-2); }
+.rq-tab.no b { color: var(--taronja); }
+.rq-tab.aclarir b { color: var(--groc); }
+.rq-tab.consta b { color: var(--verd); }
+
+.ruta-avis { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .875rem; color: var(--ink-2); }
+.ruta-grup { display: grid; gap: 8px; }
+.pasr { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 10px; padding: 10px 12px; border-radius: 10px; background: var(--fons); }
+.caixa { position: relative; width: 16px; height: 16px; margin-top: 2px; border-radius: 4px; border: 1.5px solid var(--ink-3); }
+.caixa.marcada { background: var(--ink); border-color: var(--ink); }
+.caixa.marcada::after { content: ""; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: solid var(--paper); border-width: 0 1.8px 1.8px 0; transform: rotate(45deg); }
+.pasr-t { font-weight: 600; line-height: 1.35; color: var(--ink); }
+.pasr-d { margin-top: 2px; font-size: .875rem; color: var(--ink-2); }
+.pasr .chip { margin-top: 6px; }
+
+.maq.properament { border-style: dashed; border-color: var(--vora-disc); box-shadow: none; }
+.cv { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; }
+.cv-full { display: grid; gap: 6px; padding: 14px; border-radius: 10px; border: 1px solid var(--rule); background: var(--card); }
+.marca-dada { justify-self: start; padding: 2px 8px; border-radius: 999px; background: var(--neutre-fons); font: 500 .875rem/1.5 var(--f-text); color: var(--ink-2); }
+.cv-rol { font: 600 1rem/1.2 var(--f-display); }
+.cv-h { margin-top: 6px; font: 500 .875rem/1.2 var(--f-text); color: var(--ink-3); }
+.cv-item { font-size: .875rem; color: var(--ink); }
+.ratlla { display: block; height: 6px; border-radius: 3px; background: var(--paper-2); }
+.cv-checks { display: grid; gap: 10px; font-size: .875rem; }
+.cv-checks li { display: flex; align-items: flex-start; gap: 8px; }
+.cv-checks .chip { padding: 0 6px; }
+@media (max-width: 560px) { .cv { grid-template-columns: minmax(0, 1fr); } }
+
+/* Com encaixa (en Raül, 21/10/2026): al costat del programa del servei, sigui quin sigui, en quatre blocs en un
+   carril (com a la v16 de Claude Design): d'on surt, qui hi treballa (en tinta), qui decideix i on queda. */
+.enc { padding: 4px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; border-radius: 18px; background: var(--rule); }
+.enc li { display: grid; gap: 8px; align-content: start; padding: 22px; border-radius: 14px; background: var(--card); }
+.enc-eti { font: 500 .875rem/1.4 var(--f-text); color: var(--ink-3); }
+.enc-t { font: 600 1.25rem/1.3 var(--f-text); color: var(--ink); }
+.enc-d { color: var(--ink-2); }
+.enc .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.enc li.fosc { background: var(--ink); }
+.enc li.fosc .enc-eti, .enc li.fosc .enc-d { color: var(--paper); opacity: .82; }
+.enc li.fosc .enc-t { color: var(--paper); }
+.enc-nota { display: flex; align-items: flex-start; gap: 10px; margin-top: 20px; color: var(--ink-2); }
+.enc-nota .ic { width: 18px; height: 18px; margin-top: 4px; }
+@media (max-width: 1000px) { .enc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .enc { grid-template-columns: minmax(0, 1fr); } }
+
+/* Lluçanès */
+.ll { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(36px, 5vw, 72px); align-items: end; }
+.ll-text { display: grid; gap: 16px; }
+.ll-text p:not(.eyebrow) { max-width: 38em; color: var(--ink-2); }
+.xifres { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1.5px solid var(--ink); }
+.xifres > div { display: grid; gap: 4px; align-content: start; padding: 18px 16px 18px 0; border-bottom: 1px solid var(--rule-2); }
+.xifres > div:nth-child(2n) { padding-left: 16px; border-left: 1px solid var(--rule-2); }
+.xifres dt { font: 600 clamp(1.8rem, 3vw, 2.4rem)/1 var(--f-display); letter-spacing: -.03em; }
+.xifres dd { font-size: .9375rem; color: var(--ink-2); }
+.ll-baix { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: clamp(40px, 5vw, 64px); }
+.testimoni { display: grid; gap: 14px; align-content: space-between; margin: 0; padding: 20px; border-radius: 14px; border: 1px solid var(--rule); background: var(--card); }
+.testimoni blockquote { font: 500 1.0625rem/1.5 var(--f-display); }
+.testimoni.pendent { border: 1px dashed var(--vora-disc); background: var(--fons); }
+.testimoni.pendent blockquote { font: 400 .9375rem/1.55 var(--f-text); color: var(--ink-3); }
+.testimoni figcaption { font-size: .875rem; color: var(--ink-2); }
+@media (max-width: 980px) { .ll { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 640px) { .ll-baix { grid-template-columns: minmax(0, 1fr); } }
+
+/* Com comencem, dins de Parlem-ne (en Raül, 21/10/2026): els quatre passos a l'esquerra, i a sota qui hi ha
+   darrere, amb l'enllaç a la seva pàgina */
+.passos-c { display: grid; gap: 14px; counter-reset: pc; }
+.passos-c li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 2px 14px; counter-increment: pc; }
+.passos-c li::before { content: counter(pc); grid-row: span 2; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 999px; border: 1.5px solid var(--ink); font: 600 .875rem/1 var(--f-text); color: var(--ink); }
+.passos-c b { font-weight: 600; color: var(--ink); }
+.passos-c span { color: var(--ink-2); }
+.qui { display: flex; align-items: center; gap: 12px; padding-top: 18px; border-top: 1px solid var(--rule); }
+.qui img { width: 44px; height: 44px; flex: none; border-radius: 999px; object-fit: cover; }
+.qui p { font-size: .875rem; line-height: 1.45; color: var(--ink-2); }
+.qui a { color: var(--ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--vora-hover); text-underline-offset: 3px; }
+
+/* Preguntes */
+.pr { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
+.pr .cap-seccio { position: sticky; top: 96px; margin-bottom: 0; }
+.faq { border-top: 1px solid var(--rule-2); }
+.faq details { border-bottom: 1px solid var(--rule-2); }
+.faq summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; list-style: none; cursor: pointer; font: 600 1.0625rem/1.35 var(--f-text); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: ""; flex: none; width: 12px; height: 12px; transition: transform .2s ease;
+  background: linear-gradient(var(--ink), var(--ink)) center / 12px 1.6px no-repeat, linear-gradient(var(--ink), var(--ink)) center / 1.6px 12px no-repeat;
+}
+.faq details[open] summary::after { transform: rotate(45deg); }
+.resp { display: grid; gap: 10px; max-width: 42em; padding-bottom: 20px; color: var(--ink-2); }
+@media (max-width: 900px) { .pr { grid-template-columns: minmax(0, 1fr); } .pr .cap-seccio { position: static; } }
+
+/* Parlem-ne */
+.parlem { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 64px); padding: clamp(22px, 4vw, 48px); border-radius: 18px; border: 1px solid var(--rule); background: var(--card); box-shadow: var(--ombra); }
+.parlem-text { display: grid; gap: 18px; align-content: start; }
+.correu { display: grid; gap: 6px; margin-top: 8px; }
+.correu-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.correu-adreca { font: 500 1.0625rem/1.4 var(--f-mono); word-break: break-all; user-select: all; }
+.missatge { display: grid; gap: 14px; }
+.form-t { font-weight: 600; }
+.camp { display: grid; gap: 6px; min-width: 0; padding: 0; border: 0; }
+.camp > label, .camp legend { font-size: .875rem; font-weight: 500; color: var(--ink-2); }
+.camp input[type="text"], .camp textarea, #c-previ { width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--rule-2); background: var(--card); color: var(--ink); font: 400 1rem/1.4 var(--f-text); }
+.camp input[type="text"]:focus, .camp textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(31, 29, 26, .14); }
+.camp legend { padding: 0; margin-bottom: 6px; }
+.camp textarea { min-height: 88px; resize: vertical; }
+.opcions { display: flex; flex-wrap: wrap; gap: 8px; }
+.opcio { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--rule-2); background: var(--card); font-size: .875rem; cursor: pointer; }
+.opcio:has(input:checked) { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.opcio input { margin: 0; accent-color: var(--ink); }
+.form-accions { display: flex; flex-wrap: wrap; gap: 10px; }
+#c-previ { min-height: 170px; font: 400 .875rem/1.5 var(--f-mono); }
+@media (max-width: 900px) { .parlem { grid-template-columns: minmax(0, 1fr); } }
+
+/* Peu */
+.peu { padding-block: 40px 28px; border-top: 1px solid var(--rule); background: var(--paper-2); }
+.peu-in { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 20px 40px; }
+.peu-marca { display: grid; gap: 10px; max-width: 30em; }
+.peu-nav { display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: .9375rem; }
+.peu-nav a { color: var(--ink-2); text-decoration: none; }
+.peu-nav a:hover { color: var(--ink); text-decoration: underline; }
+/* Els logos al peu (en Raül, 23/10/2026): els mateixos tres de la franja, a la columna de la dreta, sota el menú del
+   peu, i tot plegat alineat a l'esquerra de la columna. Els rètols, a la mateixa línia; els logos, centrats en una
+   franja de 48 px, perquè el d'en Raül, més baix, no faci baixar el seu rètol. El d'en Raül porta a la seva pàgina. */
+.peu-dreta { display: grid; justify-items: start; gap: 32px; }
+.peu-logos { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px clamp(28px, 3.5vw, 48px); }
+.peu-logo { display: grid; grid-template-rows: auto 48px; align-items: center; gap: 10px; justify-items: start; }
+.peu-logo .suport-logo { height: 48px; }
+.peu-logo .suport-logo.raul { height: 38px; }
+.peu-legal { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--rule); }
+.peu-legal p { max-width: 70em; }
+
+/* El context (Claude Design, v16): el full del territori a sang, en positiu i grisós perquè hi destaquin les
+   caixes, amb els botons de la finestra a la fila del nom. Les capçaleres del full es llegeixen; les dades, no: cada cel·la és
+   un bloc desenfocat (en Raül: «que es vegin tots els textos infoxica»). La fila lila, la que hi ha afegit el Gem,
+   és la primera que queda sota les caixes (ajustaFila). En fosc, el full va en negatiu, com abans. */
+.ctx {
+  position: relative; overflow: hidden; min-height: calc(100svh - var(--cap-alt) - 80px); display: flex; flex-direction: column; justify-content: center;
+  padding-block: clamp(56px, 8vw, 104px); border-block: 1px solid var(--rule); background: #F3F2EF;
+}
+.hs { position: absolute; inset: 0; display: flex; flex-direction: column; overflow: hidden; background: #F8F8F6; color: #202124; font: 13px/1.2 Arial, Helvetica, sans-serif; }
+.hs-llums { display: flex; gap: 8px; margin-right: 14px; }
+.hs-llums i { width: 12px; height: 12px; border-radius: 999px; background: #FF5F57; }
+.hs-llums i:nth-child(2) { background: #FEBC2E; }
+.hs-llums i:nth-child(3) { background: #28C840; }
+.hs-titol { display: flex; align-items: center; gap: 10px; padding: 12px 18px 4px; font-size: 17px; }
+.hs-titol b { font-weight: 400; }
+.hs-doc { width: 22px; height: 28px; border-radius: 3px; background: linear-gradient(#E9E7E3 0 0) 5px 10px / 12px 2px no-repeat, linear-gradient(#E9E7E3 0 0) 5px 15px / 12px 2px no-repeat, linear-gradient(#E9E7E3 0 0) 5px 20px / 12px 2px no-repeat, #8A8781; }
+.hs-estrella { color: #8A8781; }
+.hs-menu { display: flex; gap: 16px; padding: 2px 16px 8px 48px; }
+.hs-menu span { width: var(--mw, 44px); height: 12px; border-radius: 4px; background: #D3D1CC; color: transparent; overflow: hidden; }
+.hs-menu span:nth-child(3n) { --mw: 64px; } .hs-menu span:nth-child(3n+1) { --mw: 52px; }
+.hs-eines { display: flex; gap: 8px; margin: 0 12px; padding: 8px 14px; border-radius: 22px; background: #E6E5E1; }
+.hs-eines i { width: 18px; height: 14px; border-radius: 3px; background: #C9CCD1; }
+.hs-eines i.ample { width: 56px; margin-left: 10px; }
+.hs-formula { display: flex; align-items: center; gap: 12px; padding: 8px 14px; border-bottom: 1px solid #E1E3E6; color: #3C4043; }
+.hs-cel { width: 70px; padding-right: 10px; border-right: 1px solid #E1E3E6; }
+.hs-fx { font-style: italic; color: #80868B; }
+.hs-formula, .hs-eines { filter: blur(1.4px); }
+.hs-graella { flex: 1; overflow: hidden; background: #F3F2EF; }
+.hs-f { display: flex; width: max-content; }
+.hs-f:not(.hs-l):not(.hs-h) { filter: blur(1.4px); }
+.hs-f > span { position: relative; flex: none; height: 31px; padding: 0 8px; overflow: hidden; white-space: nowrap; border-right: 1px solid #E0DEDA; border-bottom: 1px solid #E0DEDA; background: #F8F7F5; color: #202124; }
+.hs-f > span:nth-child(1) { width: 46px; background: #ECEBE8; color: #5F6368; text-align: center; font-size: 12px; line-height: 31px; }
+.hs-f > span:nth-child(2), .hs-f > span:nth-child(3), .hs-f > span:nth-child(14) { width: 170px; }
+.hs-f > span:nth-child(4), .hs-f > span:nth-child(8) { width: 150px; }
+.hs-f > span:nth-child(5), .hs-f > span:nth-child(6) { width: 260px; }
+.hs-f > span:nth-child(7) { width: 240px; }
+.hs-f > span:nth-child(9) { width: 110px; }
+.hs-f > span:nth-child(10) { width: 280px; }
+.hs-f > span:nth-child(11) { width: 200px; }
+.hs-f > span:nth-child(12) { width: 160px; }
+.hs-f > span:nth-child(13) { width: 250px; }
+.hs-f.hs-l > span { height: 24px; background: #ECEBE8; color: #5F6368; text-align: center; font-size: 12px; line-height: 24px; }
+.hs-f.hs-h > span { font-weight: 700; background: #EFEEEB; line-height: 31px; }
+.hs-f.hs-h > span:nth-child(1) { font-weight: 400; }
+.hs-c { --w: 62%; }
+.hs-c.ple::before { content: ""; position: absolute; left: 8px; top: 50%; width: var(--w); height: 8px; border-radius: 4px; background: #DDDAD5; transform: translateY(-50%); }
+.hs-f > .hs-c:nth-child(2) { --w: 74%; } .hs-f:nth-child(even) > .hs-c:nth-child(2) { --w: 56%; }
+.hs-f > .hs-c:nth-child(3) { --w: 66%; } .hs-f:nth-child(3n) > .hs-c:nth-child(3) { --w: 82%; }
+.hs-f > .hs-c:nth-child(4) { --w: 38%; } .hs-f:nth-child(even) > .hs-c:nth-child(4) { --w: 52%; }
+.hs-f > .hs-c:nth-child(5), .hs-f > .hs-c:nth-child(6), .hs-f > .hs-c:nth-child(7) { --w: 58%; }
+.hs-f:nth-child(even) > .hs-c:nth-child(5), .hs-f:nth-child(3n) > .hs-c:nth-child(6) { --w: 72%; }
+/* Els codis (CCAE i CCO), una píndola davant del nom */
+.hs-f > .hs-c.ple:nth-child(5)::before, .hs-f > .hs-c.ple:nth-child(6)::before, .hs-f > .hs-c.ple:nth-child(7)::before { left: 46px; }
+.hs-f > .hs-c.ple:nth-child(5)::after, .hs-f > .hs-c.ple:nth-child(6)::after, .hs-f > .hs-c.ple:nth-child(7)::after { content: ""; position: absolute; left: 8px; top: 50%; width: 30px; height: 14px; border-radius: 7px; background: #C9C4BD; transform: translateY(-50%); }
+.hs-f > .hs-c:nth-child(8) { --w: 70%; } .hs-f > .hs-c:nth-child(9) { --w: 60%; }
+/* El contacte i el telèfon, de punts */
+.hs-f > .hs-c.ple:nth-child(8)::before, .hs-f > .hs-c.ple:nth-child(9)::before { background: repeating-linear-gradient(90deg, #DDDAD5 0 6px, transparent 6px 10px); }
+.hs-f > .hs-c:nth-child(10) { --w: 78%; } .hs-f:nth-child(odd) > .hs-c:nth-child(10) { --w: 64%; }
+.hs-f > .hs-c:nth-child(11) { --w: 54%; } .hs-f > .hs-c:nth-child(12) { --w: 48%; } .hs-f > .hs-c:nth-child(13) { --w: 30%; } .hs-f > .hs-c:nth-child(14) { --w: 66%; }
+.hs-f.hs-nova > span { background: #F1EAFD; }
+.hs-f.hs-nova > span:nth-child(2) { box-shadow: inset 0 0 0 2px #6E3EAD; }
+.hs-f.hs-nova > .hs-c.ple::before { background: #D6C4F3; }
+.hs-f.hs-nova > .hs-c.ple::after { background: #B89BE6; }
+.hs-pestanyes { display: flex; align-items: center; gap: 2px; padding: 6px 10px; border-top: 1px solid #E1E3E6; background: #F8F8F6; color: #3C4043; }
+.hs-pestanyes span { padding: 6px 14px; border-radius: 4px; white-space: nowrap; }
+.hs-pestanyes .hs-mes { padding: 6px 8px; color: #5F6368; }
+.hs-pestanyes .activa { background: #FFFFFF; box-shadow: 0 1px 2px rgba(0, 0, 0, .12); font-weight: 700; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ctx { background: #161616; }
+  :root:not([data-theme="light"]) .hs { filter: invert(.93) hue-rotate(180deg); }
+}
+:root[data-theme="dark"] .ctx { background: #161616; }
+:root[data-theme="dark"] .hs { filter: invert(.93) hue-rotate(180deg); }
+.gm { position: absolute; width: 404px; display: flex; flex-direction: column; border-radius: 18px; border: 1px solid #DAD7D2; background: #FFFFFF; color: #1F1D1A; box-shadow: 0 2px 4px rgba(31, 29, 26, .08), 0 40px 80px -30px rgba(31, 29, 26, .55); font: 400 14px/1.45 var(--f-text); }
+.gm-cap { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid #ECEAE6; font-size: 15px; }
+.gm-ic { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 999px; background: #F1EAFD; color: #6E3EAD; font-size: 14px; }
+.gm-fil { display: grid; gap: 14px; padding: 16px 18px; }
+.gm-tu { justify-self: end; max-width: 86%; padding: 10px 14px; border-radius: 16px 16px 4px 16px; background: #E4ECFA; color: #1F1D1A; }
+.gm-ella { display: grid; gap: 10px; justify-items: start; }
+.gm-fila { display: grid; gap: 4px; width: 100%; margin: 0; padding: 10px 12px; border-radius: 12px; border: 1px solid #ECEAE6; background: #FAF9F7; }
+.gm-fila div { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 8px; }
+.gm-fila dt { color: #6D6A65; font-weight: 300; }
+.gm-fila dd { margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.gm .chip.ia { background: #F1EAFD; color: #6E3EAD; }
+.gm-escriu { margin: 0 14px 14px; padding: 12px 16px; border-radius: 999px; background: #F3F2EF; color: #8A8781; font-weight: 300; }
+.ctx-fila { position: relative; z-index: 2; display: flex; align-items: stretch; justify-content: space-between; gap: 24px; }
+.ctx-fila .gm { position: relative; left: auto; top: auto; flex: none; }
+.ctx-vidre {
+  width: clamp(320px, 40vw, 540px); padding: clamp(22px, 2.6vw, 34px) clamp(22px, 2.8vw, 38px);
+  border-radius: 22px; border: 1px solid #E6E4E0; background: #FFFFFF;
+  -webkit-backdrop-filter: blur(14px) saturate(1.6); backdrop-filter: blur(14px) saturate(1.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 1px 2px rgba(31, 29, 26, .05), 0 30px 60px -30px rgba(31, 29, 26, .45);
+}
+.ctx-vidre h2 { font: 650 clamp(1.75rem, 2.9vw, 2.5rem)/1.02 var(--f-titols); letter-spacing: -.032em; text-wrap: balance; }
+.ctx-text { margin-top: 18px; font-size: clamp(.875rem, 1.2vw, 1rem); line-height: 1.5; color: var(--ink-2); }
+.ctx-text b { font-weight: 600; color: var(--ink); }
+.ctx-text + .ctx-text { margin-top: 10px; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ctx-vidre { border-color: rgba(255, 255, 255, .14); background: rgba(24, 24, 24, .76); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 30px 60px -30px rgba(0, 0, 0, .6); }
+}
+:root[data-theme="dark"] .ctx-vidre { border-color: rgba(255, 255, 255, .14); background: rgba(24, 24, 24, .76); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 30px 60px -30px rgba(0, 0, 0, .6); }
+@media (max-width: 980px) {
+  .ctx-fila { flex-direction: column; align-items: stretch; }
+  .ctx-vidre { width: auto; }
+  .ctx-fila .gm { width: min(100%, 404px); align-self: flex-end; }
+}
+
+/* Com es va fer (en Raül, 21/10/2026): el tauler de debò del Cicle 0 al Miro, a sang (captura del
+   tauler sencer), i a sobre només la caixa del text, en vidre. */
+.mr {
+  position: relative; overflow: hidden; min-height: calc(100svh - var(--cap-alt) - 80px); display: flex; flex-direction: column; justify-content: center;
+  padding-block: clamp(56px, 8vw, 104px); border-block: 1px solid var(--rule); background: #F3F2EF;
+}
+.mr-fons { position: absolute; inset: 0; background: #F3F2EF url(miro-tauler.jpg) 50% 0 / cover no-repeat; filter: var(--foto-filtre); }
+.mr-fons::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(243, 242, 239, .55), rgba(243, 242, 239, .08) 55%, rgba(243, 242, 239, 0)); }
+.mr-fila { position: relative; z-index: 2; display: flex; align-items: center; }
+/* La caixa del text, en vidre com la de la capçalera, perquè s'hi vegi el tauler a través */
+.ctx-vidre.mr-vidre {
+  border-color: var(--vidre-vora); background: var(--vidre);
+  -webkit-backdrop-filter: blur(22px) saturate(1.4); backdrop-filter: blur(22px) saturate(1.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55), 0 1px 2px rgba(31, 29, 26, .05), 0 24px 48px -30px rgba(31, 29, 26, .35);
+}
+@media (max-width: 980px) {
+  .mr-fila { flex-direction: column; align-items: stretch; }
+  /* La captura, a la seva mida: ampliada fins a l'alçada de la secció es veuria borrosa */
+  .mr-fons { background-size: 1400px auto; background-position: 0 0; background-repeat: repeat-y; }
+}
+
+/* Capçalera «El pla»: foto a sang i la simulació de l'eina (Claude Design, hero 3b, 14/10/2026) */
+:root {
+  --vidre: rgba(255, 255, 255, .6); --vidre-2: rgba(255, 255, 255, .64); --vidre-vora: rgba(255, 255, 255, .75);
+  --rentat: rgba(255, 255, 255, .6); --ocupat: #F2F2F2; --foto-filtre: none;
+  --barra-pendent: rgba(31, 29, 26, .16); --barra-ara: rgba(31, 29, 26, .45); --barra-fet: #1F1D1A; --barra-anell: rgba(255, 255, 255, .55);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --vidre: rgba(24, 24, 24, .7); --vidre-2: rgba(28, 28, 28, .74); --vidre-vora: rgba(255, 255, 255, .14);
+    --rentat: rgba(18, 18, 18, .7); --ocupat: #262626; --foto-filtre: brightness(.82) saturate(.92);
+    --barra-pendent: rgba(237, 237, 237, .2); --barra-ara: rgba(237, 237, 237, .5); --barra-fet: #EDEDED; --barra-anell: rgba(0, 0, 0, .3);
+  }
+}
+:root[data-theme="dark"] {
+  --vidre: rgba(24, 24, 24, .7); --vidre-2: rgba(28, 28, 28, .74); --vidre-vora: rgba(255, 255, 255, .14);
+  --rentat: rgba(18, 18, 18, .7); --ocupat: #262626; --foto-filtre: brightness(.82) saturate(.92);
+  --barra-pendent: rgba(237, 237, 237, .2); --barra-ara: rgba(237, 237, 237, .5); --barra-fet: #EDEDED; --barra-anell: rgba(0, 0, 0, .3);
+}
+.hero-foto { padding-block: 0; --foto-alt: 50.35vw; --foto-lliure: 43%; --foto-pos: 50% 35%; --foto-pos-t: 60% 50%; --foto-pos-m: 85% 50%; --vora-e: #E8E3DD; --vora-d: #C5BDB7; }
+.hero-foto[data-foto="anterior"] { --foto-alt: 49.2vw; --foto-lliure: 41%; --foto-pos: 50% 45%; --foto-pos-t: 62% 50%; --foto-pos-m: 64% 50%; }
+.foto-marc { position: relative; overflow: hidden; background: linear-gradient(90deg, var(--vora-e) 50%, var(--vora-d) 50%); filter: var(--foto-filtre); }
+.foto-marc.amb-vores .foto-img { -webkit-mask-image: linear-gradient(90deg, transparent, #000 80px, #000 calc(100% - 80px), transparent); mask-image: linear-gradient(90deg, transparent, #000 80px, #000 calc(100% - 80px), transparent); }
+.foto-img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--foto-pos); }
+.foto-rentat { position: absolute; left: 0; right: 0; top: 0; height: 120px; pointer-events: none; background: linear-gradient(var(--rentat), transparent); }
+/* L'anotació de dalt: la lletra del text, en light, perquè es distingeixi del cos */
+.anotacio { font: 300 1rem/1.4 var(--f-text); letter-spacing: .005em; color: var(--ink-2); text-wrap: balance; }
+.foto-text h1 { margin-top: 16px; font: 600 clamp(2.2rem, 3.9vw, 3.125rem)/.97 var(--f-display); letter-spacing: -.04em; text-wrap: balance; }
+.foto-lede { margin-top: 18px; max-width: 34em; font-size: 1rem; line-height: 1.55; color: var(--ink-2); }
+.foto-text .accions.justos { gap: 8px; }
+.foto-text .accions.justos .boto { padding-inline: 16px; }
+.foto-accions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; padding-block: 24px; }
+.foto-text .accions { margin-top: 24px; }
+.foto-accions .prova-social { margin-top: 0; align-items: center; font-size: .875rem; }
+
+/* La simulació: vuit passos, una targeta cada vegada */
+.sim-barra { display: flex; gap: 4px; }
+.sim-seg { flex: 1; height: 16px; padding: 6px 0; border: 0; background: transparent; cursor: pointer; }
+.sim-seg span { display: block; height: 3px; border-radius: 2px; background: var(--barra-pendent); box-shadow: 0 0 0 1px var(--barra-anell); transition: background .6s ease; }
+.sim-seg[data-estat="ara"] span { background: var(--barra-ara); }
+.sim-seg[data-estat="fet"] span { background: var(--barra-fet); }
+.sim-pila { position: relative; height: 112px; margin-top: 8px; }
+.sim-targeta {
+  position: absolute; inset: 0; display: flex; flex-direction: column; padding: 14px 14px 0; overflow: hidden;
+  border-radius: 14px; border: 1px solid var(--vidre-vora); background: var(--vidre-2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 1px 2px rgba(31, 29, 26, .06), 0 24px 44px -22px rgba(31, 29, 26, .45);
+  opacity: 0; transform: translateX(290px);
+  transition: transform .95s cubic-bezier(.22, .61, .36, 1), opacity .75s ease;
+}
+.sim-targeta[data-pos="abans"] { opacity: 0; transform: translateX(-40px) scale(.94); }
+.sim-targeta[data-pos="ara"] { z-index: 2; opacity: 1; transform: none; transition-delay: .22s, .22s; }
+.sim-cap { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 22px; margin-bottom: 12px; }
+.sim-num { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 22px; padding: 0 8px; border-radius: 999px; background: var(--ink); color: var(--paper); font: 600 12px/1 var(--f-text); transition: background .5s ease, color .5s ease; }
+.sim-targeta[data-treballa] .sim-num { background: var(--paper-2); color: var(--ink); }
+.sim-cap .chip { padding: 0 10px 0 8px; }
+.chip.ocupat { background: var(--ocupat); color: var(--ink-2); }
+.chip:has(.gira)::before { content: none; }
+.gira { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--rule-2); border-top-color: var(--ink); animation: gira .8s linear infinite; }
+@keyframes gira { to { transform: rotate(360deg); } }
+.sim-titol { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 19px/22px var(--f-display); letter-spacing: -.015em; }
+.sim-sub { margin-top: 6px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 14px; line-height: 20px; color: var(--ink-2); }
+
+@media (min-width: 860px) {
+  /* Les caixes, sobre la foto fins a 860 px de pantalla (en Raül, 16/10/2026); per sota, baixen.
+     La foto puja sota la capçalera, com al disseny, i s'escala sencera amb l'amplada (fins a 760 px d'alt) */
+  .hero-foto { margin-top: calc(-1 * var(--cap-alt) - 1px); }
+  .foto-escena { position: relative; }
+  .foto-marc { height: min(var(--foto-alt), 760px); }
+  /* El text i els passos, en una fila centrada a l'alçada de la foto, amb el mateix marge a fora que la
+     capçalera: el text alineat amb el logo i els passos amb el menú. La foto s'hi encaixa al codi (encaixa). */
+  /* Centrada amb la foto sencera, també el tros que queda sota la capçalera (en Raül, 16/10/2026) */
+  .foto-cos { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; pointer-events: none; }
+  .foto-fila {
+    flex: 1; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;
+    padding-inline: max(var(--gutter), calc((100% - var(--amplada)) / 2));
+  }
+  .foto-text {
+    /* 540 px; més estreta a les pantalles més petites, perquè hi càpiguen les cares entre les dues caixes */
+    flex: none; width: clamp(300px, 40vw, 540px); padding: clamp(20px, 2.6vw, 32px) clamp(20px, 2.8vw, 36px) clamp(20px, 2.5vw, 30px); pointer-events: auto;
+    border-radius: 22px; border: 1px solid var(--vidre-vora); background: var(--vidre);
+    -webkit-backdrop-filter: blur(22px) saturate(1.4); backdrop-filter: blur(22px) saturate(1.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55), 0 1px 2px rgba(31, 29, 26, .05), 0 24px 48px -30px rgba(31, 29, 26, .35);
+  }
+  .sim { flex: none; width: clamp(240px, 25vw, 304px); margin-top: -24px; pointer-events: auto; }
+  /* Abans de baixar les caixes, la lletra s'hi fa petita */
+  .foto-text h1 { font-size: clamp(1.75rem, 3.9vw, 3.125rem); }
+  .foto-lede { margin-top: clamp(12px, 1.5vw, 18px); font-size: clamp(.875rem, 1.25vw, 1rem); line-height: 1.5; }
+  /* Amb la foto d'abans, els passos baixen, perquè a dalt hi ha el cap de l'orientadora */
+  .hero-foto[data-foto="anterior"] .sim { align-self: flex-end; margin-top: 0; }
+  .hero-foto .sim-seg span { background: rgba(31, 29, 26, .16); box-shadow: 0 0 0 1px rgba(255, 255, 255, .55); }
+  .hero-foto .sim-seg[data-estat="ara"] span { background: rgba(31, 29, 26, .45); }
+  .hero-foto .sim-seg[data-estat="fet"] span { background: #1F1D1A; }
+}
+@media (min-width: 860px) and (max-width: 1199px) {
+  /* Amb els passos estrets, el títol es fa petit i el text pot fer dues línies, perquè no es talli */
+  .sim-pila { height: 130px; }
+  .sim-titol { font-size: 16px; line-height: 20px; }
+  .sim-sub { white-space: normal; text-overflow: clip; max-height: 40px; }
+}
+@media (max-width: 859px) {
+  .foto-marc { aspect-ratio: 16 / 9; }
+  .foto-img { object-position: var(--foto-pos-t); }
+  .foto-rentat { display: none; }
+  .foto-fila { display: grid; grid-template-columns: minmax(0, 1fr) 304px; gap: 32px 48px; align-items: start; width: min(100% - 2 * var(--gutter), var(--amplada)); margin-inline: auto; padding-top: 32px; }
+  .sim { padding-top: 4px; }
+}
+@media (max-width: 720px) {
+  .foto-marc { aspect-ratio: 4 / 3; }
+  .foto-img { object-position: var(--foto-pos-m); }
+  .foto-fila { grid-template-columns: minmax(0, 1fr); padding-top: 24px; }
+  .sim { width: min(100%, 360px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+/* La Bricolage Grotesque, la de la landing fins a la v7, només als destacats (en Raül, 16/10/2026), com
+   a l'eina (lletraTitols): la marca, el títol de la portada, els de les seccions i dels passos, i les xifres.
+   Les cites i les peces que imiten l'eina, en Geist. */
+:root { --f-titols: "Bricolage Grotesque", "Geist", system-ui, sans-serif; }
+.marca { font-family: var(--f-titols); font-weight: 700; }
+.foto-text h1 { font-family: var(--f-titols); font-weight: 700; }
+.seccio h2, .pas-text h3, .xifres dt { font-family: var(--f-titols); font-weight: 650; }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></symbol>
+  <symbol id="i-pestanyes" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9.5h18M8.5 5v4.5M14 5v4.5"/></symbol>
+  <symbol id="i-pregunta" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.3c-.7.3-1.2 1-1.2 1.7v.4"/><path d="M12 16.9v.1"/></symbol>
+  <symbol id="i-requisit" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 12h5M10 16h3"/></symbol>
+  <symbol id="i-lloc" viewBox="0 0 24 24"><path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></symbol>
+  <symbol id="i-avall" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-cadenat" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-marca" viewBox="0 0 28 28"><circle cx="14" cy="14" r="12.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2.2 2.6"/><circle cx="14" cy="14" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14" cy="14" r="2.6" fill="currentColor"/></symbol>
+</svg>
+
+<div class="pagina" lang="ca">
+
+<header class="cap" id="cap">
+  <div class="amplada cap-in">
+    <a class="marca" href="#inici" aria-label="TalentLab, a l'inici"><svg aria-hidden="true"><use href="#i-marca"/></svg>TalentLab</a>
+    <nav class="nav" aria-label="Seccions">
+      <a href="#com-funciona">Com funciona</a>
+      <a href="#context">El territori</a>
+      <a href="#miro">Com es va fer</a>
+      <a href="#encaix">Encaix</a>
+      <a href="#preguntes">Preguntes</a>
+    </nav>
+    <a class="boto petit-b" href="#parlem">Parlem-ne</a>
+  </div>
+</header>
+
+<main id="inici">
+
+<section class="hero hero-foto" id="cap-pla" data-foto="nova" aria-labelledby="hero-t0">
+  <div class="foto-escena">
+    <div class="foto-marc">
+      <img class="foto-img" id="foto-img" src="foto-hero4-1600.jpg" srcset="foto-hero4-900.jpg 900w, foto-hero4-1600.jpg 1600w, foto-hero4-2000.jpg 2000w" sizes="100vw" width="2000" height="1011" alt="Una orientadora i una candidata miren juntes la pantalla de l'ordinador">
+      <div class="foto-rentat" aria-hidden="true"></div>
+    </div>
+    <div class="foto-cos">
+      <div class="foto-fila">
+        <div class="foto-text">
+          <p class="anotacio">Eina creada amb i per a les orientadores laborals de Catalunya</p>
+          <h1 id="hero-t0">Orienta amb el context del territori que només tu tens, potenciat amb la IA.</h1>
+          <p class="foto-lede">Funciona amb Xaloc, Spin o el programa que fas servir. TalentLab creua la fitxa amb el que saps del teu territori i en treu una diagnosi contrastada, les ofertes que hi encaixen, un pla d'acció i el CV a punt.</p>
+          <div class="accions">
+            <a class="boto" href="#parlem" data-curt="Demaneu una demo" data-curt2="Demostració">Demaneu una demostració</a>
+            <a class="boto secundari" href="#com-funciona" data-curt="Com funciona" data-exemple="Proveu l'eina" data-exemple-curt="Proveu-la">Mireu com funciona</a>
+          </div>
+        </div>
+        <div class="sim">
+          <div class="sim-barra" id="sim-barra" role="group" aria-label="Passos de l'eina"></div>
+          <div class="sim-pila" id="sim-pila" aria-live="off"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="suport" aria-label="Qui hi ha al darrere">
+  <div class="amplada suport-in">
+    <div class="suport-grup">
+      <p class="suport-eti">Projecte impulsat per:</p>
+      <img class="suport-logo" src="logo-consorci-llucanes.png" width="725" height="241" alt="Consorci del Lluçanès">
+    </div>
+    <div class="suport-grup">
+      <p class="suport-eti">Amb la col·laboració de:</p>
+      <img class="suport-logo" src="logo-diputacio-barcelona.png" width="537" height="173" alt="Diputació de Barcelona">
+    </div>
+    <div class="suport-grup">
+      <p class="suport-eti">Desenvolupat per:</p>
+      <a class="suport-enllac" href="https://raulhere.com" target="_blank" rel="noopener"><img class="suport-logo raul" src="logo-raul.png" width="900" height="259" alt="Raül, solucions digitals (raulhere.com)"></a>
+    </div>
+  </div>
+</section>
+
+<section class="cf" id="com-funciona" aria-labelledby="cf-t">
+  <div class="amplada">
+    <div class="cf-cap">
+      <div class="cf-titol">
+        <h2 id="cf-t">Seguiu la Laia en la seva orientació laboral.</h2>
+        <p>Acudeix al vostre Servei després de la seva primera experiència professional.</p>
+        <a class="boto secundari cf-prova" href="#com-funciona" data-exemple="Feu-ho vosaltres a l'eina, amb la Laia" hidden>Feu-ho vosaltres a l'eina</a>
+      </div>
+      <div class="ep-carril" id="ep-carril" role="tablist" aria-label="Els passos de l'eina">
+        <span class="ep-pindola" id="ep-pindola" aria-hidden="true"></span>
+        <button type="button" class="ep-pas" role="tab" id="tab-fitxa" aria-controls="pas-fitxa" aria-selected="true" tabindex="0"><span class="ep-num">1</span><span class="ep-t">Fitxa</span></button>
+        <button type="button" class="ep-pas" role="tab" id="tab-diagnosi" aria-controls="pas-diagnosi" aria-selected="false" tabindex="-1"><span class="ep-num">2</span><span class="ep-t">Diagnosi</span></button>
+        <button type="button" class="ep-pas" role="tab" id="tab-ofertes" aria-controls="pas-ofertes" aria-selected="false" tabindex="-1"><span class="ep-num">3</span><span class="ep-t">Ofertes</span></button>
+        <button type="button" class="ep-pas" role="tab" id="tab-requisits" aria-controls="pas-requisits" aria-selected="false" tabindex="-1"><span class="ep-num">4</span><span class="ep-t">Requisits</span></button>
+        <button type="button" class="ep-pas" role="tab" id="tab-ruta" aria-controls="pas-ruta" aria-selected="false" tabindex="-1"><span class="ep-num">5</span><span class="ep-t">Full de ruta</span></button>
+        <button type="button" class="ep-pas" role="tab" id="tab-cv" aria-controls="pas-cv" aria-selected="false" tabindex="-1"><span class="ep-num">6</span><span class="ep-t">CV i carta</span></button>
+      </div>
+    </div>
+    <div class="cf-escena" id="cf-escena">
+      <div class="cf-textos">
+        <div class="pas-text actiu" id="text-fitxa">
+          <h3>Puges la fitxa al sistema i TalentLab en fa la resta.</h3>
+          <p>Fas l'entrevista personal i li obres la fitxa a Xaloc, Spin o el programa que feu servir, com fas sempre. La resta t'ho farà TalentLab automàticament.</p>
+          <div class="cf-punts">
+            <div class="cf-punt"><h4>Sense dades personals</h4><p>No t'has de preocupar de treure dades personals: l'eina anonimitza segons el RGPD i t'ho ensenya perquè ho comprovis.</p></div>
+            <div class="cf-punt"><h4>Tal com surt de Xaloc</h4><p>TalentLab està dissenyat per entendre la fitxa tal com l'exportes amb el programa que feu servir.</p></div>
+            <div class="cf-punt"><h4>Puja el CV i enriqueix la diagnosi</h4><p>Si la Laia el té, pots pujar-lo i donar més informació a l'eina.</p></div>
+          </div>
+        </div>
+        <div class="pas-text" id="text-diagnosi" aria-hidden="true">
+          <h3>La diagnosi contrastada amb el territori.</h3>
+          <p>Oblida't de la intuïció o de les cerques a cegues. La IA creua immediatament la fitxa de la Laia amb les dades reals del vostre territori.</p>
+          <div class="cf-punts">
+            <div class="cf-punt"><h4>Què demana el vostre territori</h4><p>TalentLab analitza el territori amb les dades reals d'empreses i serveis i et dona un diagnòstic de les possibilitats laborals de la Laia en aquell moment.</p></div>
+            <div class="cf-punt"><h4>Les empreses i contactes</h4><p>Obtens directament qui ha contractat perfils similars a la Laia i amb qui has de contactar per donar-li un cop de mà. El que tens a Xaloc i més.</p></div>
+          </div>
+        </div>
+        <div class="pas-text" id="text-ofertes" aria-hidden="true">
+          <h3>Les ofertes agrupades en una sola llista.</h3>
+          <p>Amb la diagnosi feta, l'eina busca les ofertes obertes a portals públics i privats que encaixen amb el perfil de la Laia.</p>
+          <div class="cf-punts">
+            <div class="cf-punt"><h4>Els filtres de cerca per a cada portal</h4><p>Obre directament cada portal laboral públic o privat amb la cerca ja filtrada per a la Laia.</p></div>
+            <div class="cf-punt"><h4>Un sol mur amb totes les ofertes classificades</h4><p>Totes les ofertes del mercat que li encaixen, ordenades en un mur d'ofertes exclusivament per a la Laia.</p></div>
+            <div class="cf-punt"><h4>Selecciona ofertes per proposar-li</h4><p>Entre totes les ofertes, tria quines li encaixen a la Laia.</p></div>
+          </div>
+        </div>
+        <div class="pas-text" id="text-requisits" aria-hidden="true">
+          <h3>Els requisits de les ofertes triades, contrastats amb la Laia.</h3>
+          <p>TalentLab analitza les ofertes seleccionades i les compara amb la fitxa i el CV de la Laia.</p>
+          <div class="cf-punts">
+            <div class="cf-punt"><h4>Anàlisi de les ofertes seleccionades</h4><p>Tots els requisits principals de les ofertes, agrupats i explicats: d'on provenen i com els ha contrastat amb la informació de la Laia.</p></div>
+            <div class="cf-punt"><h4>Enriqueix els resultats al moment</h4><p>Pregunta a la Laia si té alguns dels requisits, canvia i anota comentaris als resultats obtinguts. Per exemple, li falta el C1, ja que la fitxa no diu que el tingui certificat: toca «Per aclarir» i modifica-ho si el té.</p></div>
+          </div>
+        </div>
+        <div class="pas-text" id="text-ruta" aria-hidden="true">
+          <h3>Un full de ruta per aconseguir els requisits de les ofertes.</h3>
+          <p>Obtens un pla d'acció per a la Laia: què ha de fer i com, a curt, mitjà i llarg termini, per assolir els requisits de les feines que vol.</p>
+          <div class="cf-punts">
+            <div class="cf-punt"><h4>La IA proposa, la Laia decideix</h4><p>La IA fa una proposta basada en el perfil de la Laia i els requisits detectats a les ofertes seleccionades. A partir d'aquí, podeu redissenyar el camí com vulgueu.</p></div>
+            <div class="cf-punt"><h4>Coneix la normativa i els terminis de la selecció pública</h4><p>Ajuda la Laia a conèixer els processos de selecció i a poder-s'hi presentar, tant a l'oferta pública com a la privada.</p></div>
+          </div>
+        </div>
+        <div class="pas-text" id="text-cv" aria-hidden="true">
+          <h3>Un CV adaptat als requisits reals.</h3>
+          <p>Amb tota la informació del valor de la Laia i de com encaixa millor amb les ofertes que vol, és el moment de fer-li el CV a mida per a les ofertes triades.</p>
+          <div class="cf-punts">
+            <div class="cf-punt"><h4>Adaptat per a la lectura dels ATS</h4><p>Avui dia moltes ofertes les gestionen aquests robots, que escanegen el CV i el comparen amb l'oferta. TalentLab adapta el CV perquè els ATS hi trobin les paraules que busquen.</p></div>
+            <div class="cf-punt"><h4>Adaptat per a la lectura humana</h4><p>Alhora, el CV i la carta de presentació, si s'escau, estan adaptats i dissenyats perquè siguin atractius per a les persones que els llegeixen.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="cf-maqs"><div class="cf-maqs-in">
+        <div class="cf-panel actiu" role="tabpanel" id="pas-fitxa" aria-labelledby="tab-fitxa">
+          <figure class="maq" aria-label="Exemple: la fitxa abans d'enviar-la, amb el nom i els contactes ratllats">
+            <div class="maq-nav" aria-hidden="true"><span class="maq-llums"><i></i><i></i><i></i></span><span class="maq-url"><svg viewBox="0 0 10 12"><rect x="1" y="5" width="8" height="6.5" rx="1.5" fill="currentColor"/><path d="M2.8 5V3.6a2.2 2.2 0 0 1 4.4 0V5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><span><b>app.talentlab.cat</b>/laia/fitxa</span></span><span class="maq-qui"><span>Exemple fictici amb la Laia</span><span class="maq-avatar" title="Raül Marín, connectat"></span></span></div>
+            <div class="maq-cap"><span class="maq-titol">Revisa què s'enviarà</span></div>
+            <dl class="fitxa">
+              <div><dt>Nom i cognoms</dt><dd><s class="a-ratllat" style="--d:0.55s">Laia Serrat Vila</s><span class="chip neutre a-pop" style="--d:0.85s">es treu</span></dd></div>
+              <div><dt>Telèfon</dt><dd><s class="a-ratllat" style="--d:0.80s">6•• ••• •••</s><span class="chip neutre a-pop" style="--d:1.10s">es treu</span></dd></div>
+              <div><dt>Correu</dt><dd><s class="a-ratllat" style="--d:1.05s">laia.s•••@•••.cat</s><span class="chip neutre a-pop" style="--d:1.35s">es treu</span></dd></div>
+              <div class="a-queda" style="--d:1.60s"><dt>Municipi</dt><dd>Sant Bartomeu del Grau</dd></div>
+              <div class="a-queda" style="--d:1.70s"><dt>Estudis</dt><dd>Grau en Educació Social (2022)</dd></div>
+              <div class="a-queda" style="--d:1.80s"><dt>Idiomes</dt><dd>Català B2, certificat · Castellà C2 · Anglès B2</dd></div>
+              <div class="a-queda" style="--d:1.90s"><dt>Permís de conduir</dt><dd>B</dd></div>
+              <div class="a-queda" style="--d:2.00s"><dt>Experiència</dt><dd>3 anys, educadora en un centre obert</dd></div>
+            </dl>
+            <div class="maq-peu maq-seg a-sube" style="--d:2.20s"><span class="seg-n" aria-hidden="true">2</span><span class="seg-t"><span class="seg-rot">Pas següent · Diagnosi</span><span class="seg-d">Es treuen 3 dades. El nom no surt de l'ordinador.</span></span><button type="button" class="boto petit-b" data-seguent>Fes la diagnosi<span aria-hidden="true">→</span></button></div>
+          </figure>
+        </div>
+        <div class="cf-panel" role="tabpanel" id="pas-diagnosi" aria-labelledby="tab-diagnosi" aria-hidden="true" inert>
+          <figure class="maq" aria-label="Exemple: una diagnosi amb les dades comprovades contra el full i una que no hi quadra">
+            <div class="maq-nav" aria-hidden="true"><span class="maq-llums"><i></i><i></i><i></i></span><span class="maq-url"><svg viewBox="0 0 10 12"><rect x="1" y="5" width="8" height="6.5" rx="1.5" fill="currentColor"/><path d="M2.8 5V3.6a2.2 2.2 0 0 1 4.4 0V5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><span><b>app.talentlab.cat</b>/laia/diagnosi</span></span><span class="maq-qui"><span>Exemple fictici amb la Laia</span><span class="maq-avatar" title="Raül Marín, connectat"></span></span></div>
+            <div class="maq-cap"><span class="maq-titol">Diagnosi · Laia, educadora social</span><span class="xips"><span class="chip verd"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>12 de 13</span><span class="chip aclarir">1 no quadra</span></span></div>
+            <div class="maq-cos diag">
+              <div class="a-sube" style="--d:0.45s">
+                <p class="diag-h">Educació social, als serveis socials de la zona</p>
+                <p class="codi">2827 · Altres professionals del treball i l'educació social <span class="chip verd a-pop" style="--d:0.90s"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>9 entitats al full</span></p>
+              </div>
+              <div class="a-sube" style="--d:0.70s">
+                <p class="sub-eti">Què demana el territori</p>
+                <p><b>Sí demana:</b> 2827 (9 entitats) · 3724, monitors d'activitats recreatives (6 entitats)</p>
+              </div>
+              <div>
+                <p class="sub-eti a-sube" style="--d:0.95s">Tres entitats, i per què</p>
+                <ol class="entitats">
+                  <li class="a-sube" style="--d:1.05s"><b>Centre obert</b><span>Prats de Lluçanès</span><span class="chip verd a-pop" style="--d:1.45s"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>al full</span></li>
+                  <li class="a-sube" style="--d:1.20s"><b>Entitat de lleure</b><span>Olost</span><span class="chip verd a-pop" style="--d:1.70s"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>al full</span></li>
+                  <li class="a-sube" style="--d:1.35s"><b>Fundació social</b><span>Vic</span><span class="chip aclarir a-avis" style="--d:1.95s">no és al full</span></li>
+                </ol>
+              </div>
+              <div class="hipotesi a-sube" style="--d:2.25s">
+                <span class="chip ia">Hipòtesi IA, no verificada pel full</span>
+                <p>Aquest perfil troba més places a Vic i a Manresa, sovint en borses públiques.</p>
+              </div>
+            </div>
+            <div class="maq-peu maq-seg a-sube" style="--d:2.50s"><span class="seg-n" aria-hidden="true">3</span><span class="seg-t"><span class="seg-rot">Pas següent · Ofertes</span><span class="seg-d">La cerca es munta amb el que diu la diagnosi.</span></span><button type="button" class="boto petit-b" data-seguent>Busca ofertes<span aria-hidden="true">→</span></button></div>
+          </figure>
+        </div>
+        <div class="cf-panel" role="tabpanel" id="pas-ofertes" aria-labelledby="tab-ofertes" aria-hidden="true" inert>
+          <figure class="maq" aria-label="Exemple: les ofertes obertes a la zona, juntes en una sola llista">
+            <div class="maq-nav" aria-hidden="true"><span class="maq-llums"><i></i><i></i><i></i></span><span class="maq-url"><svg viewBox="0 0 10 12"><rect x="1" y="5" width="8" height="6.5" rx="1.5" fill="currentColor"/><path d="M2.8 5V3.6a2.2 2.2 0 0 1 4.4 0V5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><span><b>app.talentlab.cat</b>/laia/ofertes</span></span><span class="maq-qui"><span>Exemple fictici amb la Laia</span><span class="maq-avatar" title="Raül Marín, connectat"></span></span></div>
+            <div class="maq-cap"><span class="maq-titol">Ofertes · educador social</span></div>
+            <div class="maq-cos">
+              <div class="noms">
+                <span class="nom a-pop" style="--d:0.45s">educador social <i>ca</i></span>
+                <span class="nom a-pop" style="--d:0.55s">monitor de lleure <i>ca</i></span>
+                <span class="nom a-pop" style="--d:0.65s">técnico de intervención social <i>es</i></span>
+                <span class="nom a-pop" style="--d:0.75s">social educator <i>en</i></span>
+              </div>
+              <p class="on a-sube" style="--d:0.85s"><svg class="ic" aria-hidden="true"><use href="#i-lloc"/></svg>Des de Sant Bartomeu del Grau · fins a 40 km</p>
+              <div class="portals">
+                <span class="portal a-sube" style="--d:1.00s">CIDO <b data-compta="2">2</b></span>
+                <span class="portal a-sube" style="--d:1.08s">Xaloc <b data-compta="3">3</b></span>
+                <span class="portal a-sube" style="--d:1.16s">Feina Activa <b data-compta="5">5</b></span>
+                <span class="portal a-sube" style="--d:1.24s">Portals privats <b data-compta="7">7</b></span>
+                <span class="portal a-sube" style="--d:1.32s">Empreses <b data-compta="1">1</b></span>
+              </div>
+            </div>
+            <p class="llista-h a-sube" style="--d:1.50s">Encaixen · <b data-compta="18">18</b></p>
+            <ul class="ofertes">
+              <li class="proposada a-sube" style="--d:1.65s">
+                <span class="estrella a-pop" aria-label="Proposada" style="--d:2.30s">★</span>
+                <div><p class="o-titol">Educador/a social, servei d'intervenció socioeducativa</p><p class="o-meta">Vic · 9 km · Feina Activa · fa 2 dies</p></div>
+                <span class="chip neutre">semblen la mateixa · Xaloc</span>
+              </li>
+              <li class="proposada a-sube" style="--d:1.80s">
+                <span class="estrella a-pop" aria-label="Proposada" style="--d:2.45s">★</span>
+                <div><p class="o-titol">Borsa de treball d'educadors/es socials</p><p class="o-meta">Manlleu · 9 km · CIDO · tanca d'aquí a 6 dies</p></div>
+              </li>
+              <li class="proposada a-sube" style="--d:1.95s">
+                <span class="estrella a-pop" aria-label="Proposada" style="--d:2.60s">★</span>
+                <div><p class="o-titol">Monitor/a de lleure, casal d'estiu</p><p class="o-meta">Olost · 7 km · Xaloc · fa 4 dies</p></div>
+              </li>
+            </ul>
+            <div class="maq-peu maq-seg a-sube" style="--d:2.80s"><span class="seg-n" aria-hidden="true">4</span><span class="seg-t"><span class="seg-rot">Pas següent · Requisits</span><span class="seg-d">★ 3 ofertes proposades, per comparar amb la fitxa.</span></span><button type="button" class="boto petit-b" data-seguent>Contrasta els requisits<span aria-hidden="true">→</span></button></div>
+          </figure>
+        </div>
+        <div class="cf-panel" role="tabpanel" id="pas-requisits" aria-labelledby="tab-requisits" aria-hidden="true" inert>
+          <figure class="maq" aria-label="Exemple: els requisits de tres ofertes, contrastats amb la fitxa">
+            <div class="maq-nav" aria-hidden="true"><span class="maq-llums"><i></i><i></i><i></i></span><span class="maq-url"><svg viewBox="0 0 10 12"><rect x="1" y="5" width="8" height="6.5" rx="1.5" fill="currentColor"/><path d="M2.8 5V3.6a2.2 2.2 0 0 1 4.4 0V5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><span><b>app.talentlab.cat</b>/laia/requisits</span></span><span class="maq-qui"><span>Exemple fictici amb la Laia</span><span class="maq-avatar" title="Raül Marín, connectat"></span></span></div>
+            <div class="maq-cap"><span class="maq-titol">Requisits · 3 ofertes proposades</span></div>
+            <div class="rq-tabs a-sube" style="--d:0.30s" id="rq-recompte" aria-label="Requisits per estat"><span class="rq-tab triat"><b>6</b> Tots</span><span class="rq-tab no"><b>1</b> No compleix</span><span class="rq-tab aclarir"><b>3</b> Per aclarir</span><span class="rq-tab consta"><b>2</b> Consta</span></div>
+            <ul class="requisits">
+              <li class="a-sube" style="--d:0.45s">
+                <div class="rq-cap"><p class="rq-nom">Grau en Educació Social</p><span class="rq-n">Obligatori a les 3</span><span class="estat verd a-pop" style="--d:0.80s">Consta</span></div>
+                <p class="cita">Fitxa: «Grau en Educació Social (2022)»</p>
+              </li>
+              <li class="a-sube" style="--d:0.65s">
+                <div class="rq-cap"><p class="rq-nom">Tres anys d'experiència</p><span class="rq-n">Obligatori a 1</span><span class="estat verd a-pop" style="--d:1.00s">Consta</span></div>
+                <p class="cita">Fitxa: «3 anys, educadora en un centre obert»</p>
+              </li>
+              <li class="a-sube" style="--d:0.85s">
+                <div class="rq-cap">
+                  <p class="rq-nom">Permís de conduir i vehicle</p><span class="rq-n">Obligatori a 1</span>
+                  <button type="button" class="estat aclarir a-pop" style="--d:1.20s" id="rq-boto" aria-expanded="false" aria-controls="rq-pop"><span id="rq-nom-estat">Per aclarir</span><svg class="ic" aria-hidden="true"><use href="#i-avall"/></svg></button>
+                </div>
+                <p class="cita">Fitxa: «Permís de conduir: B». Del vehicle, no en diu res.</p>
+                <div class="rq-pop" id="rq-pop" hidden>
+                  <p class="rq-pop-t">Què en saps tu?</p>
+                  <div class="rq-opcions">
+                    <button type="button" data-estat="consta" aria-pressed="false">Consta</button>
+                    <button type="button" data-estat="no" aria-pressed="false">No compleix</button>
+                    <button type="button" data-estat="aclarir" aria-pressed="true">Per aclarir</button>
+                  </div>
+                </div>
+                <p class="tu-nota" id="rq-tu" hidden><span class="chip tu">Ho dius tu</span><span>Abans, segons la fitxa: per aclarir.</span><button type="button" class="enllac" id="rq-desfes">Torna-ho com era</button></p>
+              </li>
+              <li class="a-sube" style="--d:1.05s">
+                <div class="rq-cap"><p class="rq-nom">Competències digitals (ACTIC)</p><span class="rq-n">Mèrit a 1</span><span class="estat aclarir a-pop" style="--d:1.40s">Per aclarir</span></div>
+                <p class="cita">La fitxa no en diu res.</p>
+              </li>
+              <li class="a-sube" style="--d:1.25s">
+                <div class="rq-cap"><p class="rq-nom">Català, nivell C1</p><span class="rq-n">Obligatori a les 2</span><span class="estat taronja a-pop" style="--d:1.60s">No compleix</span></div>
+                <p class="cita">Fitxa: «Català B2, certificat». B2 és menys que C1.</p>
+              </li>
+              <li class="a-sube" style="--d:1.45s">
+                <div class="rq-cap"><p class="rq-nom">Certificat de delictes de naturalesa sexual</p><span class="rq-n">Obligatori a les 3</span><span class="estat aclarir a-pop" style="--d:1.80s">Per aclarir</span></div>
+                <p class="cita">La fitxa no en diu res.</p>
+              </li>
+            </ul>
+            <div class="maq-peu maq-seg a-sube" style="--d:2.00s"><span class="seg-n" aria-hidden="true">5</span><span class="seg-t"><span class="seg-rot">Pas següent · Full de ruta</span><span class="seg-d">Què pot fer pel que no consta, i quan.</span></span><button type="button" class="boto petit-b" data-seguent>Fes el full de ruta<span aria-hidden="true">→</span></button></div>
+          </figure>
+        </div>
+        <div class="cf-panel" role="tabpanel" id="pas-ruta" aria-labelledby="tab-ruta" aria-hidden="true" inert>
+          <figure class="maq" aria-label="Exemple: un full de ruta amb els passos per a la persona">
+            <div class="maq-nav" aria-hidden="true"><span class="maq-llums"><i></i><i></i><i></i></span><span class="maq-url"><svg viewBox="0 0 10 12"><rect x="1" y="5" width="8" height="6.5" rx="1.5" fill="currentColor"/><path d="M2.8 5V3.6a2.2 2.2 0 0 1 4.4 0V5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><span><b>app.talentlab.cat</b>/laia/full-de-ruta</span></span><span class="maq-qui"><span>Exemple fictici amb la Laia</span><span class="maq-avatar" title="Raül Marín, connectat"></span></span></div>
+            <div class="maq-cap"><span class="maq-titol">Full de ruta · Laia</span></div>
+            <div class="maq-cos">
+              <p class="ruta-avis a-sube" style="--d:0.40s"><span class="chip ia">Proposta de la IA</span>La decidiu vosaltres amb la persona.</p>
+              <div class="ruta-grup">
+                <p class="sub-eti a-sube" style="--d:0.55s">A curt termini · els propers tres mesos</p>
+                <div class="pasr a-sube" style="--d:0.65s"><span class="caixa marcada a-caixa" style="--d:1.10s" aria-hidden="true"></span><div><p class="pasr-t">Demanar l'equivalència del C1 de català</p><p class="pasr-d"><b>On:</b> l'institut públic on va fer el batxillerat, si hi va cursar el català.</p></div></div>
+                <div class="pasr a-sube" style="--d:0.85s"><span class="caixa marcada a-caixa" style="--d:1.30s" aria-hidden="true"></span><div><p class="pasr-t">Demanar el certificat de delictes de naturalesa sexual</p><p class="pasr-d"><b>On:</b> el Ministeri de Justícia, en línia.</p></div></div>
+                <div class="pasr a-sube" style="--d:1.05s"><span class="caixa" aria-hidden="true"></span><div><p class="pasr-t">Aclarir el vehicle</p><p class="pasr-d"><b>Pregunta-li:</b> pot disposar d'un cotxe per anar a Vic o a Berga?</p></div></div>
+              </div>
+              <div class="ruta-grup">
+                <p class="sub-eti a-sube" style="--d:1.25s">A mitjà termini · de tres mesos a un any</p>
+                <div class="pasr a-sube" style="--d:1.35s"><span class="caixa marcada a-caixa" style="--d:1.80s" aria-hidden="true"></span><div><p class="pasr-t">Acreditar les competències digitals</p><p class="pasr-d"><b>On:</b> un centre col·laborador ACTIC a prop de casa.</p><span class="chip verd a-pop" style="--d:2.00s"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>ACTIC · enllaç oficial comprovat</span></div></div>
+              </div>
+            </div>
+            <div class="maq-peu maq-seg a-sube" style="--d:2.20s"><span class="seg-n" aria-hidden="true">6</span><span class="seg-t"><span class="seg-rot">Pas següent · CV i carta</span><span class="seg-d">Un sol CV per a les ofertes proposades.</span></span><button type="button" class="boto petit-b" data-seguent>Fes-li el CV<span aria-hidden="true">→</span></button></div>
+          </figure>
+        </div>
+        <div class="cf-panel" role="tabpanel" id="pas-cv" aria-labelledby="tab-cv" aria-hidden="true" inert>
+          <figure class="maq" aria-label="Exemple del currículum per a les ofertes proposades">
+            <div class="maq-nav" aria-hidden="true"><span class="maq-llums"><i></i><i></i><i></i></span><span class="maq-url"><svg viewBox="0 0 10 12"><rect x="1" y="5" width="8" height="6.5" rx="1.5" fill="currentColor"/><path d="M2.8 5V3.6a2.2 2.2 0 0 1 4.4 0V5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><span><b>app.talentlab.cat</b>/laia/cv</span></span><span class="maq-qui"><span>Exemple fictici amb la Laia</span><span class="maq-avatar" title="Raül Marín, connectat"></span></span></div>
+            <div class="maq-cap"><span class="maq-titol">CV per a 3 ofertes proposades</span><span class="chip neutre">En construcció</span></div>
+            <div class="maq-cos cv">
+              <div class="cv-full" aria-hidden="true">
+                <span class="marca-dada a-sube" style="--d:0.40s">nom, al vostre ordinador</span>
+                <p class="cv-rol a-sube" style="--d:0.50s">Educadora social</p>
+                <p class="cv-h a-sube" style="--d:0.60s">Perfil</p>
+                <span class="ratlla a-ratlla" style="width:92%;--d:.7s"></span><span class="ratlla a-ratlla" style="width:76%;--d:.8s"></span>
+                <p class="cv-h a-sube" style="--d:0.95s">Experiència</p>
+                <p class="cv-item a-sube" style="--d:1.05s">Educadora · centre obert · 2022-2025</p>
+                <span class="ratlla a-ratlla" style="width:84%;--d:1.15s"></span>
+                <p class="cv-h a-sube" style="--d:1.30s">Formació</p>
+                <p class="cv-item a-sube" style="--d:1.40s">Grau en Educació Social · 2022</p>
+                <p class="cv-h a-sube" style="--d:1.55s">Idiomes</p>
+                <p class="cv-item a-sube" style="--d:1.65s">Català B2, certificat · Anglès B2</p>
+              </div>
+              <ul class="cv-checks">
+                <li class="a-sube" style="--d:1.90s"><span class="chip verd a-pop" style="--d:2.10s"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>Cada feina, títol i data, trobats a la fitxa</li>
+                <li class="a-sube" style="--d:2.10s"><span class="chip verd a-pop" style="--d:2.30s"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>Al davant, el que demanen més ofertes</li>
+                <li class="a-sube" style="--d:2.30s"><span class="chip verd a-pop" style="--d:2.50s"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>En PDF o per enganxar a Word, d'una columna</li>
+                <li class="a-sube" style="--d:2.50s"><span class="chip aclarir a-pop" style="--d:2.70s">?</span>Pregunta-li abans: el certificat de delictes</li>
+              </ul>
+            </div>
+            <div class="maq-peu maq-seg a-sube" style="--d:2.90s"><span class="seg-n fet" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span><span class="seg-t"><span class="seg-rot">Fet</span><span class="seg-d">De la fitxa al CV, amb la Laia.</span></span><button type="button" class="boto petit-b" data-seguent>Torna a començar<span aria-hidden="true">→</span></button></div>
+          </figure>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="ctx" id="context" aria-labelledby="ctx-t">
+  <div class="hs" aria-hidden="true">
+    <div class="hs-titol"><span class="hs-llums"><i></i><i></i><i></i></span><span class="hs-doc"></span><b>Mestre_Context_Territorial</b><span class="hs-estrella">☆</span></div>
+    <div class="hs-menu"><span>Fitxer</span><span>Edita</span><span>Visualitza</span><span>Insereix</span><span>Format</span><span>Dades</span><span>Eines</span><span>Extensions</span><span>Ajuda</span></div>
+    <div class="hs-eines"><i></i><i></i><i></i><i class="ample"></i><i></i><i></i><i class="ample"></i><i></i><i></i><i class="ample"></i><i></i><i></i></div>
+    <div class="hs-formula"><span class="hs-cel" id="hs-cel">A229</span><span class="hs-fx">fx</span><span>Residència</span></div>
+    <div class="hs-graella" id="hs-graella">
+      <div class="hs-f hs-l"><span></span><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span><span>I</span><span>J</span><span>K</span><span>L</span><span>M</span></div>
+      <div class="hs-f hs-h"><span>1</span><span>Nom Empresa / Entitat</span><span>Municipi</span><span>Mida</span><span>Divisió CCAE</span><span>Ocupació 1</span><span>Ocupació 2</span><span>Persona de contacte</span><span>Telèfon</span><span>Historial al servei</span><span>Notes de camp</span><span>Modalitat de treball</span><span>Oportunitats per a perfils qualificats</span><span>Darrera actualització</span></div>
+    </div>
+    <div class="hs-pestanyes"><span class="hs-mes">+</span><span class="hs-mes">≡</span><span class="activa">1_Empreses_i_Entitats</span><span>2_Sectors_al_Llucanes</span><span>3_Estudis_i_Ocupacions</span><span>4_Camps_dInteressos</span><span>5_Cataleg_CCAE</span><span>6_Cataleg_Rols_CCO</span></div>
+  </div>
+  <div class="amplada ctx-fila">
+    <div class="ctx-vidre">
+      <h2 id="ctx-t">El que sabeu del territori, convertit en dades que la IA treballa per a vosaltres.</h2>
+      <p class="ctx-text">El context del territori el teniu vosaltres millor que ningú, i l'heu guardat durant anys al vostre programa, sigui Xaloc, Spin o un de propi: les empreses, els contactes i les ofertes que heu gestionat.</p>
+      <p class="ctx-text">Aquest context el posem en un full compartit, on creuem les dades, les estandarditzem i en fem un <b>Gem de Context</b> (IA de Gemini) que el manté al dia amb el que aneu sabent. La IA treballa amb aquest full, i l'eina hi comprova la diagnosi.</p>
+    </div>
+    <div class="gm" aria-hidden="true">
+        <div class="gm-cap"><span class="gm-ic">✦</span><b>Gem de Context</b></div>
+        <div class="gm-fil">
+          <p class="gm-tu">Avui he parlat amb la residència de Sant Martí d'Albars: aquest estiu buscaran gerocultores.</p>
+          <div class="gm-ella">
+            <p>He afegit la fila al full, a <b>1_Empreses_i_Entitats</b>:</p>
+            <dl class="gm-fila">
+              <div><dt>Entitat</dt><dd>Residència · Sant Martí d'Albars</dd></div>
+              <div><dt>Divisió CCAE</dt><dd>87 · Serveis socials amb allotjament</dd></div>
+              <div><dt>Ocupació 2</dt><dd>5611 · Auxiliars d'infermeria hospitalària</dd></div>
+              <div><dt>Notes de camp</dt><dd>Gerocultores per a l'estiu</dd></div>
+            </dl>
+            <span class="chip ia">Afegida per la IA: reviseu-la</span>
+          </div>
+        </div>
+        <div class="gm-escriu">Explica-li el que has sabut d'una empresa…</div>
+      </div>
+  </div>
+</section>
+
+<section class="seccio banda" id="problema" aria-labelledby="pb-t">
+  <div class="amplada">
+    <div class="cap-seccio">
+      <p class="eyebrow">El dia a dia</p>
+      <h2 id="pb-t">Buscar ofertes no s'hauria de menjar el temps d'orientar.</h2>
+    </div>
+    <ul class="pb">
+      <li>
+        <p class="xifra">0<span>/</span>18</p>
+        <h3>Cada portal escriu la feina a la seva manera</h3>
+        <p class="text">Al CIDO, «educadora social» no trobava cap convocatòria a tot Catalunya, i «educador social», divuit. A Feina Activa, «tècnic» amb accent no en troba cap. L'eina busca com escriu cada portal.</p>
+        <p class="data">Comprovat el 02/10/2026</p>
+      </li>
+      <li>
+        <p class="xifra">5<span>/</span>0</p>
+        <h3>Una IA general no coneix el vostre territori</h3>
+        <p class="text">Fent l'eina, una IA va escriure que al Lluçanès hi havia cinc empreses que contracten enginyers. Al full n'hi havia set de metall i maquinària, i cap no en declarava. Per això la diagnosi es comprova contra el vostre full.</p>
+        <p class="data">Passat de debò, fent l'eina</p>
+      </li>
+      <li>
+        <p class="xifra">3<span class="mot">places</span></p>
+        <h3>Requisits que surten a l'entrevista</h3>
+        <p class="text">Tres places d'una convocatòria demanaven, a les observacions, un vincle fix amb l'ens. No ho deia enlloc més. L'eina llegeix la fitxa sencera de cada oferta abans de proposar-la.</p>
+        <p class="data">Comprovat el 02/10/2026</p>
+      </li>
+    </ul>
+    <ul class="pb-mes">
+      <li><b>9 de 13</b>municipis del Lluçanès a la comarca d'un portal: l'eina hi busca poble a poble.</li>
+      <li><b>43 / 0</b>«operari» i «operària» a un portal: busca com s'escriuen els anuncis.</li>
+      <li><b>3 a 1</b>la mateixa convocatòria a tres portals, en una sola fila.</li>
+    </ul>
+  </div>
+</section>
+
+
+
+<section class="mr" id="miro" aria-labelledby="mr-t">
+  <div class="mr-fons" role="img" aria-label="El tauler del Miro del Cicle 0: els mapes del context, el flux d'una oferta, l'assessoria, les eines i els portals"></div>
+  <div class="amplada mr-fila">
+    <div class="ctx-vidre mr-vidre">
+      <h2 id="mr-t">Abans de construir res, vam descobrir on costa la feina.</h2>
+      <p class="ctx-text">Durant tres setmanes, amb la Gemma i la Vanessa, vam mapejar el servei sencer en un tauler compartit: el context del territori, el camí d'una oferta, l'assessoria, i les eines i els portals de cada dia.</p>
+      <p class="ctx-text">No preguntàvem què podia fer la IA, sinó on hi havia fricció: què costa, què es repeteix, què no es veu. En van sortir sis friccions. Les vam votar, i les dues primeres, la diagnosi per intuïció i el poc que es veu lluny del territori, van marcar per on començava TalentLab.</p>
+    </div>
+  </div>
+</section>
+
+<section class="seccio" id="encaix" aria-labelledby="enc-t">
+  <div class="amplada">
+    <div class="cap-seccio">
+      <p class="eyebrow">Com encaixa</p>
+      <h2 id="enc-t">Al costat del vostre programa, sense tocar-lo.</h2>
+    </div>
+    <ol class="enc">
+      <li><span class="enc-eti">D'on surt</span><span class="enc-t">El vostre programa</span><span class="enc-d">Xaloc, Spin o el que feu servir: la fitxa de la persona i les empreses que ja coneixeu.</span><span class="chips"><span class="chip neutre">CCO-2011</span><span class="chip neutre">CCAE-2009</span><span class="chip neutre">CCED-2020</span></span></li>
+      <li class="fosc"><span class="enc-eti">Hi treballa</span><span class="enc-t">TalentLab</span><span class="enc-d">Diagnosi, ofertes, requisits, full de ruta i CV, comprovats contra el vostre full.</span></li>
+      <li><span class="enc-eti">Qui decideix</span><span class="enc-t">L'orientadora</span><span class="enc-d">Valora la proposta i la parla amb la persona. El que diu ella mana sobre la fitxa i la IA.</span></li>
+      <li><span class="enc-eti">On queda</span><span class="enc-t">El vostre programa</span><span class="enc-d">L'expedient, on ha estat sempre. L'eina no hi entra ni hi desa res.</span></li>
+    </ol>
+    <p class="enc-nota"><svg class="ic" aria-hidden="true"><use href="#i-cadenat"/></svg>El nom i el contacte de la persona es treuen al vostre ordinador abans d'enviar res, i veieu exactament què s'envia.</p>
+  </div>
+</section>
+
+
+<section class="seccio" id="llucanes" aria-labelledby="ll-t">
+  <div class="amplada">
+    <div class="ll">
+      <div class="ll-text">
+        <p class="eyebrow">Fet al Lluçanès</p>
+        <h2 id="ll-t">Fet amb qui orienta cada dia.</h2>
+        <p>TalentLab neix d'un encàrrec del Servei d'Ocupació del Lluçanès, una comarca rural de tretze municipis on molta gent jove ha de triar entre quedar-se a viure i créixer professionalment. L'he fet amb la Gemma i la Vanessa, orientadores del servei, en cicles de tres setmanes: cada cicle acaba amb una peça que funciona.</p>
+      </div>
+      <dl class="xifres">
+        <div><dt>13</dt><dd>municipis del Lluçanès</dd></div>
+        <div><dt>10</dt><dd>fonts d'ofertes, alhora</dd></div>
+        <div><dt>3</dt><dd>llengües per a cada nom de feina</dd></div>
+        <div><dt>3 setmanes</dt><dd>per cicle, amb una peça que funciona</dd></div>
+      </dl>
+    </div>
+    <!-- Els testimonis, amagats fins que arribin: llavors es treu «hidden», i el text de cada una va al <blockquote> sense la classe «pendent». -->
+    <div class="ll-baix" hidden>
+      <figure class="testimoni pendent">
+        <blockquote><p>Testimoni pendent. Aquí hi aniran les paraules de la Gemma.</p></blockquote>
+        <figcaption><b>Gemma</b> · Orientadora laboral, Servei d'Ocupació del Lluçanès</figcaption>
+      </figure>
+      <figure class="testimoni pendent">
+        <blockquote><p>Testimoni pendent. Aquí hi aniran les paraules de la Vanessa.</p></blockquote>
+        <figcaption><b>Vanessa</b> · Orientadora laboral, Servei d'Ocupació del Lluçanès</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+
+<section class="seccio" id="preguntes" aria-labelledby="pr-t">
+  <div class="amplada pr">
+    <div class="cap-seccio">
+      <p class="eyebrow">Preguntes</p>
+      <h2 id="pr-t">El que convé saber abans de començar.</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Les dades de les persones, on van?</summary>
+        <div class="resp">
+          <p>El nom i les dades de contacte es treuen al vostre ordinador abans d'enviar res, i veieu exactament què s'envia. La IA és la de Google amb facturació, que no fa servir el que s'hi envia per millorar els seus productes. Les ofertes no es desen, i cada diagnosi es desa al Drive de l'orientadora que l'ha feta, sense el nom.</p>
+          <p>Abans de fer-la servir amb persones reals, el servei fixa qui és responsable del tractament i quant de temps es guarden les diagnosis. Us hi acompanyo.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Substitueix l'orientadora?</summary>
+        <div class="resp"><p>No. L'eina prepara i proposa; la decisió sobre cada persona és sempre vostra. El que dieu vosaltres als requisits mana sobre el que diuen la fitxa i la IA, i l'acollida i l'acompanyament continuen sent cosa vostra.</p></div>
+      </details>
+      <details>
+        <summary>Quins portals fa servir?</summary>
+        <div class="resp"><p>Els públics (el CIDO, Xaloc i Feina Activa), portals privats i les borses de feina de les empreses grans del territori. Les fonts les decideix el servei: si el vostre decàleg en deixa fora alguna, no hi surt. Les ofertes d'ETT i agències es marquen, i les podeu treure de la llista.</p></div>
+      </details>
+      <details>
+        <summary>Funciona fora de la província de Barcelona?</summary>
+        <div class="resp"><p>Les cerques ja saben sortir de 284 pobles de la província de Barcelona, comprovats amb cerques de debò. Per a la resta de Catalunya, preparem els vostres pobles quan l'adaptem; el CIDO i Feina Activa ja hi són.</p></div>
+      </details>
+      <details>
+        <summary>Quina IA fa servir?</summary>
+        <div class="resp"><p>Gemini, de Google, amb una clau del vostre servei. L'eina no fa més de seixanta consultes al dia, i cada consulta queda registrada per comparar-la amb la factura.</p></div>
+      </details>
+      <details>
+        <summary>Quant es triga a tenir-la en marxa?</summary>
+        <div class="resp"><p>El que porta més feina és muntar el full del territori, i depèn de com tingueu les dades al vostre programa. Ho mirem a la primera conversa i us en dono un calendari.</p></div>
+      </details>
+      <details>
+        <summary>Cal instal·lar res?</summary>
+        <div class="resp"><p>No. S'obre al navegador amb el compte de Google del servei (Google Workspace). Si el vostre servei treballa amb un altre entorn, ho mirem.</p></div>
+      </details>
+      <details>
+        <summary>Quant costa TalentLab?</summary>
+        <div class="resp"><p>Depèn de la mida del territori i de la feina d'adaptació: el full, les fonts i les proves. Ho parlem a la primera conversa.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="seccio" id="parlem" aria-labelledby="pa-t">
+  <div class="amplada">
+    <div class="parlem">
+      <div class="parlem-text">
+        <p class="eyebrow">Com comencem</p>
+        <h2 id="pa-t">Orienteu en un altre territori? Us l'ensenyo.</h2>
+        <ol class="passos-c">
+          <li><b>Una conversa</b><span>Mitja hora per conèixer el servei. Us ensenyo l'eina amb fitxes inventades.</span></li>
+          <li><b>El vostre full</b><span>Muntem el full del territori amb el que ja teniu al vostre programa.</span></li>
+          <li><b>La prova</b><span>Una sessió amb les orientadores i fitxes inventades. El que en surti, s'ajusta.</span></li>
+          <li><b>En marxa</b><span>S'obre al navegador amb el compte de Google del servei. No s'instal·la res.</span></li>
+        </ol>
+        <div class="correu">
+          <p class="petit">Correu</p>
+          <p class="correu-fila"><span class="correu-adreca" id="correu-text"><span class="chip aclarir">Correu pendent</span></span><button type="button" class="boto secundari petit-b" id="correu-copia" hidden>Copia</button></p>
+        </div>
+        <div class="qui"><img src="avatar-raul.png" width="44" height="44" alt=""><p>Us respondré jo mateix: <a href="https://raulhere.com" target="_blank" rel="noopener">Raül Marín</a>. Faig TalentLab amb les orientadores que el fan servir.</p></div>
+      </div>
+      <form class="missatge" id="missatge" novalidate>
+        <p class="form-t">Prepareu el missatge</p>
+        <div class="camp"><label for="c-nom">El vostre nom</label><input id="c-nom" type="text" autocomplete="name"></div>
+        <div class="camp"><label for="c-servei">Servei i territori</label><input id="c-servei" type="text" placeholder="Servei d'ocupació de…" autocomplete="organization"></div>
+        <fieldset class="camp">
+          <legend>Què us interessa?</legend>
+          <div class="opcions">
+            <label class="opcio"><input type="checkbox" id="c-o1" value="una demostració" checked>Una demostració</label>
+            <label class="opcio"><input type="checkbox" id="c-o2" value="adaptar-la al nostre territori">Adaptar-la al nostre territori</label>
+            <label class="opcio"><input type="checkbox" id="c-o3" value="preus i condicions">Preus i condicions</label>
+          </div>
+        </fieldset>
+        <div class="camp"><label for="c-text">Alguna cosa més? <span class="petit">Opcional</span></label><textarea id="c-text" rows="3"></textarea></div>
+        <div class="form-accions">
+          <a class="boto" id="c-obre" href="#parlem">Obre el correu amb el missatge</a>
+          <button type="button" class="boto secundari" id="c-copia">Copia el missatge</button>
+        </div>
+        <textarea id="c-previ" readonly hidden aria-label="El missatge, per copiar"></textarea>
+        <p class="petit" id="c-estat" role="status"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="peu">
+  <div class="amplada peu-in">
+    <div class="peu-marca">
+      <a class="marca" href="#inici"><svg aria-hidden="true"><use href="#i-marca"/></svg>TalentLab</a>
+      <p class="petit">Cerques de feina amb el coneixement del vostre territori. Fet amb el Servei d'Ocupació del Lluçanès per <a href="https://raulhere.com" target="_blank" rel="noopener">Raül Marín</a>, 2026.</p>
+    </div>
+    <div class="peu-dreta">
+      <nav class="peu-nav" aria-label="Peu">
+        <a href="#com-funciona">Com funciona</a>
+        <a href="#context">El territori</a>
+        <a href="#miro">Com es va fer</a>
+        <a href="#preguntes">Preguntes</a>
+        <a href="#parlem">Parlem-ne</a>
+      </nav>
+      <div class="peu-logos" role="group" aria-label="Qui hi ha al darrere">
+        <div class="peu-logo">
+          <p class="petit">Projecte impulsat per:</p>
+          <img class="suport-logo" src="logo-consorci-llucanes.png" width="725" height="241" alt="Consorci del Lluçanès" loading="lazy">
+        </div>
+        <div class="peu-logo">
+          <p class="petit">Amb la col·laboració de:</p>
+          <img class="suport-logo" src="logo-diputacio-barcelona.png" width="537" height="173" alt="Diputació de Barcelona" loading="lazy">
+        </div>
+        <div class="peu-logo">
+          <p class="petit">Desenvolupat per:</p>
+          <a class="suport-enllac" href="https://raulhere.com" target="_blank" rel="noopener"><img class="suport-logo raul" src="logo-raul.png" width="900" height="259" alt="Raül, solucions digitals (raulhere.com)" loading="lazy"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="amplada peu-legal">
+    <p class="petit">Xaloc és la plataforma de la xarxa de serveis locals d'ocupació de la Diputació de Barcelona; el CIDO és de la Diputació de Barcelona, i Feina Activa, del Servei Públic d'Ocupació de Catalunya. TalentLab no és un producte oficial de cap d'aquests organismes: en llegeix les ofertes públiques. Les persones, les entitats i les ofertes dels exemples són inventades, i els recomptes de les cerques són del setembre i l'octubre del 2026.</p>
+  </div>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // L'exemple de la Laia a l'eina de debò, sense compte (23/10/2026): l'adreça /exec del projecte d'Apps Script
+  // d'apps_script_exemple/. La posa sola «Puja a Apps Script.command» en publicar-lo. Mentre és buida, els botons
+  // diuen el d'abans («Mireu com funciona») o no hi són: la pàgina no ensenya mai un enllaç que no va.
+  var EXEMPLE = 'https://script.google.com/macros/s/AKfycbzZ0QGCel2VdHO505w6RUlEpXpi17pd1JclOoit5ON-xDfuuln1ynbaF9l1g3lSAAwG/exec';
+  if (/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(EXEMPLE)) {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-exemple]'), function (a) {
+      a.href = EXEMPLE;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = a.getAttribute('data-exemple');
+      if (a.hasAttribute('data-exemple-curt')) a.setAttribute('data-curt', a.getAttribute('data-exemple-curt'));
+      a.hidden = false;
+    });
+  }
+
+  // El correu de contacte. Mentre és buit, la pàgina diu que és pendent i no obre res.
+  var CORREU = '';
+
+  function llista(a) {
+    return a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' i ' + a[a.length - 1];
+  }
+
+  // La capçalera, amb línia quan es baixa
+  var cap = document.getElementById('cap');
+  function linia() { cap.classList.toggle('avall', window.scrollY > 8); }
+  window.addEventListener('scroll', linia, { passive: true });
+  linia();
+
+  // Requisits: el que diu l'orientadora mana, i es veu en blau
+  var rqBoto = document.getElementById('rq-boto'), rqPop = document.getElementById('rq-pop');
+  var rqNom = document.getElementById('rq-nom-estat'), rqTu = document.getElementById('rq-tu');
+  var rqRecompte = document.getElementById('rq-recompte');
+  var NOMS_ESTAT = { consta: 'Consta', no: 'No compleix', aclarir: 'Per aclarir' };
+  var estatTu = null;
+  function pintaRq() {
+    var c = { consta: 2, no: 1, aclarir: 2 };
+    c[estatTu || 'aclarir']++;
+    // Les pestanyes de dalt, com a l'eina: quants n'hi ha de cada estat.
+    rqRecompte.querySelector('.consta b').textContent = c.consta;
+    rqRecompte.querySelector('.no b').textContent = c.no;
+    rqRecompte.querySelector('.aclarir b').textContent = c.aclarir;
+    rqBoto.className = 'estat ' + (estatTu ? 'tu' : 'aclarir');
+    rqNom.textContent = NOMS_ESTAT[estatTu || 'aclarir'];
+    rqTu.hidden = !estatTu;
+    // El segment, com a l'eina: el triat en blanc sobre el carril gris.
+    Array.prototype.forEach.call(rqPop.querySelectorAll('[data-estat]'), function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-estat') === (estatTu || 'aclarir') ? 'true' : 'false');
+    });
+  }
+  function tancaPop(tornaFocus) {
+    rqPop.hidden = true;
+    rqBoto.setAttribute('aria-expanded', 'false');
+    if (tornaFocus) rqBoto.focus();
+  }
+  rqBoto.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var obre = rqPop.hidden;
+    rqPop.hidden = !obre;
+    rqBoto.setAttribute('aria-expanded', obre ? 'true' : 'false');
+    if (obre) rqPop.querySelector('button').focus();
+  });
+  rqPop.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var b = e.target.closest('[data-estat]');
+    if (!b) return;
+    estatTu = b.getAttribute('data-estat');
+    pintaRq();
+    tancaPop(true);
+  });
+  document.getElementById('rq-desfes').addEventListener('click', function () { estatTu = null; pintaRq(); rqBoto.focus(); });
+  document.addEventListener('click', function () { if (!rqPop.hidden) tancaPop(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !rqPop.hidden) tancaPop(true); });
+
+  // Parlem-ne: el missatge, per obrir-lo al correu o copiar-lo
+  var cEstat = document.getElementById('c-estat'), cObre = document.getElementById('c-obre');
+  var cPrevi = document.getElementById('c-previ');
+  function valor(id) { return document.getElementById(id).value.trim(); }
+  function missatge() {
+    var nom = valor('c-nom'), servei = valor('c-servei'), extra = valor('c-text');
+    var vol = Array.prototype.slice.call(document.querySelectorAll('.opcions input:checked')).map(function (i) { return i.value; });
+    var l = ['Hola, Raül:', '', 'M\'agradaria saber més de TalentLab.'];
+    if (nom) l.push('Nom: ' + nom);
+    if (servei) l.push('Servei i territori: ' + servei);
+    if (vol.length) l.push('M\'interessa: ' + llista(vol) + '.');
+    if (extra) l.push('', extra);
+    l.push('', 'Gràcies!');
+    return { assumpte: 'TalentLab · ' + (servei || 'informació'), cos: l.join('\n') };
+  }
+  function actualitza() {
+    if (!CORREU) {
+      cObre.setAttribute('aria-disabled', 'true');
+      cObre.title = 'Encara no hi ha correu de contacte.';
+      return;
+    }
+    var m = missatge();
+    cObre.removeAttribute('aria-disabled');
+    cObre.removeAttribute('title');
+    cObre.href = 'mailto:' + CORREU + '?subject=' + encodeURIComponent(m.assumpte) + '&body=' + encodeURIComponent(m.cos);
+  }
+  document.getElementById('missatge').addEventListener('input', actualitza);
+  document.getElementById('missatge').addEventListener('submit', function (e) { e.preventDefault(); });
+  cObre.addEventListener('click', function (e) {
+    if (!CORREU) {
+      e.preventDefault();
+      cEstat.textContent = 'Encara no hi ha correu de contacte. Copieu el missatge i el tindreu a punt.';
+      return;
+    }
+    cEstat.textContent = 'Si no s\'obre el correu, copieu el missatge i envieu-lo a ' + CORREU + '.';
+  });
+  function copia(text, fet) {
+    function aMa() {
+      cPrevi.hidden = false;
+      cPrevi.value = text;
+      cPrevi.focus();
+      cPrevi.select();
+      cEstat.textContent = 'No he pogut copiar-lo sol: el teniu seleccionat a sota, copieu-lo amb Ctrl+C o ⌘C.';
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { cEstat.textContent = fet; }, aMa);
+    } else aMa();
+  }
+  document.getElementById('c-copia').addEventListener('click', function () {
+    var m = missatge();
+    copia('Assumpte: ' + m.assumpte + '\n\n' + m.cos,
+      'Missatge copiat. Enganxeu-lo al vostre correu' + (CORREU ? ' i envieu-lo a ' + CORREU : '') + '.');
+  });
+  if (CORREU) {
+    document.getElementById('correu-text').textContent = CORREU;
+    var bc = document.getElementById('correu-copia');
+    bc.hidden = false;
+    bc.addEventListener('click', function () { copia(CORREU, 'Correu copiat.'); });
+  }
+  actualitza();
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  var calma = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // La foto, encaixada entre les dues caixes (alineades amb la capçalera de la pàgina): cap cara sota
+  // una caixa i la foto sempre de punta a punta. On és cada cosa a la foto, en fraccions de l'amplada: la
+  // noia (primer els cabells; si no hi cap, la cara), la cara de l'orientadora, i el seu cap, en alçada,
+  // perquè no quedi sota la capçalera.
+  var GEOM = {
+    nova: { ar: 2000 / 1011, noia: [.445, .55], cara: .66, cap: .21 },
+    anterior: { ar: 2600 / 1279, noia: [.41, .52], cara: null, cap: .27 }
+  };
+  var escena = document.querySelector('.foto-escena'), marc = escena.querySelector('.foto-marc');
+  var estret = window.matchMedia('(max-width: 859px)');
+  function encaixa() {
+    var img = document.getElementById('foto-img'), W = escena.clientWidth;
+    if (!W || estret.matches) {
+      img.removeAttribute('style');
+      marc.style.removeProperty('height');
+      marc.classList.remove('amb-vores');
+      return;
+    }
+    var g = GEOM[document.getElementById('cap-pla').getAttribute('data-foto')] || GEOM.nova;
+    var caixa = document.querySelector('.cap-in').getBoundingClientRect(), base = escena.getBoundingClientRect().left;
+    var esq = caixa.left - base + document.querySelector('.foto-text').offsetWidth + 24, dre = caixa.right - base - document.querySelector('.sim').offsetWidth - 24;
+    var wi = 0, x = 0;
+    g.noia.some(function (a) {
+      for (var w = W; w <= W * 2.5; w += 2) {
+        var lo = Math.max(esq - a * w, W - w), hi = g.cara == null ? 0 : Math.min(dre - g.cara * w, 0);
+        if (lo <= hi) {
+          var ideal = g.cara == null ? (lo + hi) / 2 : (esq + dre) / 2 - (a + g.cara) / 2 * w;
+          wi = w;
+          x = Math.min(hi, Math.max(lo, ideal));
+          return true;
+        }
+      }
+      return false;
+    });
+    // Massa ample perquè hi càpiguen les cares: la foto més gran que les deixa lliures, i els costats es fonen
+    var vores = !wi;
+    if (vores) {
+      var a = g.noia[g.noia.length - 1];
+      wi = (dre - esq) / (g.cara - a);
+      x = esq - a * wi;
+    }
+    // Si la caixa del text és més alta que la foto (a les pantalles petites), la foto creix fins a cobrir-la,
+    // amb lloc a dalt per a la capçalera i per als passos, que pugen 24 px per sobre de la caixa
+    var cal = document.querySelector('.foto-text').offsetHeight + 2 * 104;
+    if (wi / g.ar < cal) {
+      wi = cal * g.ar;
+      vores = false;
+      // Les cares, entre les dues caixes, com més amunt: primer els cabells de la noia i, si no hi caben, la cara
+      var lloc = g.noia.some(function (a) {
+        var lo = Math.max(esq - a * wi, W - wi), hi = g.cara == null ? 0 : Math.min(dre - g.cara * wi, 0);
+        if (lo > hi) return false;
+        var ideal = g.cara == null ? (lo + hi) / 2 : (esq + dre) / 2 - (a + g.cara) / 2 * wi;
+        x = Math.min(hi, Math.max(lo, ideal));
+        return true;
+      });
+      if (!lloc) {
+        var a = g.noia[g.noia.length - 1];
+        x = Math.min(0, Math.max(W - wi, g.cara == null ? (W - wi) / 2 : (esq + dre) / 2 - (a + g.cara) / 2 * wi));
+      }
+    }
+    var alt = wi / g.ar, h = Math.min(alt, Math.max(760, cal));
+    var dalt = Math.max(0, Math.min((alt - h) * .35, g.cap * alt - 88));
+    marc.style.height = h + 'px';
+    marc.classList.toggle('amb-vores', vores);
+    img.style.cssText = 'position:absolute;max-width:none;object-fit:fill;left:' + x.toFixed(1) + 'px;top:' + (-dalt).toFixed(1) +
+      'px;width:' + wi.toFixed(1) + 'px;height:' + alt.toFixed(1) + 'px';
+  }
+
+  // La foto de la capçalera: la nova; la d'abans, si l'enllaç acaba en #foto-anterior (i #foto-nova hi torna).
+  var FOTOS = {
+    nova: { src: 'foto-hero4-1600.jpg', srcset: 'foto-hero4-900.jpg 900w, foto-hero4-1600.jpg 1600w, foto-hero4-2000.jpg 2000w', w: 2000, h: 1011,
+      alt: 'Una orientadora i una candidata miren juntes la pantalla de l\'ordinador' },
+    anterior: { src: 'foto-hero-1600.jpg', srcset: 'foto-hero-900.jpg 900w, foto-hero-1600.jpg 1600w, foto-hero-2600.jpg 2600w', w: 2600, h: 1279,
+      alt: 'Una orientadora i una candidata conversen davant d\'una pantalla' }
+  };
+  function posaFoto() {
+    var k = location.hash === '#foto-anterior' ? 'anterior' : location.hash === '#foto-nova' ? 'nova' : null;
+    var sec = document.getElementById('cap-pla'), img = document.getElementById('foto-img');
+    if (!k || sec.getAttribute('data-foto') === k) return;
+    var foto = FOTOS[k];
+    sec.setAttribute('data-foto', k);
+    img.srcset = foto.srcset;
+    img.src = foto.src;
+    img.width = foto.w;
+    img.height = foto.h;
+    img.alt = foto.alt;
+    encaixa();
+  }
+  posaFoto();
+  window.addEventListener('hashchange', posaFoto);
+  encaixa();
+  if ('ResizeObserver' in window) new ResizeObserver(function () { requestAnimationFrame(encaixa); }).observe(escena);
+  else window.addEventListener('resize', encaixa);
+
+  // La simulació de l'eina sobre la pantalla de la foto, amb dades inventades i el que l'eina fa de debò.
+  // Cada pas, amb el text en una línia: 2 tics «En curs» i 6 amb el resultat; al final, una espera i torna a començar.
+  var SIM = [
+    { t: 'Fitxa de Xaloc llegida', ara: 'Llegint la fitxa exportada…', fet: 'Nom i contactes trets al vostre ordinador', xip: 'Llegida', tipus: 'verd' },
+    { t: 'Encaix amb el territori', ara: 'Creuant el perfil amb el full…', fet: 'Educació social i lleure, al Lluçanès', xip: 'Proposta', tipus: 'ia' },
+    { t: 'Comprovat contra el full', ara: 'Buscant cada entitat al full…', fet: '12 de 13 dades hi són; 1 no hi quadra', xip: 'Comprovat', tipus: 'verd' },
+    { t: 'Cerca als portals', ara: 'Buscant a CIDO, Xaloc, Feina Activa…', fet: '18 ofertes obertes, sense repetides', xip: 'Fet', tipus: 'verd' },
+    { t: 'Les seves fortaleses', ara: 'Llegint què demana cada oferta…', fet: 'Les 3 proposades demanen el seu grau', xip: 'Consta', tipus: 'verd' },
+    { t: 'El que li falta', ara: 'Comparant-ho amb la fitxa…', fet: 'Demanen el C1 de català: no el té', xip: 'No compleix', tipus: 'taronja' },
+    { t: 'Full de ruta', ara: 'Mirant com aconseguir-ho…', fet: 'El C1, a l\'institut on va fer el batxillerat', xip: 'Proposta', tipus: 'ia' },
+    { t: 'CV per a les ofertes', ara: 'Escrivint-lo amb el que consta…', fet: 'Cada xifra i cada nom, trobats a la fitxa', xip: 'Comprovat', tipus: 'verd' }
+  ];
+  var TIC = 650, PER_PAS = 8, OCUPAT = 2, ESPERA = 12, CICLE = SIM.length * PER_PAS + ESPERA;
+  var simBarra = document.getElementById('sim-barra'), simPila = document.getElementById('sim-pila');
+  var tic = 0, fixat = null, rellotgeSim = null, simVeu = false;
+  var segs = SIM.map(function (p, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'sim-seg';
+    b.setAttribute('aria-label', 'Pas ' + (i + 1) + ': ' + p.t);
+    b.appendChild(document.createElement('span'));
+    b.addEventListener('click', function () {
+      fixat = fixat === i ? null : i;
+      simPila.setAttribute('aria-live', fixat == null ? 'off' : 'polite');
+      pintaSim();
+    });
+    simBarra.appendChild(b);
+    return b;
+  });
+  var targetes = SIM.map(function (p, i) {
+    var a = document.createElement('article');
+    a.className = 'sim-targeta';
+    a.innerHTML = '<div class="sim-cap"><span class="sim-num"></span><span class="chip"></span></div><p class="sim-titol"></p><p class="sim-sub"></p>';
+    a.querySelector('.sim-num').textContent = (i < 9 ? '0' : '') + (i + 1);
+    a.querySelector('.sim-titol').textContent = p.t;
+    simPila.appendChild(a);
+    return a;
+  });
+  function estatSim() {
+    if (fixat != null) return { pas: fixat, ara: false };
+    if (calma) return { pas: 6, ara: false };
+    var c = tic % CICLE, pas = Math.min(SIM.length - 1, Math.floor(c / PER_PAS));
+    return { pas: pas, ara: c < SIM.length * PER_PAS && c % PER_PAS < OCUPAT };
+  }
+  function pintaSim() {
+    var e = estatSim();
+    segs.forEach(function (b, i) {
+      b.setAttribute('data-estat', i < e.pas || (i === e.pas && !e.ara) ? 'fet' : i === e.pas ? 'ara' : 'falta');
+      b.setAttribute('aria-pressed', fixat === i ? 'true' : 'false');
+    });
+    targetes.forEach(function (a, i) {
+      var p = SIM[i], k = e.pas - i, treballa = k === 0 && e.ara;
+      a.setAttribute('data-pos', k === 0 ? 'ara' : k > 0 ? 'abans' : 'despres');
+      a.setAttribute('aria-hidden', k === 0 ? 'false' : 'true');
+      if (treballa) a.setAttribute('data-treballa', ''); else a.removeAttribute('data-treballa');
+      var xip = a.querySelector('.chip');
+      xip.className = 'chip ' + (treballa ? 'ocupat' : p.tipus);
+      xip.textContent = '';
+      if (treballa) {
+        var g = document.createElement('span');
+        g.className = 'gira';
+        g.setAttribute('aria-hidden', 'true');
+        xip.appendChild(g);
+        xip.appendChild(document.createTextNode('En curs'));
+      } else xip.textContent = p.xip;
+      a.querySelector('.sim-sub').textContent = treballa ? p.ara : p.fet;
+    });
+  }
+  function simVisible(si) {
+    simVeu = si;
+    if (rellotgeSim) { clearInterval(rellotgeSim); rellotgeSim = null; }
+    if (si && !calma) {
+      rellotgeSim = setInterval(function () {
+        if (fixat == null && !document.hidden) { tic++; pintaSim(); }
+      }, TIC);
+    }
+  }
+  pintaSim();
+  simVisible(true);
+})();
+
+
+  // Els botons de la caixa de dalt, sempre en una fila: si salten, primer s'escurça el secundari, després
+  // el principal, després van amb menys marge i, si encara no hi caben, el principal diu «Demostració»
+  // (en Raül, 16/10/2026)
+  (function () {
+    var fila = document.querySelector('.foto-text .accions'); if (!fila) return;
+    var botons = Array.prototype.slice.call(fila.querySelectorAll('.boto'));
+    botons.forEach(function (b) { b.setAttribute('data-llarg', b.textContent); b.setAttribute('aria-label', b.textContent); });
+    function salten() { return botons[1].offsetTop > botons[0].offsetTop; }
+    function escurça() {
+      fila.classList.remove('justos');
+      botons.forEach(function (b) { b.textContent = b.getAttribute('data-llarg'); });
+      if (salten()) botons[1].textContent = botons[1].getAttribute('data-curt');
+      if (salten()) botons[0].textContent = botons[0].getAttribute('data-curt');
+      if (salten()) fila.classList.add('justos');
+      if (salten()) botons[0].textContent = botons[0].getAttribute('data-curt2');
+    }
+    escurça();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(escurça);
+    if ('ResizeObserver' in window) new ResizeObserver(function () { requestAnimationFrame(escurça); }).observe(fila.parentNode);
+    else window.addEventListener('resize', escurça);
+  })();
+
+  // Com funciona (Claude Design, v16): les sis pestanyes, amb la píndola blanca que llisca fins a la triada; el
+  // text i la maqueta de cada pas, que entren del costat cap a on es va; i les frases de sota, que s'encenen al
+  // ritme de la maqueta. El botó del peu de cada maqueta obre el pas següent.
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('#ep-carril [role="tab"]')); if (!tabs.length) return;
+    var calma = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var carril = document.getElementById('ep-carril'), pindola = document.getElementById('ep-pindola');
+    var escena = document.getElementById('cf-escena');
+    var panells = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+    var textos = Array.prototype.slice.call(escena.querySelectorAll('.pas-text'));
+    // Quan s'encén cada frase (ms), sincronitzat amb l'animació de cada maqueta; les que en sobren, amb l'última
+    var COPS = [[500, 1600, 2700], [450, 1950], [450, 2300], [450, 1600], [400, 2000], [400, 1900]];
+    var ara = 0, rellotges = [], cops = [];
+    function compta(panell) {
+      Array.prototype.forEach.call(panell.querySelectorAll('[data-compta]'), function (b) {
+        var fi = +b.getAttribute('data-compta'), t0 = null, espera = 1100;
+        if (calma) { b.textContent = fi; return; }
+        b.textContent = '0';
+        function pas(t) {
+          if (t0 == null) t0 = t;
+          var k = Math.min(1, Math.max(0, (t - t0 - espera) / 700));
+          b.textContent = Math.round(fi * (1 - Math.pow(1 - k, 3)));
+          if (k < 1) rellotges.push(requestAnimationFrame(pas));
+        }
+        rellotges.push(requestAnimationFrame(pas));
+      });
+    }
+    function encen(i) {
+      cops.forEach(clearTimeout); cops = [];
+      var punts = Array.prototype.slice.call(textos[i].querySelectorAll('.cf-punt'));
+      textos.forEach(function (t, j) { if (j !== i) Array.prototype.forEach.call(t.querySelectorAll('.cf-punt'), function (p) { p.classList.remove('encesa'); }); });
+      if (calma) { punts.forEach(function (p) { p.classList.add('encesa'); }); return; }
+      punts.forEach(function (p) { p.classList.remove('encesa'); });
+      var t = COPS[i] || [];
+      punts.forEach(function (p, j) {
+        cops.push(setTimeout(function () { p.classList.add('encesa'); }, t[Math.min(j, t.length - 1)] || 0));
+      });
+    }
+    // La píndola, sota la pestanya oberta, també quan el carril fa dues files
+    function mesura() {
+      var t = tabs[ara];
+      pindola.style.width = t.offsetWidth + 'px';
+      pindola.style.height = t.offsetHeight + 'px';
+      pindola.style.transform = 'translate(' + t.offsetLeft + 'px,' + t.offsetTop + 'px)';
+      pindola.style.opacity = 1;
+      if (!pindola.classList.contains('llesta')) requestAnimationFrame(function () { requestAnimationFrame(function () { pindola.classList.add('llesta'); }); });
+    }
+    function pinta() {
+      tabs.forEach(function (t, j) {
+        t.setAttribute('aria-selected', j === ara ? 'true' : 'false');
+        t.tabIndex = j === ara ? 0 : -1;
+        t.classList.toggle('fet', j < ara);
+        t.querySelector('.ep-num').textContent = j < ara ? '✓' : String(j + 1);
+      });
+      [panells, textos].forEach(function (llista) {
+        llista.forEach(function (el, j) {
+          el.classList.toggle('actiu', j === ara);
+          el.style.setProperty('--costat', j < ara ? -1 : 1);
+          if (j === ara) { el.removeAttribute('aria-hidden'); el.inert = false; }
+          else { el.setAttribute('aria-hidden', 'true'); if (el.classList.contains('cf-panel')) el.inert = true; }
+        });
+      });
+      mesura();
+    }
+    // En triar un pas, la pantalla s'encaixa amb el slider sencer: el títol, les pestanyes i l'escena
+    function centra() {
+      var el = document.getElementById('com-funciona'), dalt = document.querySelector('.cap-in').offsetHeight;
+      var vh = window.innerHeight - dalt, r = el.getBoundingClientRect();
+      var y = Math.max(0, Math.round(window.scrollY + r.top - dalt - Math.max(0, (vh - r.height) / 2)));
+      if (Math.abs(y - window.scrollY) > 4) window.scrollTo({ top: y, behavior: calma ? 'auto' : 'smooth' });
+    }
+    function obre(i, o) {
+      o = o || {};
+      if (i !== ara) {
+        rellotges.forEach(cancelAnimationFrame); rellotges = [];
+        ara = i;
+        pinta();
+        if (escena.classList.contains('vist')) { compta(panells[i]); encen(i); }
+      }
+      if (o.focus) tabs[i].focus();
+      if (o.centra) centra();
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { obre(i, { centra: true }); });
+    });
+    carril.addEventListener('keydown', function (e) {
+      var n = tabs.length, k = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (k) { e.preventDefault(); obre((ara + k + n) % n, { focus: true, centra: true }); }
+      else if (e.key === 'Home') { e.preventDefault(); obre(0, { focus: true, centra: true }); }
+      else if (e.key === 'End') { e.preventDefault(); obre(n - 1, { focus: true, centra: true }); }
+    });
+    panells.forEach(function (p, i) {
+      Array.prototype.forEach.call(p.querySelectorAll('[data-seguent]'), function (b) {
+        b.addEventListener('click', function () { obre((i + 1) % tabs.length, { centra: true }); });
+      });
+    });
+    // Quan la maqueta baixa sota el text, es fa més alta
+    function apila() {
+      var t = escena.children[0], m = escena.children[1];
+      escena.classList.toggle('apilada', m.offsetTop > t.offsetTop + 4);
+    }
+    pinta();
+    apila();
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(function () { requestAnimationFrame(mesura); }).observe(carril);
+      new ResizeObserver(function () { requestAnimationFrame(apila); }).observe(escena);
+    } else window.addEventListener('resize', function () { mesura(); apila(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(mesura);
+    // Les animacions de dins comencen quan el slider es veu
+    function mira() {
+      if (escena.classList.contains('vist')) return;
+      var r = escena.getBoundingClientRect();
+      if (r.top < innerHeight * .8 && r.bottom > innerHeight * .2) {
+        escena.classList.add('vist'); compta(panells[ara]); encen(ara);
+        window.removeEventListener('scroll', mira);
+      }
+    }
+    window.addEventListener('scroll', mira, { passive: true });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { if (es[0].isIntersecting) mira(); }, { threshold: [0, .3] }).observe(escena);
+    mira();
+  })();
+
+  // El context: el full del territori en blocs, sense cap text llegible. La fila lila (la que hi ha afegit el
+  // Gem) és la primera que queda sencera sota les caixes; si no n'hi cap cap, la secció s'allarga.
+  (function () {
+    var graella = document.getElementById('hs-graella'); if (!graella) return;
+    var ctx = document.getElementById('context'), cel = document.getElementById('hs-cel');
+    var OCUP2 = [213, 214, 217, 219, 220, 222, 224, 231, 234, 237, 238, 241, 244, 246, 249, 253, 255, 258, 261];
+    var NOTES = [213, 217, 218, 222, 224, 231, 234, 236, 240, 243, 247, 250, 254, 257, 260];
+    var files = [];
+    for (var n = 212; n <= 262; n++) {
+      var f = document.createElement('div');
+      f.className = 'hs-f';
+      var h = '<span>' + n + '</span>';
+      for (var j = 0; j < 13; j++) {
+        var buit = (j === 5 && OCUP2.indexOf(n) < 0) || (j === 9 && NOTES.indexOf(n) < 0);
+        h += '<span class="hs-c ' + (buit ? 'buit' : 'ple') + '"></span>';
+      }
+      f.innerHTML = h;
+      graella.appendChild(f);
+      files.push(f);
+    }
+    // Cada vegada es torna a mirar de zero, i només en treballa un: si en redimensionar se n'engegaven
+    // uns quants alhora, tots sumaven marge i la secció creixia sense parar.
+    var torn = 0;
+    function ajustaFila() {
+      var jo = ++torn, extra = 0;
+      ctx.style.paddingBottom = '';
+      function pas(n) {
+        if (jo !== torn) return;
+        var lim = graella.getBoundingClientRect().bottom, baix = 0;
+        Array.prototype.forEach.call(ctx.querySelectorAll('.gm, .ctx-vidre'), function (b) { baix = Math.max(baix, b.getBoundingClientRect().bottom); });
+        var falta = Math.ceil(baix + 32 + 31 + 8 - lim);
+        if (falta > 0 && n < 8) {
+          extra += falta;
+          ctx.style.paddingBottom = 'calc(clamp(56px, 8vw, 104px) + ' + extra + 'px)';
+          requestAnimationFrame(function () { pas(n + 1); });
+          return;
+        }
+        var tria = null;
+        files.some(function (f) { var r = f.getBoundingClientRect(); if (r.top >= baix + 32 && r.bottom <= lim) { tria = f; return true; } return false; });
+        if (!tria) { var vis = files.filter(function (f) { return f.getBoundingClientRect().bottom <= lim; }); tria = vis[vis.length - 1]; }
+        if (!tria) return;
+        files.forEach(function (f) { f.classList.toggle('hs-nova', f === tria); });
+        cel.textContent = 'A' + (212 + files.indexOf(tria));
+      }
+      requestAnimationFrame(function () { pas(0); });
+    }
+    ajustaFila();
+    window.addEventListener('resize', ajustaFila);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajustaFila);
+  })();
+</script>
+
