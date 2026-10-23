@@ -132,7 +132,7 @@ section[id] { scroll-margin-top: calc(var(--cap-alt) + 8px); }
 .boto.secundari { background: var(--card); color: var(--ink); border-color: var(--rule-2); }
 .boto.secundari:hover { background: var(--hover); border-color: var(--vora-hover); }
 .boto.petit-b { min-height: 32px; padding: 6px 14px; font-size: .875rem; border-radius: 8px; }
-.boto[aria-disabled="true"] { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+.boto[aria-disabled="true"], .boto:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
 .falsa { pointer-events: none; }
 
 /* Etiquetes: cada color, una cosa */
@@ -577,23 +577,25 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 /* Parlem-ne */
 .parlem { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 64px); padding: clamp(22px, 4vw, 48px); border-radius: 18px; border: 1px solid var(--rule); background: var(--card); box-shadow: var(--ombra); }
 .parlem-text { display: grid; gap: 18px; align-content: start; }
-.correu { display: grid; gap: 6px; margin-top: 8px; }
-.correu-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.correu-adreca { font: 500 1.0625rem/1.4 var(--f-mono); word-break: break-all; user-select: all; }
 .missatge { display: grid; gap: 14px; }
 .form-t { font-weight: 600; }
 .camp { display: grid; gap: 6px; min-width: 0; padding: 0; border: 0; }
 .camp > label, .camp legend { font-size: .875rem; font-weight: 500; color: var(--ink-2); }
-.camp input[type="text"], .camp textarea, #c-previ { width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--rule-2); background: var(--card); color: var(--ink); font: 400 1rem/1.4 var(--f-text); }
-.camp input[type="text"]:focus, .camp textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(31, 29, 26, .14); }
+.camp input[type="text"], .camp input[type="email"], .camp textarea { width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--rule-2); background: var(--card); color: var(--ink); font: 400 1rem/1.4 var(--f-text); }
+.camp input[type="text"]:focus, .camp input[type="email"]:focus, .camp textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(31, 29, 26, .14); }
 .camp legend { padding: 0; margin-bottom: 6px; }
 .camp textarea { min-height: 88px; resize: vertical; }
 .opcions { display: flex; flex-wrap: wrap; gap: 8px; }
 .opcio { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--rule-2); background: var(--card); font-size: .875rem; cursor: pointer; }
 .opcio:has(input:checked) { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
 .opcio input { margin: 0; accent-color: var(--ink); }
-.form-accions { display: flex; flex-wrap: wrap; gap: 10px; }
-#c-previ { min-height: 170px; font: 400 .875rem/1.5 var(--f-mono); }
+.form-accions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+/* El formulari envia a Apps Script (en Raül, 23/10/2026: «sense cap correu a la pàgina»). El camp trampa no es veu ni
+   s'hi arriba amb el teclat: només l'omple un robot. */
+.camp-trampa { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.camp input[aria-invalid="true"] { border-color: var(--taronja); }
+#c-estat.fet { color: var(--verd); font-weight: 500; }
+#c-estat.error { color: var(--taronja); }
 @media (max-width: 900px) { .parlem { grid-template-columns: minmax(0, 1fr); } }
 
 /* Peu */
@@ -1386,16 +1388,13 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
           <li><b>La prova</b><span>Una sessió amb les orientadores i fitxes inventades. El que en surti, s'ajusta.</span></li>
           <li><b>En marxa</b><span>S'obre al navegador amb el compte de Google del servei. No s'instal·la res.</span></li>
         </ol>
-        <div class="correu">
-          <p class="petit">Correu</p>
-          <p class="correu-fila"><span class="correu-adreca" id="correu-text"><span class="chip aclarir">Correu pendent</span></span><button type="button" class="boto secundari petit-b" id="correu-copia" hidden>Copia</button></p>
-        </div>
         <div class="qui"><img src="avatar-raul.png" width="44" height="44" alt=""><p>Us respondré jo mateix: <a href="https://raulhere.com" target="_blank" rel="noopener">Raül Marín</a>. Faig TalentLab amb les orientadores que el fan servir.</p></div>
       </div>
       <form class="missatge" id="missatge" novalidate>
-        <p class="form-t">Prepareu el missatge</p>
-        <div class="camp"><label for="c-nom">El vostre nom</label><input id="c-nom" type="text" autocomplete="name"></div>
-        <div class="camp"><label for="c-servei">Servei i territori</label><input id="c-servei" type="text" placeholder="Servei d'ocupació de…" autocomplete="organization"></div>
+        <p class="form-t">Escriviu-me</p>
+        <div class="camp"><label for="c-nom">El vostre nom</label><input id="c-nom" type="text" autocomplete="name" maxlength="120"></div>
+        <div class="camp"><label for="c-correu">El vostre correu <span class="petit">On us responc</span></label><input id="c-correu" type="email" autocomplete="email" maxlength="160" required></div>
+        <div class="camp"><label for="c-servei">Servei i territori</label><input id="c-servei" type="text" placeholder="Servei d'ocupació de…" autocomplete="organization" maxlength="160"></div>
         <fieldset class="camp">
           <legend>Què us interessa?</legend>
           <div class="opcions">
@@ -1404,12 +1403,11 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
             <label class="opcio"><input type="checkbox" id="c-o3" value="preus i condicions">Preus i condicions</label>
           </div>
         </fieldset>
-        <div class="camp"><label for="c-text">Alguna cosa més? <span class="petit">Opcional</span></label><textarea id="c-text" rows="3"></textarea></div>
+        <div class="camp"><label for="c-text">Alguna cosa més? <span class="petit">Opcional</span></label><textarea id="c-text" rows="3" maxlength="3000"></textarea></div>
+        <div class="camp-trampa" aria-hidden="true"><label for="c-web">Web</label><input id="c-web" type="text" tabindex="-1" autocomplete="off"></div>
         <div class="form-accions">
-          <a class="boto" id="c-obre" href="#parlem">Obre el correu amb el missatge</a>
-          <button type="button" class="boto secundari" id="c-copia">Copia el missatge</button>
+          <button type="submit" class="boto" id="c-envia">Envia el missatge</button>
         </div>
-        <textarea id="c-previ" readonly hidden aria-label="El missatge, per copiar"></textarea>
         <p class="petit" id="c-estat" role="status"></p>
       </form>
     </div>
@@ -1474,8 +1472,10 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
     });
   }
 
-  // El correu de contacte. Mentre és buit, la pàgina diu que és pendent i no obre res.
-  var CORREU = '';
+  // On va el formulari (23/10/2026): l'adreça /exec del projecte d'Apps Script d'apps_script_contacte/, que envia el
+  // missatge al correu d'en Raül sense que surti a la pàgina. La posa sola «node puja_apps_script.js contacte». Mentre
+  // és buida, el botó no envia res i ho diu.
+  var CONTACTE = 'https://script.google.com/macros/s/AKfycbzKNupFR6qPtddS3PoEG4pNPTTVbvJyF6J7UvvsyJ3yn5II0WFL5SjRFe3J33_h4TZP/exec';
 
   function llista(a) {
     return a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' i ' + a[a.length - 1];
@@ -1532,66 +1532,51 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   document.addEventListener('click', function () { if (!rqPop.hidden) tancaPop(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !rqPop.hidden) tancaPop(true); });
 
-  // Parlem-ne: el missatge, per obrir-lo al correu o copiar-lo
-  var cEstat = document.getElementById('c-estat'), cObre = document.getElementById('c-obre');
-  var cPrevi = document.getElementById('c-previ');
+  // Parlem-ne: el missatge va a Apps Script, que l'envia al correu d'en Raül. Es diu el que ha passat de debò: «Enviat»
+  // només quan el projecte respon que l'ha enviat.
+  var form = document.getElementById('missatge'), cEstat = document.getElementById('c-estat');
+  var cEnvia = document.getElementById('c-envia'), cCorreu = document.getElementById('c-correu');
+  var CONNECTAT = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(CONTACTE);
   function valor(id) { return document.getElementById(id).value.trim(); }
-  function missatge() {
-    var nom = valor('c-nom'), servei = valor('c-servei'), extra = valor('c-text');
-    var vol = Array.prototype.slice.call(document.querySelectorAll('.opcions input:checked')).map(function (i) { return i.value; });
-    var l = ['Hola, Raül:', '', 'M\'agradaria saber més de TalentLab.'];
-    if (nom) l.push('Nom: ' + nom);
-    if (servei) l.push('Servei i territori: ' + servei);
-    if (vol.length) l.push('M\'interessa: ' + llista(vol) + '.');
-    if (extra) l.push('', extra);
-    l.push('', 'Gràcies!');
-    return { assumpte: 'TalentLab · ' + (servei || 'informació'), cos: l.join('\n') };
+  function diuEstat(text, classe) { cEstat.textContent = text; cEstat.className = 'petit' + (classe ? ' ' + classe : ''); }
+  var ERRORS = {
+    correu: 'Aquest correu no sembla una adreça. Mireu-lo, que és on us respondré.',
+    buit: 'Escriviu-hi alguna cosa: el nom, el servei o el que vulgueu.',
+    topall: 'Avui ja n\'han arribat molts. Torneu-ho a provar demà, si us plau.'
+  };
+  if (!CONNECTAT) {
+    cEnvia.setAttribute('aria-disabled', 'true');
+    diuEstat('El formulari encara no està connectat: de moment no envia res.');
   }
-  function actualitza() {
-    if (!CORREU) {
-      cObre.setAttribute('aria-disabled', 'true');
-      cObre.title = 'Encara no hi ha correu de contacte.';
+  cCorreu.addEventListener('input', function () { cCorreu.removeAttribute('aria-invalid'); });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!CONNECTAT || cEnvia.disabled) return;
+    var d = {
+      nom: valor('c-nom'), correu: valor('c-correu'), servei: valor('c-servei'), text: valor('c-text'),
+      interessa: llista(Array.prototype.slice.call(form.querySelectorAll('.opcions input:checked')).map(function (i) { return i.value; })),
+      web: valor('c-web')
+    };
+    if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(d.correu)) {
+      cCorreu.setAttribute('aria-invalid', 'true');
+      cCorreu.focus();
+      diuEstat(ERRORS.correu, 'error');
       return;
     }
-    var m = missatge();
-    cObre.removeAttribute('aria-disabled');
-    cObre.removeAttribute('title');
-    cObre.href = 'mailto:' + CORREU + '?subject=' + encodeURIComponent(m.assumpte) + '&body=' + encodeURIComponent(m.cos);
-  }
-  document.getElementById('missatge').addEventListener('input', actualitza);
-  document.getElementById('missatge').addEventListener('submit', function (e) { e.preventDefault(); });
-  cObre.addEventListener('click', function (e) {
-    if (!CORREU) {
-      e.preventDefault();
-      cEstat.textContent = 'Encara no hi ha correu de contacte. Copieu el missatge i el tindreu a punt.';
-      return;
-    }
-    cEstat.textContent = 'Si no s\'obre el correu, copieu el missatge i envieu-lo a ' + CORREU + '.';
+    cEnvia.disabled = true;
+    diuEstat('Enviant…');
+    // Sense capçaleres: text pla, perquè el navegador no demani permís abans (Apps Script no el sabria donar).
+    fetch(CONTACTE, { method: 'POST', body: JSON.stringify(d) })
+      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        if (r && r.ok) {
+          form.reset();
+          diuEstat('Enviat. Us respondré a ' + d.correu + '.', 'fet');
+        } else diuEstat(ERRORS[r && r.error] || 'No s\'ha pogut enviar. Torneu-ho a provar d\'aquí a una estona.', 'error');
+      })
+      .catch(function () { diuEstat('No s\'ha pogut enviar. Mireu la connexió i torneu-ho a provar.', 'error'); })
+      .then(function () { cEnvia.disabled = false; });
   });
-  function copia(text, fet) {
-    function aMa() {
-      cPrevi.hidden = false;
-      cPrevi.value = text;
-      cPrevi.focus();
-      cPrevi.select();
-      cEstat.textContent = 'No he pogut copiar-lo sol: el teniu seleccionat a sota, copieu-lo amb Ctrl+C o ⌘C.';
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () { cEstat.textContent = fet; }, aMa);
-    } else aMa();
-  }
-  document.getElementById('c-copia').addEventListener('click', function () {
-    var m = missatge();
-    copia('Assumpte: ' + m.assumpte + '\n\n' + m.cos,
-      'Missatge copiat. Enganxeu-lo al vostre correu' + (CORREU ? ' i envieu-lo a ' + CORREU : '') + '.');
-  });
-  if (CORREU) {
-    document.getElementById('correu-text').textContent = CORREU;
-    var bc = document.getElementById('correu-copia');
-    bc.hidden = false;
-    bc.addEventListener('click', function () { copia(CORREU, 'Correu copiat.'); });
-  }
-  actualitza();
 })();
 </script>
 
