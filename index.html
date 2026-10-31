@@ -43,10 +43,6 @@
   --tu: #1F4FA8;
   --tu-fons: #E4ECFA;
   --zona: rgba(31, 29, 26, .06);
-  --banda: #1F1D1A;
-  --banda-tinta: #F3F2EF;
-  --banda-tinta-2: #A8A49E;
-  --banda-linia: #3A3733;
   --ombra-bloc: 0 1px 2px rgba(31, 29, 26, .04);
   --ombra: 0 1px 2px rgba(31, 29, 26, .05), 0 22px 44px -26px rgba(31, 29, 26, .28);
   --f-text: "Geist", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -77,7 +73,6 @@
     --taronja: #F0A47E; --taronja-fons: #3A2217;
     --tu: #A3BDF5; --tu-fons: #1B2744;
     --zona: rgba(237, 236, 233, .07);
-    --banda: #1C1B19; --banda-tinta: #EDECE9; --banda-tinta-2: #ABA8A3; --banda-linia: #3A3733;
     --ombra-bloc: 0 1px 2px rgba(0, 0, 0, .3);
     --ombra: 0 1px 2px rgba(0, 0, 0, .4), 0 22px 44px -26px rgba(0, 0, 0, .7);
     color-scheme: dark;
@@ -93,7 +88,6 @@
   --taronja: #F0A47E; --taronja-fons: #3A2217;
   --tu: #A3BDF5; --tu-fons: #1B2744;
   --zona: rgba(237, 236, 233, .07);
-  --banda: #1C1B19; --banda-tinta: #EDECE9; --banda-tinta-2: #ABA8A3; --banda-linia: #3A3733;
   --ombra-bloc: 0 1px 2px rgba(0, 0, 0, .3);
   --ombra: 0 1px 2px rgba(0, 0, 0, .4), 0 22px 44px -26px rgba(0, 0, 0, .7);
   color-scheme: dark;
@@ -116,7 +110,7 @@ p { text-wrap: pretty; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
 section[id] { scroll-margin-top: calc(var(--cap-alt) + 8px); }
 .amplada { width: min(100% - 2 * var(--gutter), var(--amplada)); margin-inline: auto; }
-.eyebrow { font: 500 .875rem/1.4 var(--f-text); color: var(--ink-3); }
+.eyebrow { font: 500 1rem/1.4 var(--f-text); color: var(--ink-3); }
 .petit { font-size: .875rem; font-weight: 300; line-height: 1.5; color: var(--ink-3); }
 .ic { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -169,8 +163,11 @@ section[id] { scroll-margin-top: calc(var(--cap-alt) + 8px); }
 }
 .marca svg { width: 28px; height: 28px; flex: none; }
 .nav { display: flex; gap: 24px; margin-left: auto; }
-.nav a { color: var(--ink-2); text-decoration: none; font-size: .9375rem; font-weight: 500; white-space: nowrap; }
-.nav a:hover { color: var(--ink); }
+.nav a { display: flex; flex-direction: column; color: var(--ink-2); text-decoration: none; font-size: .9375rem; font-weight: 500; white-space: nowrap; }
+.nav a:hover, .nav a[aria-current] { color: var(--ink); }
+/* La secció on ets (31/10/2026, en Raül): en negreta. El data-t reserva l'amplada de la negreta, perquè el menú no es mogui */
+.nav a[aria-current] { font-weight: 600; }
+.nav a::after { content: attr(data-t); height: 0; overflow: hidden; visibility: hidden; font-weight: 600; }
 @media (max-width: 900px) { .nav { display: none; } .cap .boto { margin-left: auto; } }
 /* Més gran a les pantalles grans (Claude Design, v16): la marca, els enllaços i «Parlem-ne», a 17 px */
 @media (min-width: 1440px) {
@@ -240,7 +237,7 @@ section[id] { scroll-margin-top: calc(var(--cap-alt) + 8px); }
   --ease: cubic-bezier(.22, .61, .36, 1);
   min-height: calc(100svh - var(--cap-alt)); display: flex; flex-direction: column; justify-content: center;
   /* Més aire a dalt i a baix (28/10/2026, en Raül: «no es veu prou aire entre seccions») */
-  padding-block: clamp(72px, 8vw, 136px) clamp(96px, 10vw, 160px);
+  padding-block: var(--aire);
   /* Les maquetes que esperen a la dreta no fan lliscar la pàgina de costat */
   overflow-x: clip;
 }
@@ -361,28 +358,11 @@ section[id] { scroll-margin-top: calc(var(--cap-alt) + 8px); }
 }
 
 /* Seccions */
-.seccio { padding-block: clamp(80px, 10vw, 152px); }
-.seccio.alt { background: var(--paper-2); }
-.cap-seccio { display: grid; gap: 16px; max-width: 46rem; margin-bottom: clamp(36px, 5vw, 60px); }
+/* L'aire entre seccions, un de sol (31/10/2026, en Raül): el més gran dels que hi havia */
+:root { --aire: clamp(96px, 10vw, 160px); }
+.seccio { padding-block: var(--aire); }
 .seccio h2 { font: 600 clamp(1.95rem, 3.7vw, 3rem)/1.04 var(--f-display); letter-spacing: -.032em; text-wrap: balance; }
-.entrada { max-width: 40em; font-size: clamp(1.0625rem, 1.3vw, 1.15rem); color: var(--ink-2); }
 
-/* El problema, amb les proves (en Raül, 21/10/2026): el que eren «El dia a dia» i «Els detalls», en una sola
-   secció. Tres problemes, cadascun amb la seva prova en xifra gran, sobre la banda fosca; a sota, tres proves més
-   en una línia. Les xifres són de cerques de debò, amb la data. */
-.banda { background: var(--banda); color: var(--banda-tinta); }
-.banda .eyebrow, .banda .entrada { color: var(--banda-tinta-2); }
-.pb { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(24px, 3vw, 40px); }
-.pb li { display: grid; gap: 12px; align-content: start; padding-top: 24px; border-top: 1px solid var(--banda-linia); }
-.xifra { font: 650 clamp(2.4rem, 4vw, 3.25rem)/1 var(--f-titols); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-.xifra span { margin: 0 .12em; font-weight: 400; color: var(--banda-tinta-2); }
-.xifra span.mot { margin: 0 .2em; font-size: .42em; font-weight: 500; letter-spacing: 0; }
-.pb h3 { margin: 0; font: 600 1.25rem/1.3 var(--f-text); letter-spacing: -.01em; }
-.pb .text { color: var(--banda-tinta); opacity: .88; }
-.data { font: 300 .875rem/1.4 var(--f-text); color: var(--banda-tinta-2); }
-.pb-mes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px clamp(24px, 3vw, 40px); margin-top: clamp(36px, 4vw, 56px); padding-top: 20px; border-top: 1px solid var(--banda-linia); color: var(--banda-tinta-2); }
-.pb-mes b { margin-right: 8px; font: 650 1.25rem/1 var(--f-titols); letter-spacing: -.02em; color: var(--banda-tinta); }
-@media (max-width: 900px) { .pb, .pb-mes { grid-template-columns: minmax(0, 1fr); } .pb { gap: 28px; } }
 
 /* Com funciona: la ruta */
 .passos { --sep: clamp(56px, 7vw, 96px); display: grid; }
@@ -521,26 +501,9 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 .cv-checks .chip { padding: 0 6px; }
 @media (max-width: 560px) { .cv { grid-template-columns: minmax(0, 1fr); } }
 
-/* Com encaixa (en Raül, 21/10/2026): al costat del programa del servei, sigui quin sigui, en quatre blocs en un
-   carril (com a la v16 de Claude Design): d'on surt, qui hi treballa (en tinta), qui decideix i on queda. */
-.enc { padding: 4px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; border-radius: 18px; background: var(--rule); }
-.enc li { display: grid; gap: 8px; align-content: start; padding: 22px; border-radius: 14px; background: var(--card); }
-.enc-eti { font: 500 .875rem/1.4 var(--f-text); color: var(--ink-3); }
-.enc-t { font: 600 1.25rem/1.3 var(--f-text); color: var(--ink); }
-.enc-d { color: var(--ink-2); }
-.enc .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-.enc li.fosc { background: var(--ink); }
-.enc li.fosc .enc-eti, .enc li.fosc .enc-d { color: var(--paper); opacity: .82; }
-.enc li.fosc .enc-t { color: var(--paper); }
-.enc-nota { display: flex; align-items: flex-start; gap: 10px; margin-top: 20px; color: var(--ink-2); }
-.enc-nota .ic { width: 18px; height: 18px; margin-top: 4px; }
-@media (max-width: 1000px) { .enc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .enc { grid-template-columns: minmax(0, 1fr); } }
 
 /* Lluçanès */
 .ll { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(36px, 5vw, 72px); align-items: end; }
-.ll-text { display: grid; gap: 16px; }
-.ll-text p:not(.eyebrow) { max-width: 38em; color: var(--ink-2); }
 .xifres { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1.5px solid var(--ink); }
 .xifres > div { display: grid; gap: 4px; align-content: start; padding: 18px 16px 18px 0; border-bottom: 1px solid var(--rule-2); }
 .xifres > div:nth-child(2n) { padding-left: 16px; border-left: 1px solid var(--rule-2); }
@@ -555,32 +518,12 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 @media (max-width: 980px) { .ll { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 640px) { .ll-baix { grid-template-columns: minmax(0, 1fr); } }
 
-/* Com comencem, dins de Parlem-ne (en Raül, 21/10/2026): els quatre passos a l'esquerra, i a sota qui hi ha
-   darrere, amb l'enllaç a la seva pàgina */
-.passos-c { display: grid; gap: 14px; counter-reset: pc; }
-.passos-c li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 2px 14px; counter-increment: pc; }
-.passos-c li::before { content: counter(pc); grid-row: span 2; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 999px; border: 1.5px solid var(--ink); font: 600 .875rem/1 var(--f-text); color: var(--ink); }
-.passos-c b { font-weight: 600; color: var(--ink); }
-.passos-c span { color: var(--ink-2); }
+/* Dins de Parlem-ne (en Raül, 21/10/2026): qui hi ha darrere, amb l'enllaç a la seva pàgina */
 .qui { display: flex; align-items: center; gap: 12px; padding-top: 18px; border-top: 1px solid var(--rule); }
 .qui img { width: 44px; height: 44px; flex: none; border-radius: 999px; object-fit: cover; }
 .qui p { font-size: .875rem; line-height: 1.45; color: var(--ink-2); }
 .qui a { color: var(--ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--vora-hover); text-underline-offset: 3px; }
 
-/* Preguntes */
-.pr { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
-.pr .cap-seccio { position: sticky; top: 96px; margin-bottom: 0; }
-.faq { border-top: 1px solid var(--rule-2); }
-.faq details { border-bottom: 1px solid var(--rule-2); }
-.faq summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; list-style: none; cursor: pointer; font: 600 1.0625rem/1.35 var(--f-text); }
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary::after {
-  content: ""; flex: none; width: 12px; height: 12px; transition: transform .2s ease;
-  background: linear-gradient(var(--ink), var(--ink)) center / 12px 1.6px no-repeat, linear-gradient(var(--ink), var(--ink)) center / 1.6px 12px no-repeat;
-}
-.faq details[open] summary::after { transform: rotate(45deg); }
-.resp { display: grid; gap: 10px; max-width: 42em; padding-bottom: 20px; color: var(--ink-2); }
-@media (max-width: 900px) { .pr { grid-template-columns: minmax(0, 1fr); } .pr .cap-seccio { position: static; } }
 
 /* Parlem-ne */
 .parlem { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 64px); padding: clamp(22px, 4vw, 48px); border-radius: 18px; border: 1px solid var(--rule); background: var(--card); box-shadow: var(--ombra); }
@@ -610,12 +553,9 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 .peu { padding-block: 40px 28px; border-top: 1px solid var(--rule); background: var(--paper-2); }
 .peu-in { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 20px 40px; }
 .peu-marca { display: grid; gap: 10px; max-width: 30em; }
-.peu-nav { display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: .9375rem; }
-.peu-nav a { color: var(--ink-2); text-decoration: none; }
-.peu-nav a:hover { color: var(--ink); text-decoration: underline; }
-/* Els logos al peu (en Raül, 23/10/2026): els mateixos tres de la franja, a la columna de la dreta, sota el menú del
-   peu, i tot plegat alineat a l'esquerra de la columna. Els rètols, a la mateixa línia; els logos, centrats en una
-   franja de 48 px, perquè el d'en Raül, més baix, no faci baixar el seu rètol. El d'en Raül porta a la seva pàgina. */
+/* Els logos al peu (en Raül, 23/10/2026): els mateixos tres de la franja, a la columna de la dreta, alineats a
+   l'esquerra de la columna. Els rètols, a la mateixa línia; els logos, centrats en una franja de 48 px, perquè el d'en
+   Raül, més baix, no faci baixar el seu rètol. El d'en Raül porta a la seva pàgina. */
 .peu-dreta { display: grid; justify-items: start; gap: 32px; }
 .peu-logos { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px clamp(28px, 3.5vw, 48px); }
 .peu-logo { display: grid; grid-template-rows: auto 48px; align-items: center; gap: 10px; justify-items: start; }
@@ -834,7 +774,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 .foto-img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--foto-pos); }
 .foto-rentat { position: absolute; left: 0; right: 0; top: 0; height: 120px; pointer-events: none; background: linear-gradient(var(--rentat), transparent); }
 /* L'anotació de dalt: la lletra del text, en light, perquè es distingeixi del cos */
-.anotacio { font: 300 1rem/1.4 var(--f-text); letter-spacing: .005em; color: var(--ink-2); text-wrap: balance; }
+.anotacio { font: 500 1rem/1.4 var(--f-text); letter-spacing: .005em; color: var(--ink-2); text-wrap: balance; }
 .foto-text h1 { margin-top: 16px; font: 600 clamp(2.2rem, 3.9vw, 3.125rem)/.97 var(--f-display); letter-spacing: -.04em; text-wrap: balance; }
 .foto-lede { margin-top: 18px; max-width: 34em; font-size: 1rem; line-height: 1.55; color: var(--ink-2); }
 .foto-text .accions.justos { gap: 8px; }
@@ -940,7 +880,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cvf { --velat: rgba(19, 18, 16, .72); } }
 :root[data-theme="dark"] .cvf { --velat: rgba(19, 18, 16, .72); }
 .cvf h3 { font: 650 clamp(1.375rem, 2.2vw, 1.875rem)/1.08 var(--f-titols); letter-spacing: -.028em; text-wrap: balance; }
-.cvf-meta { font: 500 .875rem/1.4 var(--f-text); color: var(--ink-3); }
+.cvf-meta { font: 500 1rem/1.4 var(--f-text); color: var(--ink-3); }
 /* El que entra quan es veu: puja una mica i s'encén, cadascun amb el seu retard (--d) */
 .cvf .entra { opacity: 0; transform: translateY(14px); transition: opacity .6s ease var(--d, 0s), transform .8s var(--ease) var(--d, 0s); }
 .cvf .vist .entra, .cvf .entra.vist { opacity: 1; transform: none; }
@@ -949,15 +889,6 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 .vot i { width: 12px; height: 12px; border-radius: 4px; background: var(--tu); }
 .vot i.v { background: var(--tu-fons); box-shadow: inset 0 0 0 1.5px var(--tu); }
 
-/* El tauler per triar la proposta: a baix a l'esquerra, fora del que es publica */
-.cvf-tria {
-  position: fixed; left: 16px; bottom: 16px; z-index: 40; display: flex; align-items: center; gap: 10px;
-  padding: 6px 6px 6px 14px; border-radius: 14px; border: 1px solid var(--rule-2); background: var(--card); box-shadow: var(--ombra);
-  font: 500 .875rem/1 var(--f-text); color: var(--ink-2);
-}
-.cvf-tria-c { display: flex; gap: 2px; padding: 3px; border-radius: 10px; background: var(--rule); }
-.cvf-tria button { min-width: 36px; padding: 7px 10px; border: 0; border-radius: 8px; background: transparent; font: 500 .875rem/1 var(--f-text); color: var(--ink-2); cursor: pointer; }
-.cvf-tria button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgba(31, 29, 26, .12); }
 
 /* ── A · El tauler, de prop. El tauler de debò queda quiet al fons i, a cada pas del text, la càmera s'hi acosta:
    el tros de què parla, il·luminat, i la resta, velada. Al mòbil, cada pas porta el seu retall. */
@@ -992,19 +923,6 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 .fa-pas.actiu .fa-vots .vot i { transform: none; }
 .fa-retall { display: none; }
 /* L'epíleg: qui, on i els cicles que en van sortir */
-.fa-final { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(32px, 5vw, 72px); align-items: end; padding-block: clamp(72px, 8vw, 128px); }
-.fa-final-fons { background: var(--paper); border-top: 1px solid var(--rule); }
-.fa-final .ll-text p:not(.eyebrow) { max-width: 36em; color: var(--ink-2); }
-.fa-final h2 { font: 650 clamp(1.95rem, 3.7vw, 3rem)/1.04 var(--f-titols); letter-spacing: -.032em; text-wrap: balance; }
-.fa-cicles { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; padding-top: 28px; }
-.fa-cicles::before { content: ""; position: absolute; left: 14px; right: 14px; top: 13px; height: 2px; background: var(--ink); transform-origin: left; transform: scaleX(0); transition: transform 1.6s var(--ease) .2s; }
-.fa-final.vist .fa-cicles::before { transform: none; }
-.fa-cicles li { position: relative; display: grid; gap: 6px; align-content: start; }
-.fa-cicles li::before { content: ""; position: absolute; top: -21px; left: 8px; width: 14px; height: 14px; border-radius: 999px; background: var(--paper); box-shadow: inset 0 0 0 2px var(--ink); transform: scale(0); transition: transform .4s var(--ease) calc(.3s + var(--i) * .28s); }
-.fa-final.vist .fa-cicles li::before { transform: none; }
-.fa-cicles li:first-child::before { background: var(--ink); }
-.fa-cicles b { font: 650 1.0625rem/1.2 var(--f-titols); letter-spacing: -.01em; }
-.fa-cicles span { font-size: .875rem; font-weight: 300; color: var(--ink-3); }
 @media (max-width: 859px) {
   .fa-escena { display: none; }
   .fa-passos { margin-top: 0; padding-block: 40px 8px; }
@@ -1018,10 +936,6 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   .fa-pas:first-child .fa-retall { display: none; }
   .fa-pas:first-child .fa-caixa { border-radius: 22px; }
   .fa-baixa { display: none; }
-  .fa-final { grid-template-columns: minmax(0, 1fr); }
-  .fa-cicles { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 0 0 0 30px; }
-  .fa-cicles::before { left: 6px; right: auto; top: 6px; bottom: 6px; width: 2px; height: auto; transform-origin: top; transform: scaleY(0); }
-  .fa-cicles li::before { top: 4px; left: -30px; }
 }
 
 /* ── B · Cinc cicles. Un carril amb els cinc cicles i, a sota, el de cada vegada: la pregunta, el que en va sortir i
@@ -1578,10 +1492,6 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 .fh-avs .fh-av + .fh-av { margin-left: -12px; box-shadow: -3px 0 6px -1px rgba(0, 0, 0, .28); }
 .fh-veus-m { gap: 12px; margin-top: 12px; }
 .fh-veus-m .fh-veu { margin-top: 0; }
-.fh-veu-final { margin-top: 4px; }
-.fh-veu-final .fh-av { width: 52px; height: 52px; font-size: 20px; }
-.fh-veu-final .fh-avs .fh-av + .fh-av { box-shadow: 0 0 0 2px var(--paper); }
-.fh-veu-final p { max-width: 30em; font-size: 1.0625rem; }
 .fh-perfils-m { display: grid; gap: 10px; margin-top: 18px; }
 .fh-perfils-m li { padding: 12px 14px; border-radius: 12px; background: var(--neutre-fons); font-size: .9375rem; line-height: 1.45; font-weight: 300; }
 .fh-perfils-m b { display: block; font-weight: 600; }
@@ -1600,6 +1510,9 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
    (a sang): la imatge porta les vores allargades, perquè el desenfocament no hi trobi el final; a sobre, cada marc del
    tauler té el seu tros nítid, que s'encén quan és del pas. */
 .fi .fa-escena { background: var(--fi-fons); }
+/* El tauler apareix mentre s'hi arriba (31/10/2026, en Raül): l'opacitat de l'escena la posa el lliscament, i per això
+   darrere seu no hi ha ni fons ni línia, o es veuria abans que ell. Al mòbil no hi ha escena: el fons es queda */
+@media (min-width: 860px) { .fa.fi { background: none; border-top: 0; } }
 /* Sense «will-change»: Chrome hi guardaria la imatge a la mida d'abans, i de prop l'encàrrec es veuria borrós */
 .fi .fa-tauler { height: 1007px; will-change: auto; }
 .fi-base {
@@ -1645,7 +1558,10 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   position: absolute; left: 0; top: -12.6px; white-space: nowrap; transform: scale(.25); transform-origin: 0 0;
   font: 400 30px/1 var(--f-text); color: #6B6B6B; opacity: 0; transition: opacity .8s ease;
 }
-.fi-enc.enfocat .fi-titol { opacity: 1; }
+.fi-enc.enfocat .fi-titol, .fi-nitid.enfocat .fi-titol { opacity: 1; }
+/* Els dels marcs del mapa, com a mínim a 14 px de pantalla, com els cursors (--s): creixen cap amunt des d'on el té el
+   Miro */
+.fi-nitid .fi-titol { top: auto; bottom: calc(100% + 5px); transform-origin: 0 100%; transform: scale(max(.25, calc(.4667 / var(--s, 1)))); }
 .fi .fa-tauler .fi-postit.g { left: 19.43px; top: 184.83px; width: 65.33px; }
 .fi .fa-tauler .fi-postit.v { left: 97.39px; top: 185.07px; width: 64.85px; }
 /* Els post-its que encara no s'han portat al marc no hi són: els porta el punter de sota, de fora de la pantalla */
@@ -1655,7 +1571,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 .fi .fa-pas.mig { justify-content: center; align-items: flex-end; }
 .fi .fa-pas.baix { align-items: flex-end; }
 .fi-meta { flex-wrap: wrap; }
-.fi-progres { display: inline-flex; gap: 4px; }
+.fi-progres { display: inline-flex; gap: 4px; order: 1; margin-left: auto; }
 .fi-progres i { width: 18px; height: 4px; border-radius: 2px; background: var(--rule-2); }
 .fi-progres i.fet { background: var(--ink); }
 /* Els cursors: quiets quan treballen, i amb el que arrosseguen */
@@ -1670,13 +1586,32 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 .fi-pegat.vist { opacity: 1; }
 .fi-barra {
   position: absolute; left: 1233px; width: 450px; height: 21px; display: grid; place-items: center;
-  font: 650 10px/1 var(--f-text); color: #1B1650; white-space: nowrap; opacity: 0; translate: 0 0; transition: translate 1s cubic-bezier(.5, 0, .3, 1);
+  font: 650 10px/1 var(--f-text); color: #1B1650; white-space: nowrap; opacity: 0; translate: 0 0; transition: translate .8s cubic-bezier(.5, 0, .3, 1);
 }
 .fi-barra.vist { opacity: 1; }
 .fi-barra.g { top: 571px; background: #8F7FF0; }
 .fi-barra.v { top: 595px; background: #679BF0; color: #0E2350; }
 .fi-anell { position: absolute; width: 25px; height: 25px; margin: -12.5px 0 0 -12.5px; border-radius: 999px; box-shadow: 0 0 0 2px #1F1D1A; opacity: 0; transform: scale(.5); transition: opacity .35s ease, transform .5s var(--ease); }
 .fi-anell.vist { opacity: 1; transform: none; }
+/* La votació (29/10/2026, en Raül): els punts de cadascuna surten de dalt a la dreta, sota el seu nom, i els porta a
+   les friccions; els del Miro, ja posats, es tapen (.fi-tapa). Els colors i les mides, de la captura */
+.fi-tapa { position: absolute; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 999px; background: #FFFFFF; }
+.fi-punt {
+  position: absolute; display: grid; place-items: center; border-radius: 999px; font: 700 10px/1 var(--f-text); color: #FFFFFF;
+  translate: 0 0; transition: translate .7s cubic-bezier(.5, 0, .3, 1);
+}
+.fi-punt.n3 { width: 18px; height: 18px; margin: -9px 0 0 -9px; }
+.fi-punt.n2 { width: 14px; height: 14px; margin: -7px 0 0 -7px; font-size: 8px; }
+.fi-punt.n1 { width: 10px; height: 10px; margin: -5px 0 0 -5px; font-size: 6px; }
+.fi-punt.g.n3 { background: #6A3BD6; } .fi-punt.g.n2 { background: #8C7FE8; } .fi-punt.g.n1 { background: #DCD9FA; color: #6A3BD6; }
+.fi-punt.v.n3 { background: #2C4F9E; } .fi-punt.v.n2 { background: #6A9AE6; } .fi-punt.v.n1 { background: #CFDDFB; color: #2C4F9E; }
+/* Destapades, les dues més votades es tornen del blau de l'orientadora, i la resta, grises */
+.fi-fric { position: absolute; top: 439px; width: 62px; height: 76px; opacity: 0; transition: opacity .7s ease; pointer-events: none; }
+.fi-fric.guanya { background: #1F4FA8; mix-blend-mode: hue; }
+.fi-fric.perd { background: #808080; mix-blend-mode: saturation; }
+.fi-fric.vora { mix-blend-mode: normal; border-radius: 3px; box-shadow: 0 0 0 1.5px #1F4FA8; transform: scale(1.12); transition: opacity .4s ease, transform .6s var(--ease); }
+.fi-fric.vist { opacity: 1; }
+.fi-fric.vora.vist { transform: scale(1.04); }
 /* Un comentari com els del Miro: la foto, el nom i el que escriu, lletra a lletra */
 .fi-coment {
   position: absolute; left: 0; top: 0; z-index: 4; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start;
@@ -1702,6 +1637,8 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   .fi .fa-pas[data-trams], .fi .fa-pas.atura { align-items: flex-start; }
   .fi .fa-pas[data-trams] { min-height: calc(5 * 30svh + 50svh); }
   .fi .fa-pas.atura { min-height: calc(100svh - var(--cap-alt) + 35svh); }
+  /* L'últim pas: el tauler es deixa anar quan la caixa és a l'alçada del frame (--fi-peu, a colocaLesCaixes) */
+  .fi .fa-pas:last-child:not(.atura):not([data-trams]) { align-items: flex-end; padding-bottom: var(--fi-peu, 48px); }
   /* La caixa comença on la posaria el mig d'alçada, com a la resta de passos, perquè no surti abans d'hora */
   .fi .fa-pas[data-trams] .fa-caixa, .fi .fa-pas.atura .fa-caixa { position: sticky; top: var(--caixa-top, 50%); margin-top: var(--caixa-marge, 0); }
   /* Mai dues caixes alhora (en Raül, 29/10): la que marxa s'apaga del tot i de pressa, i la nova entra just després */
@@ -1716,7 +1653,73 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   .fi .fa-pas.fi-detall .fa-caixa { border-radius: 0 0 22px 22px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .fi-base, .fi-base::after, .fi-nitid, .fi-enc, .fi-enc::after, .fi-titol, .fi .fa-tauler .fi-postit, .fi-barra, .fi .fa-pas .fa-caixa { transition: none; }
+  .fi-base, .fi-base::after, .fi-nitid, .fi-enc, .fi-enc::after, .fi-titol, .fi .fa-tauler .fi-postit, .fi-barra, .fi-punt, .fi-fric, .fi .fa-pas .fa-caixa { transition: none; }
+}
+
+.ap-parlem { color: var(--ink-2); }
+/* Què t'aporta (31/10/2026, en Raül): la de Claude Design. La imatge és un gràfic que es refà a cada pas, amb peces que suren, fletxes
+   que s'allarguen i boles que hi passen. Les mesures i els temps són els del lliurament; els colors, amb els tokens, perquè
+   vagi també en fosc. La capçalera es queda fixa a sota de la de la pàgina, i l'alçada de la caixa la posa el JavaScript. */
+@keyframes apiFlota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes apiOmbra { 0%, 100% { transform: scaleX(1); opacity: 1; } 50% { transform: scaleX(.7); opacity: .45; } }
+@keyframes apiPuja { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.api { --api-ease: cubic-bezier(.22, .61, .36, 1); --api-mou: cubic-bezier(.65, 0, .35, 1); background: var(--paper); overflow-x: clip; }
+.api-escena { position: relative; height: calc(100svh - var(--cap-alt) + 380vh); }
+.api-quiet { position: sticky; top: var(--cap-alt); height: calc(100svh - var(--cap-alt)); display: flex; flex-direction: column; }
+/* L'aire de dalt llisca amb la secció; quan la capçalera es queda fixa, menys que al lliurament, que no tenia la de la pàgina:
+   l'alçada que aquesta ocupa surt d'aquí, perquè els passos hi càpiguen. L'enllaç del menú arriba a l'escena. A baix, la meitat: l'alçada de l'escena ja deixa aire sota el gràfic. */
+section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-top: calc(var(--cap-alt) - var(--aire)); }
+.api-cap { padding-block: clamp(24px, 4vh, 40px) clamp(32px, 6vh, 64px); }
+.api-cap > div { display: grid; gap: 14px; max-width: 52rem; }
+.api h2 { font: 650 clamp(31px, 3.7vw, 48px)/1.04 var(--f-titols); letter-spacing: -.032em; text-wrap: balance; }
+.api-entrada { max-width: 40em; font: 400 18px/1.6 var(--f-text); color: var(--ink-2); }
+.api-mig { flex: 1; min-height: 0; display: grid; align-items: start; justify-items: center; padding-bottom: 16px; }
+.api-caixa { position: relative; }
+.api-imatge { position: absolute; z-index: 1; transition: left .8s var(--api-ease); }
+.api-llenc { position: absolute; left: 50%; width: 600px; height: 450px; transform-origin: 50% 0; transition: top .8s var(--api-ease); }
+.api-fletxa { position: absolute; height: 14px; margin-top: -7px; transform-origin: 0 50%; opacity: 0; transition: left .9s var(--api-mou), top .9s var(--api-mou), width .9s var(--api-mou), opacity .4s ease; }
+.api-fletxa i { position: absolute; left: 0; right: 3px; top: 6.25px; height: 1.5px; border-radius: 2px; background: var(--ink); transform-origin: 0 50%; transform: scaleX(0); transition: transform .25s cubic-bezier(.45, 0, .25, 1); }
+.api-fletxa svg { position: absolute; right: 0; top: 0; width: 14px; height: 14px; fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transition: opacity .2s ease; }
+.api-boles { position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none; }
+.api-bola { position: absolute; left: -3.5px; top: -3.5px; width: 7px; height: 7px; border-radius: 99px; opacity: 0; background: color-mix(in srgb, var(--c) 80%, transparent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 10%, transparent); }
+.api-eti { position: absolute; font: 300 14px/1.2 var(--f-text); color: var(--ink-2); white-space: nowrap; opacity: 0; transition: left .9s var(--api-mou), top .9s var(--api-mou), opacity .4s ease; }
+.api-node { position: absolute; display: grid; justify-items: center; gap: 8px; transform-origin: 50% 36px; transform: translate(-50%, -36px) scale(var(--s, 1)); opacity: 0; transition: left .9s var(--api-mou), top .9s var(--api-mou), opacity .5s ease, transform .6s var(--api-ease); }
+.api-ic { position: relative; display: grid; place-items: center; width: 72px; height: 72px; animation: apiFlota var(--dur) ease-in-out var(--ret) infinite; }
+.api-ic::before { content: ""; position: absolute; left: 50%; top: 50%; width: 150px; height: 150px; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(closest-side, var(--aura) 0%, color-mix(in srgb, var(--aura) 80%, transparent) 35%, transparent 100%); }
+.api-ic svg { position: relative; width: 72px; height: 72px; fill: none; stroke: var(--c); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.api-ombra { width: 40px; height: 5px; border-radius: 50%; background: color-mix(in srgb, var(--c) 16%, transparent); animation: apiOmbra var(--dur) ease-in-out var(--ret) infinite; transition: opacity .3s ease; }
+.api-nom { font: 500 16px/1.2 var(--f-text); white-space: nowrap; transition: opacity .3s ease; }
+.api-node[data-n="tl"] svg { color: var(--c); stroke: none; }
+.api-node[data-n="tl"] .api-nom { font: 600 16px/1.2 var(--f-titols); }
+.api-node.petit .api-ombra { animation: none; opacity: 0; }
+.api-node.petit .api-nom { opacity: 0; }
+.api-tapa { pointer-events: none; }
+.api-tapa .api-ic::before { display: none; }
+.api:not(.veu) .api-ic, .api:not(.veu) .api-ombra { animation-play-state: paused; }
+.api-para { position: absolute; top: 416px; transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px 0 8px; border-radius: 99px; background: var(--card); box-shadow: inset 0 0 0 1px var(--rule-2); color: var(--ink-2); font: 500 14px/1 var(--f-text); white-space: nowrap; opacity: 0; transition: opacity .4s ease; }
+.api-para.on { opacity: 1; }
+.api-para svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.api-fase { position: absolute; display: grid; gap: 22px; opacity: 0; visibility: hidden; }
+.api-fase > p { font: 500 1rem/1.4 var(--f-text); color: var(--ink-3); }
+.api-pas { display: none; grid-template-columns: auto minmax(0, 1fr); gap: 16px; animation: apiPuja .6s var(--api-ease) .15s both; }
+.api-pas + .api-pas { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--rule); }
+.api-estreta .api-pas + .api-pas { margin-top: 0; padding-top: 0; border-top: 0; }
+.api-pas-ic { display: grid; place-items: center; width: 36px; height: 36px; margin-top: 2px; border-radius: 99px; box-shadow: inset 0 0 0 1.5px var(--ink); background: var(--paper); color: var(--ink); opacity: .3; transition: background-color .3s ease, color .3s ease, opacity .3s ease; }
+.api-pas-ic svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.api-pas.ara .api-pas-ic { background: var(--ink); color: var(--paper); opacity: 1; }
+.api-pas h3 { font: 650 var(--api-h3, 32px)/1.08 var(--f-titols); letter-spacing: -.03em; text-wrap: balance; opacity: .3; transition: opacity .3s ease; }
+.api-pas.ara h3 { opacity: 1; }
+.api-cos { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s var(--api-ease); }
+.api-pas.ara .api-cos { grid-template-rows: 1fr; }
+.api-cos > div { overflow: hidden; min-height: 0; }
+.api-cos p { padding-top: 12px; font: 400 var(--api-lletra, 18px)/1.55 var(--f-text); color: var(--ink-2); }
+/* En un portàtil baix, dos passos seguits només hi caben amb menys aire entre ells */
+@media (max-height: 760px) {
+  .api-fase { gap: 12px; }
+  .api-pas + .api-pas { margin-top: 12px; padding-top: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .api *, .api *::before, .api *::after { transition: none !important; animation: none !important; }
 }
 </style>
 
@@ -1727,7 +1730,17 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   <symbol id="i-requisit" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 12h5M10 16h3"/></symbol>
   <symbol id="i-lloc" viewBox="0 0 24 24"><path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></symbol>
   <symbol id="i-avall" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-capes" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+  <symbol id="i-cerca" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+  <symbol id="i-espurna" viewBox="0 0 24 24"><path d="M12 4l1.9 6.1L20 12l-6.1 1.9L12 20l-1.9-6.1L4 12l6.1-1.9z"/></symbol>
+  <symbol id="i-filtre" viewBox="0 0 24 24"><path d="M4 5h16l-6 7.5V19l-4-2v-4.5z"/></symbol>
+  <symbol id="i-enllac" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-full" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M3.5 14.5h17M9.5 4.5v15"/></symbol>
+  <symbol id="i-persona" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></symbol>
   <symbol id="i-cadenat" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-empresa" viewBox="0 0 24 24"><path d="M4 21V5.5L12 3v18M12 8.5l8 2V21M3 21h18M7.5 8.5h1.5M7.5 12.5h1.5M7.5 16.5h1.5M15.5 13.5h1.5M15.5 17.5h1.5"/></symbol>
+  <symbol id="i-mon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3z"/></symbol>
+  <symbol id="i-programa" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M3 9h18M7 13h6M7 16.2h3.5"/></symbol>
   <symbol id="i-marca" viewBox="0 0 28 28"><circle cx="14" cy="14" r="12.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2.2 2.6"/><circle cx="14" cy="14" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14" cy="14" r="2.6" fill="currentColor"/></symbol>
 </svg>
 
@@ -1737,11 +1750,10 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   <div class="amplada cap-in">
     <a class="marca" href="#inici" aria-label="TalentLab, a l'inici"><svg aria-hidden="true"><use href="#i-marca"/></svg>TalentLab</a>
     <nav class="nav" aria-label="Seccions">
-      <a href="#com-funciona">Com funciona</a>
-      <a href="#context">El territori</a>
-      <a href="#miro">Com es va fer</a>
-      <a href="#encaix">Encaix</a>
-      <a href="#preguntes">Preguntes</a>
+      <a href="#com-funciona" data-t="Com funciona">Com funciona</a>
+      <a href="#context" data-t="El territori">El territori</a>
+      <a href="#aporta" data-t="Què t'aporta">Què t'aporta</a>
+      <a href="#miro" data-t="Com s'ha fet">Com s'ha fet</a>
     </nav>
     <a class="boto petit-b" href="#parlem">Parlem-ne</a>
   </div>
@@ -2101,41 +2113,56 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   </figure>
 </section>
 
-<section class="seccio banda" id="problema" aria-labelledby="pb-t">
-  <div class="amplada">
-    <div class="cap-seccio">
-      <p class="eyebrow">El dia a dia</p>
-      <h2 id="pb-t">Buscar ofertes no s'hauria de menjar el temps d'orientar.</h2>
+<!-- Què t'aporta (31/10/2026, en Raül: la de Claude Design, la que es queda; les altres, a versions/v9_2026-10-31_abans_de_treure_les_propostes.html).
+     La capçalera es queda fixa, i a sota, sis passos en tres trams i un gràfic que es refà a cada pas. Les peces del gràfic les
+     munta el JavaScript, de les taules PECES, POS i ARR. -->
+<section class="api" id="aporta" aria-labelledby="api-t">
+  <div class="api-escena" id="api-escena">
+    <div class="api-quiet">
+      <div class="api-cap amplada">
+        <div>
+          <p class="eyebrow">Com ho portem al vostre servei?</p>
+          <h2 id="api-t">Partim del que ja feu cada dia.</h2>
+          <p class="api-entrada">Sense canviar d'eina ni de manera de treballar; TalentLab s'adapta a la vostra eina i afegeix valor a l'orientació.</p>
+        </div>
+      </div>
+      <div class="api-mig">
+        <div class="api-caixa amplada" id="api-caixa">
+          <div class="api-imatge" aria-hidden="true">
+            <div class="api-llenc">
+              <div class="api-capa-fletxes"></div>
+              <div class="api-boles"></div>
+              <div class="api-capa-etis"></div>
+              <div class="api-capa-nodes"></div>
+              <span class="api-para"><svg><use href="#i-cadenat"/></svg>Xaloc no es toca</span>
+            </div>
+          </div>
+          <div class="api-fase">
+            <p>El que ja feu</p>
+          <ol>
+            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-persona"/></svg></span><div><h3>Ve la Laia, l'entrevistes i ho registres.</h3><div class="api-cos"><div><p>Li feu l'entrevista i ho apunteu a Xaloc, o al programa que feu servir.</p></div></div></div></li>
+            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-empresa"/></svg></span><div><h3>Coneixeu una empresa, i també ho apunteu.</h3><div class="api-cos"><div><p>La visiteu o li gestioneu una oferta, i vosaltres en poseu les dades al mateix lloc.</p></div></div></div></li>
+          </ol>
+          </div>
+          <div class="api-fase">
+            <p>Com ho aprofitem</p>
+          <ol>
+            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-full"/></svg></span><div><h3>Les empreses, les exportem a un full de Google.</h3><div class="api-cos"><div><p>Les empreses passen de Xaloc a un Sheets. Xaloc no es toca: només en traiem una còpia.</p></div></div></div></li>
+            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-espurna"/></svg></span><div><h3>Un full fàcil d'enriquir i de mantenir.</h3><div class="api-cos"><div><p>Hi podeu afegir el que Xaloc no guarda, i un assistent d'IA fet per a aquest full (un Gem) us ajuda a tenir-lo al dia.</p></div></div></div></li>
+          </ol>
+          </div>
+          <div class="api-fase">
+            <p>Una eina al vostre costat</p>
+          <ol>
+            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-marca"/></svg></span><div><h3>Sobre el full, muntem TalentLab.</h3><div class="api-cos"><div><p>Aprofita com està construït el full i hi suma les ofertes dels portals, al dia. S'obre al navegador, sense instal·lar res, i treballa en paral·lel a Xaloc, sense substituir-lo.</p></div></div></div></li>
+            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-persona"/></svg></span><div><h3>Al costat de l'orientadora, mentre orienta.</h3><div class="api-cos"><div><p>Creua la persona amb el full i les ofertes: us fa la diagnosi i us diu on encaixa. La decisió és vostra.</p></div></div></div></li>
+          </ol>
+          </div>
+        </div>
+      </div>
     </div>
-    <ul class="pb">
-      <li>
-        <p class="xifra">0<span>/</span>18</p>
-        <h3>Cada portal escriu la feina a la seva manera</h3>
-        <p class="text">Al CIDO, «educadora social» no trobava cap convocatòria a tot Catalunya, i «educador social», divuit. A Feina Activa, «tècnic» amb accent no en troba cap. L'eina busca com escriu cada portal.</p>
-        <p class="data">Comprovat el 02/10/2026</p>
-      </li>
-      <li>
-        <p class="xifra">5<span>/</span>0</p>
-        <h3>Una IA general no coneix el vostre territori</h3>
-        <p class="text">Fent l'eina, una IA va escriure que al Lluçanès hi havia cinc empreses que contracten enginyers. Al full n'hi havia set de metall i maquinària, i cap no en declarava. Per això la diagnosi es comprova contra el vostre full.</p>
-        <p class="data">Passat de debò, fent l'eina</p>
-      </li>
-      <li>
-        <p class="xifra">3<span class="mot">places</span></p>
-        <h3>Requisits que surten a l'entrevista</h3>
-        <p class="text">Tres places d'una convocatòria demanaven, a les observacions, un vincle fix amb l'ens. No ho deia enlloc més. L'eina llegeix la fitxa sencera de cada oferta abans de proposar-la.</p>
-        <p class="data">Comprovat el 02/10/2026</p>
-      </li>
-    </ul>
-    <ul class="pb-mes">
-      <li><b>9 de 13</b>municipis del Lluçanès a la comarca d'un portal: l'eina hi busca poble a poble.</li>
-      <li><b>43 / 0</b>«operari» i «operària» a un portal: busca com s'escriuen els anuncis.</li>
-      <li><b>3 a 1</b>la mateixa convocatòria a tres portals, en una sola fila.</li>
-    </ul>
   </div>
 </section>
-
-
 
 <!-- Com es va fer: la I, la que es queda (29/10/2026). La H, amb el mètode (28/10/2026, en Raül). Quatre passos: escoltar, mapejar, prioritzar i iterar. La caixa va
      on queda millor al costat del tros; abans del primer pas, el tauler encès, que s'apaga en començar a lliscar; entre
@@ -2162,7 +2189,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
       <li class="fa-pas actiu fi-detall dreta atura" data-zona="13,203,191,266" data-max="4" data-focus="encarrec" data-cursors="g:70,545;v:150,550;r:178,255" data-guio="escoltar">
         <span class="fa-retall" role="img" aria-label="La primera foto del projecte, al tauler: «Que el talent qualificat no hagi de marxar del territori», amb la Gemma i la Vanessa i el que diu cadascuna"></span>
         <div class="ctx-vidre mr-vidre fa-caixa">
-          <p class="cvf-meta fi-meta"><span class="fi-progres" aria-hidden="true"><i class="fet"></i><i></i><i></i><i></i></span>Com es va fer · Escoltar</p>
+          <p class="cvf-meta fi-meta"><span class="fi-progres" aria-hidden="true"><i class="fet"></i><i></i><i></i><i></i></span>Com s'ha fet · Escoltar</p>
           <h2 id="fi-t">Primer, escoltar qui ho fa cada dia.</h2>
           <blockquote class="fh-veu"><span class="fh-avs"><span class="fh-av"><img src="foto-gemma.jpg" alt=""><i>G</i></span><span class="fh-av"><img src="foto-vanessa.jpg" alt=""><i>V</i></span></span><p><b>Gemma i Vanessa</b>«Som les dues orientadores del Servei d'Ocupació del Lluçanès. Abans de construir res, en Raül va voler entendre com treballem. Per fer-ho, vam fer diversos exercicis plegats.»</p></blockquote>
           <p class="fa-baixa"><svg class="ic" aria-hidden="true"><use href="#i-avall"/></svg>Fes scroll i t'ho expliquem</p>
@@ -2176,7 +2203,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
           <blockquote class="fh-veu"><span class="fh-av"><img src="foto-gemma.jpg" alt=""><i>G</i></span><p><b>Gemma</b>«Al tauler hi vam posar tot el que ens envolta: Xaloc, les empreses, els portals i les eines de cada dia. Algunes idees que venien de fora, aquí no funcionaven.»</p></blockquote>
         </div>
       </li>
-      <li class="fa-pas esquerra atura" data-zona="1227,294,464,336" data-focus="sistema" data-cursors="g:1309,648;v:1535,662;r:1633,421" data-guio="prioritzar">
+      <li class="fa-pas esquerra atura" data-zona="1227,294,464,336" data-focus="sistema" data-cursors="g:1309,648;v:1600,1100;r:1660,600" data-guio="prioritzar">
         <span class="fa-retall" role="img" aria-label="Les sis friccions i la votació, al tauler"></span>
         <div class="ctx-vidre mr-vidre fa-caixa">
           <p class="cvf-meta fi-meta"><span class="fi-progres" aria-hidden="true"><i class="fet"></i><i class="fet"></i><i class="fet"></i><i></i></span>Prioritzar</p>
@@ -2195,99 +2222,15 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
       </li>
     </ol>
   </div>
-  <div class="fa-final-fons">
-    <div class="amplada fa-final">
-      <div class="ll-text">
-        <p class="eyebrow">Fet al Lluçanès</p>
-        <h2>Fet amb qui orienta cada dia.</h2>
-        <blockquote class="fh-veu fh-veu-final"><span class="fh-avs"><span class="fh-av"><img src="foto-gemma.jpg" alt=""><i>G</i></span><span class="fh-av"><img src="foto-vanessa.jpg" alt=""><i>V</i></span></span><p><b>Gemma i Vanessa</b>«Cinc cicles. Cada un començava amb una pregunta nostra i acabava amb una peça que funciona.»</p></blockquote>
-      </div>
-      <ol class="fa-cicles">
-        <li style="--i:0"><span>Cicle 0</span><b>On costa la feina</b></li>
-        <li style="--i:1"><span>Cicle 1</span><b>La diagnosi</b></li>
-        <li style="--i:2"><span>Cicle 2</span><b>La cerca</b></li>
-        <li style="--i:3"><span>Cicle 3</span><b>Els requisits</b></li>
-        <li style="--i:4"><span>Cicle 4</span><b>El full de ruta</b></li>
-      </ol>
-    </div>
-  </div>
-</section>
-
-<section class="seccio" id="encaix" aria-labelledby="enc-t">
-  <div class="amplada">
-    <div class="cap-seccio">
-      <p class="eyebrow">Com encaixa</p>
-      <h2 id="enc-t">Al costat del vostre programa, sense tocar-lo.</h2>
-    </div>
-    <ol class="enc">
-      <li><span class="enc-eti">D'on surt</span><span class="enc-t">El vostre programa</span><span class="enc-d">Xaloc, Spin o el que feu servir: la fitxa de la persona i les empreses que ja coneixeu.</span><span class="chips"><span class="chip neutre">CCO-2011</span><span class="chip neutre">CCAE-2009</span><span class="chip neutre">CCED-2020</span></span></li>
-      <li class="fosc"><span class="enc-eti">Hi treballa</span><span class="enc-t">TalentLab</span><span class="enc-d">Diagnosi, ofertes, requisits, full de ruta i CV, comprovats contra el vostre full.</span></li>
-      <li><span class="enc-eti">Qui decideix</span><span class="enc-t">L'orientadora</span><span class="enc-d">Valora la proposta i la parla amb la persona. El que diu ella mana sobre la fitxa i la IA.</span></li>
-      <li><span class="enc-eti">On queda</span><span class="enc-t">El vostre programa</span><span class="enc-d">L'expedient, on ha estat sempre. L'eina no hi entra ni hi desa res.</span></li>
-    </ol>
-    <p class="enc-nota"><svg class="ic" aria-hidden="true"><use href="#i-cadenat"/></svg>El nom i el contacte de la persona es treuen al vostre ordinador abans d'enviar res, i veieu exactament què s'envia.</p>
-  </div>
-</section>
-
-
-<section class="seccio" id="preguntes" aria-labelledby="pr-t">
-  <div class="amplada pr">
-    <div class="cap-seccio">
-      <p class="eyebrow">Preguntes</p>
-      <h2 id="pr-t">El que convé saber abans de començar.</h2>
-    </div>
-    <div class="faq">
-      <details>
-        <summary>Les dades de les persones, on van?</summary>
-        <div class="resp">
-          <p>El nom i les dades de contacte es treuen al vostre ordinador abans d'enviar res, i veieu exactament què s'envia. La IA és la de Google amb facturació, que no fa servir el que s'hi envia per millorar els seus productes. Les ofertes no es desen, i cada diagnosi es desa al Drive de l'orientadora que l'ha feta, sense el nom.</p>
-          <p>Abans de fer-la servir amb persones reals, el servei fixa qui és responsable del tractament i quant de temps es guarden les diagnosis. Us hi acompanyo.</p>
-        </div>
-      </details>
-      <details>
-        <summary>Substitueix l'orientadora?</summary>
-        <div class="resp"><p>No. L'eina prepara i proposa; la decisió sobre cada persona és sempre vostra. El que dieu vosaltres als requisits mana sobre el que diuen la fitxa i la IA, i l'acollida i l'acompanyament continuen sent cosa vostra.</p></div>
-      </details>
-      <details>
-        <summary>Quins portals fa servir?</summary>
-        <div class="resp"><p>Els públics (el CIDO, Xaloc i Feina Activa), portals privats i les borses de feina de les empreses grans del territori. Les fonts les decideix el servei: si el vostre decàleg en deixa fora alguna, no hi surt. Les ofertes d'ETT i agències es marquen, i les podeu treure de la llista.</p></div>
-      </details>
-      <details>
-        <summary>Funciona fora de la província de Barcelona?</summary>
-        <div class="resp"><p>Les cerques ja saben sortir de 284 pobles de la província de Barcelona, comprovats amb cerques de debò. Per a la resta de Catalunya, preparem els vostres pobles quan l'adaptem; el CIDO i Feina Activa ja hi són.</p></div>
-      </details>
-      <details>
-        <summary>Quina IA fa servir?</summary>
-        <div class="resp"><p>Gemini, de Google, amb una clau del vostre servei. L'eina no fa més de seixanta consultes al dia, i cada consulta queda registrada per comparar-la amb la factura.</p></div>
-      </details>
-      <details>
-        <summary>Quant es triga a tenir-la en marxa?</summary>
-        <div class="resp"><p>El que porta més feina és muntar el full del territori, i depèn de com tingueu les dades al vostre programa. Ho mirem a la primera conversa i us en dono un calendari.</p></div>
-      </details>
-      <details>
-        <summary>Cal instal·lar res?</summary>
-        <div class="resp"><p>No. S'obre al navegador amb el compte de Google del servei (Google Workspace). Si el vostre servei treballa amb un altre entorn, ho mirem.</p></div>
-      </details>
-      <details>
-        <summary>Quant costa TalentLab?</summary>
-        <div class="resp"><p>Depèn de la mida del territori i de la feina d'adaptació: el full, les fonts i les proves. Ho parlem a la primera conversa.</p></div>
-      </details>
-    </div>
-  </div>
 </section>
 
 <section class="seccio" id="parlem" aria-labelledby="pa-t">
   <div class="amplada">
     <div class="parlem">
       <div class="parlem-text">
-        <p class="eyebrow">Com comencem</p>
+        <p class="eyebrow">Parlem-ne</p>
         <h2 id="pa-t">Orienteu en un altre territori? Us l'ensenyo.</h2>
-        <ol class="passos-c">
-          <li><b>Una conversa</b><span>Mitja hora per conèixer el servei. Us ensenyo l'eina amb fitxes inventades.</span></li>
-          <li><b>El vostre full</b><span>Muntem el full del territori amb el que ja teniu al vostre programa.</span></li>
-          <li><b>La prova</b><span>Una sessió amb les orientadores i fitxes inventades. El que en surti, s'ajusta.</span></li>
-          <li><b>En marxa</b><span>S'obre al navegador amb el compte de Google del servei. No s'instal·la res.</span></li>
-        </ol>
+        <p class="ap-parlem">Escriviu-me i en parlem: mitja hora per conèixer el servei, i us ensenyo l'eina amb fitxes inventades. Quant triga i quant costa depèn de com tingueu les dades: ho mirem en aquesta conversa.</p>
         <div class="qui"><img src="avatar-raul.png" width="44" height="44" alt=""><p>Us respondré jo mateix: <a href="https://raulhere.com" target="_blank" rel="noopener">Raül Marín</a>. Faig TalentLab amb les orientadores que el fan servir.</p></div>
       </div>
       <form class="missatge" id="missatge" novalidate>
@@ -2323,13 +2266,6 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
       <p class="petit">Cerques de feina amb el coneixement del vostre territori. Fet amb el Servei d'Ocupació del Lluçanès per <a href="https://raulhere.com" target="_blank" rel="noopener">Raül Marín</a>, 2026.</p>
     </div>
     <div class="peu-dreta">
-      <nav class="peu-nav" aria-label="Peu">
-        <a href="#com-funciona">Com funciona</a>
-        <a href="#context">El territori</a>
-        <a href="#miro">Com es va fer</a>
-        <a href="#preguntes">Preguntes</a>
-        <a href="#parlem">Parlem-ne</a>
-      </nav>
       <div class="peu-logos" role="group" aria-label="Qui hi ha al darrere">
         <div class="peu-logo">
           <p class="petit">Projecte impulsat per:</p>
@@ -2347,7 +2283,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
     </div>
   </div>
   <div class="amplada peu-legal">
-    <p class="petit">Xaloc és la plataforma de la xarxa de serveis locals d'ocupació de la Diputació de Barcelona; el CIDO és de la Diputació de Barcelona, i Feina Activa, del Servei Públic d'Ocupació de Catalunya. TalentLab no és un producte oficial de cap d'aquests organismes: en llegeix les ofertes públiques. Les persones, les entitats i les ofertes dels exemples són inventades, i els recomptes de les cerques són del setembre i l'octubre del 2026.</p>
+    <p class="petit">TalentLab no és un producte oficial de Xaloc, de Spin, del CIDO ni de Feina Activa. Les persones, les entitats i les ofertes dels exemples són inventades.</p>
   </div>
 </footer>
 
@@ -2387,6 +2323,30 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   function linia() { cap.classList.toggle('avall', window.scrollY > 8); }
   window.addEventListener('scroll', linia, { passive: true });
   linia();
+
+  // El menú diu on ets (31/10/2026, en Raül): la secció que toca una línia a un terç de la pantalla. A les que no són
+  // al menú (la portada, Parlem-ne), cap.
+  var menu = Array.prototype.map.call(document.querySelectorAll('.nav a'), function (a) {
+    return { a: a, s: document.querySelector(a.getAttribute('href')) };
+  });
+  var menuDemanat = false;
+  function pintaMenu() {
+    menuDemanat = false;
+    var y = window.innerHeight / 3;
+    menu.forEach(function (m) {
+      var r = m.s.getBoundingClientRect();
+      if (r.top <= y && r.bottom > y) m.a.setAttribute('aria-current', 'location');
+      else m.a.removeAttribute('aria-current');
+    });
+  }
+  function demanaMenu() {
+    if (menuDemanat) return;
+    menuDemanat = true;
+    requestAnimationFrame(pintaMenu);
+  }
+  window.addEventListener('scroll', demanaMenu, { passive: true });
+  window.addEventListener('resize', demanaMenu);
+  pintaMenu();
 
   // Requisits: el que diu l'orientadora mana, i es veu en blau
   var rqBoto = document.getElementById('rq-boto'), rqPop = document.getElementById('rq-pop');
@@ -3374,11 +3334,23 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
       context: [217, 222, 853, 397], eines: [1102, 223, 97, 396],
       arbre: [1233, 25, 767, 301], sistema: [1233, 362, 449, 257], votada: [1248, 652, 435, 250]
     };
+    // El títol de cada marc, el que té al Miro (en Raül, 29/10: «tots els taulells han de mostrar el títol quan s'activen»),
+    // sense majúscules ni el «Copy of» que hi posa el Miro. El de LinkedIn, el Miro el talla: no se'n sap la resta
+    var TITOLS = {
+      ubicacio: 'Ubicació del treball', portals: 'Ofertes per portals privats', linkedin: 'Ús de LinkedIn…',
+      context: 'Context orientació Lluçanès', eines: 'Eines utilitzades', arbre: 'Arbre d’oportunitats i solucions',
+      sistema: 'Sistema de priorització de friccions del projecte', votada: 'Sistema de priorització de friccions del projecte'
+    };
     var nitids = {};
     Object.keys(MARCS).forEach(function (k) {
       var m = MARCS[k], e = document.createElement('span');
       e.className = 'fi-nitid';
       e.style.cssText = 'left:' + m[0] + 'px;top:' + m[1] + 'px;width:' + m[2] + 'px;height:' + m[3] + 'px;background-position:' + (-m[0]) + 'px ' + (-m[1]) + 'px';
+      if (TITOLS[k]) {
+        var t = document.createElement('span');
+        t.className = 'fi-titol'; t.textContent = TITOLS[k];
+        e.appendChild(t);
+      }
       sec.querySelector('.fi-nitids').appendChild(e);
       nitids[k] = e;
     });
@@ -3477,6 +3449,14 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
         });
         li.classList.toggle('dreta', millor[0]); li.classList.toggle('esquerra', !millor[0]); li.classList.toggle('baix', millor[1]);
       });
+      // L'últim pas: la caixa, al peu, amb el marge que fa que el tauler es deixi anar just quan la caixa és a l'alçada
+      // del seu frame (en Raül, 29/10); a partir d'aquí, tot llisca amb la pàgina
+      var ul = passos[passos.length - 1];
+      if (!ul.hasAttribute('data-trams') && !ul.classList.contains('atura')) {
+        var v = vistaDe(passos.length - 1), zu = nums(ul, 'data-zona'), ch = ul.querySelector('.fa-caixa').offsetHeight, eh = escena.clientHeight;
+        var fc = v.ty + (zu[1] + zu[3] / 2) * v.s;
+        ul.style.setProperty('--fi-peu', Math.round(Math.max(24, Math.min(eh - ch - 24, eh - fc - ch / 2))) + 'px');
+      }
     }
 
     // Els guions: el que fan els cursors un cop la càmera ha arribat
@@ -3519,7 +3499,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
       (function lletra() {
         if (g !== gen) return;
         on.textContent = text.slice(0, ++n);
-        if (n < text.length) setTimeout(lletra, 34); else setTimeout(function () { on.classList.remove('escriu'); }, 900);
+        if (n < text.length) setTimeout(lletra, 26); else setTimeout(function () { on.classList.remove('escriu'); }, 900);
       })();
     }
     function escriuElPostit(ci, g) {
@@ -3561,10 +3541,10 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
       var t = TRAMS[trams(li)[k]], g = gen;
       enfoca(li);
       tots('.fi-coment', peces).forEach(function (e) { e.remove(); });
-      mou('r', t.r, 550);
+      mou('r', t.r, 450);
       if (t.q) {
-        cursors[t.q].classList.add('esq'); mou(t.q, t.on, 550);
-        setTimeout(function () { if (g === gen && tramAra === k) comenta(t.q, t.com, t.text, true); }, 600);
+        cursors[t.q].classList.add('esq'); mou(t.q, t.on, 400);
+        setTimeout(function () { if (g === gen && tramAra === k) comenta(t.q, t.com, t.text, true); }, 420);
       }
     }
     window.addEventListener('scroll', seguentTram, { passive: true });
@@ -3588,47 +3568,90 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
           passes.push([k ? 0 : -380, function () {}]);
         });
         // En Raül, quan ja hi són, pregunta per com treballen
-        passes.push([2200, function () { mou('r', [186, 262], 600); }]);
-        passes.push([700, function () { comenta('r', [196, 256], 'Gràcies. I ara, com treballeu cada dia?'); }]);
+        passes.push([1300, function () { mou('r', [186, 262], 550); }]);
+        passes.push([580, function () { comenta('r', [196, 256], 'Gràcies. I ara, com treballeu cada dia?'); }]);
         guio(g, passes);
       },
       // Mapejar: en lliscar, els taulers s'encenen un a un (`seguentTram`)
       mapejar: function () { tramAra = -1; seguentTram(); },
       // Prioritzar: cadascuna tapa el seu vot amb el seu bloc, i després els destapen
       prioritzar: function (g) {
-        var pegat = peca('fi-pegat'), bg = peca('fi-barra g'), bv = peca('fi-barra v'), anells = [];
+        // Els punts del Miro, al seu lloc final; els mateixos, de sortida sota el nom de cadascuna, a dalt a la dreta
+        var VOTS = {
+          g: [[3, [1545, 418], [1406, 528]], [2, [1561, 418], [1285, 528.5]], [1, [1574, 418], [1507, 528.3]]],
+          v: [[3, [1614, 418], [1285, 552]], [1, [1643, 418], [1406.5, 552]], [2, [1630, 418], [1625.6, 552]]]
+        };
+        ['g', 'v'].forEach(function (q) { VOTS[q].forEach(function (p) { peca('fi-tapa', p[2]); }); });
+        var punts = {};
+        ['g', 'v'].forEach(function (q) {
+          punts[q] = VOTS[q].map(function (p) { var e = peca('fi-punt ' + q + ' n' + p[0], p[1]); e.textContent = p[0]; return e; });
+        });
+        var pegat = peca('fi-pegat'), bg = peca('fi-barra g'), bv = peca('fi-barra v');
         bg.textContent = 'Gemma: mou aquest bloc sobre la teva zona de vot quan hagis votat';
         bv.textContent = 'Vanessa: mou aquest bloc sobre la teva zona de vot quan hagis votat';
-        [[1288, 529], [1406, 529], [1285, 552], [1405, 552]].forEach(function (xy) { anells.push(peca('fi-anell', xy)); });
         pegat.classList.add('vist'); bg.classList.add('vist'); bv.classList.add('vist');
-        guio(g, [
-          [400, function () { mou('g', [1340, 581], 800); }],
-          [900, function () { agafa('g', true); bg.style.translate = '0 -52px'; mou('g', [1340, 529], 1000); }],
-          [1150, function () { agafa('g', false); mou('g', [1317, 500], 600); mou('v', [1572, 605], 800); }],
-          [900, function () { agafa('v', true); bv.style.translate = '0 -53px'; mou('v', [1572, 552], 1000); }],
-          [1150, function () { agafa('v', false); mou('v', [1606, 585], 600); mou('r', [1674, 492], 700); }],
-          [800, function () { comenta('r', [1682, 485], 'Destapem-les?', true); }],
-          [1500, function () { mou('g', [1340, 529], 600); mou('v', [1572, 552], 600); }],
-          [700, function () {
-            agafa('g', true); agafa('v', true);
-            bg.style.translate = '0 0'; bv.style.translate = '0 0';
-            mou('g', [1340, 581], 1000); mou('v', [1572, 605], 1000);
-          }],
-          [1100, function () { agafa('g', false); agafa('v', false); }],
-          [200, function () { anells.forEach(function (a, k) { setTimeout(function () { if (g === gen) a.classList.add('vist'); }, k * 160); }); }]
-        ]);
+        // Les sis friccions (la vora de cada targeta, a la captura): guanyen la primera (5 punts) i la tercera (4)
+        var fric = [0, 1, 2, 3, 4, 5].map(function (k) {
+          var e = peca('fi-fric ' + (k === 0 || k === 2 ? 'guanya' : 'perd')); e.style.left = 1256.5 + k * 67.8 + 'px'; return e;
+        });
+        var vores = [0, 2].map(function (k) { var e = peca('fi-fric vora'); e.style.left = 1256.5 + k * 67.8 + 'px'; return e; });
+        function porta(q, k, ms) {
+          var p = VOTS[q][k], e = punts[q][k];
+          e.style.transitionDuration = ms + 'ms';
+          e.style.translate = (p[2][0] - p[1][0]) + 'px ' + (p[2][1] - p[1][1]) + 'px';
+          mou(q, [p[2][0] + 3, p[2][1] + 3], ms);
+        }
+        // Cadascuna: agafa els seus tres punts, un a un, i després tapa la seva zona amb el seu bloc
+        function vota(q, barra, dy, x) {
+          var passes = [];
+          VOTS[q].forEach(function (p, k) {
+            passes.push([k ? 60 : 0, function () { mou(q, [p[1][0] + 3, p[1][1] + 3], 340); }]);
+            passes.push([350, function () { agafa(q, true); porta(q, k, 440); }]);
+            passes.push([460, function () { agafa(q, false); }]);
+          });
+          passes.push([80, function () { mou(q, [x, barra === bg ? 581 : 605], 420); }]);
+          passes.push([450, function () { agafa(q, true); barra.style.transitionDuration = '.65s'; barra.style.translate = '0 ' + dy + 'px'; mou(q, [x, (barra === bg ? 581 : 605) + dy], 650); }]);
+          // I se'n va de la pantalla: cap de les dues no veu com vota l'altra
+          passes.push([680, function () { agafa(q, false); mou(q, q === 'g' ? [1250, 1100] : [1600, 1100], 600); }]);
+          return passes;
+        }
+        guio(g, [].concat(
+          // La Vanessa surt de seguida: la Gemma vota sola
+          [[0, function () { mou('v', [1600, 1100], 300); }], [350, function () {}]],
+          vota('g', bg, -52, 1340),
+          // La Vanessa no entra fins que la Gemma ha sortit
+          [[620, function () {}]],
+          vota('v', bv, -53, 1572),
+          [
+            // En Raül arriba i destapa els vots, primer els de la Gemma i després els de la Vanessa
+            [0, function () { mou('r', [1640, 505], 500); }],
+            [520, function () { comenta('r', [1650, 498], 'Destapem-les?', true); }],
+            // Totes dues tornen per veure-ho
+            [300, function () { mou('g', [1300, 640], 800); mou('v', [1560, 650], 900); }],
+            [450, function () { mou('r', [1440, 529], 450); }],
+            [480, function () {
+              // El comentari se'n va, que no tapi les friccions
+              tots('.fi-coment', peces).forEach(function (e) { e.classList.remove('vist'); setTimeout(function () { e.remove(); }, 600); });
+              agafa('r', true); bg.style.transitionDuration = bv.style.transitionDuration = '.6s'; bg.style.translate = '0 0'; mou('r', [1440, 581], 600); }],
+            [630, function () { agafa('r', false); mou('r', [1480, 552], 330); }],
+            [360, function () { agafa('r', true); bv.style.translate = '0 0'; mou('r', [1480, 605], 600); }],
+            [630, function () { agafa('r', false); mou('r', [1660, 600], 550); }],
+            // I les dues més votades es destaquen
+            [150, function () { fric.forEach(function (e) { e.classList.add('vist'); }); }],
+            [350, function () { vores.forEach(function (e, k) { setTimeout(function () { if (g === gen) e.classList.add('vist'); }, k * 180); }); }]
+          ]
+        ));
       },
       // Iterar: per on es comença, al tauler votat
       iterar: function (g) {
         guio(g, [
-          [500, function () { mou('v', [1297, 671], 900); }],
-          [1000, function () { comenta('v', [1242, 666], 'Comencem per aquí: la diagnosi.', true); }],
-          [1600, function () { mou('v', [1600, 604], 900); }],
-          [600, function () { mou('g', [1297, 707], 900); }],
-          [1000, function () { comenta('g', [1242, 712], 'I la del radi, de moment amb alertes.', 'esq baix'); }],
-          [2000, function () { mou('g', [1436, 927], 900); }],
-          [400, function () { mou('r', [1238, 822], 900); }],
-          [1000, function () { comenta('r', [1228, 812], 'Ja la tenim. La revisem juntes?', 'esq baix'); }]
+          [200, function () { mou('v', [1297, 671], 650); }],
+          [680, function () { comenta('v', [1242, 666], 'Comencem per aquí: la diagnosi.', true); }],
+          [700, function () { mou('g', [1297, 707], 650); }],
+          [680, function () { comenta('g', [1242, 712], 'I la del radi, de moment amb alertes.', 'esq baix'); }],
+          [1300, function () { mou('v', [1600, 604], 650); mou('g', [1436, 927], 650); }],
+          [250, function () { mou('r', [1238, 822], 650); }],
+          [680, function () { comenta('r', [1228, 812], 'Ja la tenim. La revisem juntes?', 'esq baix'); }]
         ]);
       }
     };
@@ -3654,7 +3677,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
         var c = cursors[q];
         var hiEra = !c.classList.contains('fora');
         c.classList.remove('quiet', 'agafa', 'esq');
-        if (on[q]) posa(q, on[q], hiEra && !calma ? 800 : 0);
+        if (on[q]) posa(q, on[q], hiEra && !calma ? 650 : 0);
         c.classList.toggle('fora', !on[q]);
       });
       var nom = li.getAttribute('data-guio');
@@ -3662,7 +3685,13 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
     }
     // Abans del primer pas, el tauler encès fins que es llisca una mica dins de la zona
     var apagat = 0;
+    // Primer apareix: de res quan la secció entra per baix, a tot quan n'ocupa el 60 % de la pantalla (31/10/2026, en Raül)
+    function apareixElTauler() {
+      var vist = (innerHeight - sec.getBoundingClientRect().top) / (innerHeight * .6);
+      escena.style.opacity = calma ? '' : Math.max(0, Math.min(1, vist)).toFixed(3);
+    }
     function encenElTauler() {
+      apareixElTauler();
       // Per sobre del primer pas, tot el tauler: si s'hi salta de cop, l'observador no ho diu
       if (actual >= 0 && passos[0].getBoundingClientRect().top > innerHeight / 2) { va(-1); return; }
       var cap = parseFloat(getComputedStyle(escena).top) || 0, era = escena.classList.contains('encesa');
@@ -3670,6 +3699,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
       if (era && !escena.classList.contains('encesa')) apagat = Date.now();
     }
     window.addEventListener('scroll', encenElTauler, { passive: true });
+    apareixElTauler();
     function va(i, deCop) {
       if (i === actual && !deCop) return;
       var abans = actual, g = ++gen;
@@ -3679,7 +3709,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
       var apaga = Math.max(0, 700 - (Date.now() - apagat));
       passos.forEach(function (li, k) { li.classList.toggle('actiu', k === Math.max(i, 0)); });
       // El que havia deixat el pas d'abans se'n va
-      tots('.fi-coment, .fi-pegat, .fi-barra, .fi-anell', peces).forEach(function (e) { e.remove(); });
+      tots('.fi-coment, .fi-pegat, .fi-barra, .fi-anell, .fi-tapa, .fi-punt, .fi-fric', peces).forEach(function (e) { e.remove(); });
       // Els punters només se'n van abans del primer pas; si no, segueixen el tauler i, en arribar, van al seu lloc
       if (i < 0) Object.keys(cursors).forEach(function (q) { cursors[q].classList.add('fora'); });
       // Entre tot el tauler i el primer pas, l'encàrrec es queda encès: no s'apaga per tornar-se a encendre
@@ -3708,7 +3738,8 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
       var kf = [{ transform: T(des), easing: 'cubic-bezier(.55, 0, .45, 1)' }];
       if (mig) kf.push({ transform: T(mig), offset: .45, easing: 'cubic-bezier(.4, 0, .3, 1)' });
       kf.push({ transform: T(cap) });
-      var dura = mig ? 2600 : 1500;
+      // Àgil (en Raül, 29/10): el vol, més curt, i el guió comença quan la càmera tot just arriba
+      var dura = mig ? 1900 : 1200;
       vol = tauler.animate(kf, { duration: dura, delay: apaga, fill: 'backwards' });
       (function mida() {
         var m = araMateix();
@@ -3719,7 +3750,8 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
       // A escoltar, els post-its comencen a pujar quan la càmera encara arriba
       var aviat = i >= 0 && passos[i].getAttribute('data-guio') === 'escoltar';
       if (aviat) setTimeout(function () { arriba(i, g); }, apaga + dura * .55);
-      vol.onfinish = function () { vol = null; if (i >= 0 && !aviat) setTimeout(function () { arriba(i, g); }, 200); };
+      if (i >= 0 && !aviat) setTimeout(function () { arriba(i, g); }, apaga + dura * .85);
+      vol.onfinish = function () { vol = null; };
     }
     if (hiHaIO) {
       var io = new IntersectionObserver(function (es) {
@@ -3743,11 +3775,310 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
     document.addEventListener('cvf:proposta', function (e) { if (e.detail === 'i') prepara(); });
     prepara();
     passos[0].classList.add('actiu');
-    alVeure(sec.querySelector('.fa-final'), function () { sec.querySelector('.fa-final').classList.add('vist'); }, .35);
   })();
   camera('d');
   camera('e', [-2600, 0, 2000, 1125]);
   camera('h', [-3400, 0, 2000, 1125]);
+})();
+</script>
+<script>
+// Què t'aporta (31/10/2026, en Raül): la de Claude Design
+(function () {
+  'use strict';
+  var calma = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hiHaIO = 'IntersectionObserver' in window;
+  function tots(sel, on) { return Array.prototype.slice.call((on || document).querySelectorAll(sel)); }
+
+  // A cada pas, la peça d'origen s'encén, la línia s'allarga i, en arribar, descobreix la
+  // següent; quan han arribat totes, les boles. Tot surt de tres taules: PECES, POS i ARR.
+  (function () {
+    var sec = document.getElementById('aporta');
+    var escena = document.getElementById('api-escena'), quiet = escena.querySelector('.api-quiet');
+    var capsal = sec.querySelector('.api-cap'), caixa = document.getElementById('api-caixa');
+    var imatge = sec.querySelector('.api-imatge'), llenc = sec.querySelector('.api-llenc');
+    var para = sec.querySelector('.api-para');
+    var boles = sec.querySelector('.api-boles');
+    var fases = tots('.api-fase', sec), passos = tots('.api-pas', sec);
+    var FASE = [0, 0, 1, 1, 2, 2];
+    var PECES = {
+      cand: { nom: 'Candidata', ic: 'i-persona', c: '--tu', aura: '--tu-fons', dur: 4.6, ret: -.3 },
+      ori: { nom: 'Orientadora', ic: 'i-persona', c: '--tu', aura: '--tu-fons', dur: 5.2, ret: -1.1 },
+      emp: { nom: 'Empresa', ic: 'i-empresa', c: '--groc', aura: '--groc-fons', dur: 4.8, ret: -2 },
+      xal: { nom: 'Xaloc', ic: 'i-programa', c: '--taronja', aura: '--taronja-fons', dur: 5.6, ret: -.7 },
+      sh: { nom: 'Google Sheets', ic: 'i-full', c: '--verd', aura: '--verd-fons', dur: 4.4, ret: -1.6 },
+      gem: { nom: 'Gem', ic: 'i-espurna', c: '--ia', aura: '--ia-fons', dur: 5, ret: -2.4 },
+      tl: { nom: 'TalentLab', ic: 'i-marca', c: '--ink', aura: '--rule', dur: 5.4, ret: -.2 },
+      mer: { nom: 'Ofertes en línia', ic: 'i-mon', c: '--ink-2', aura: '--neutre-fons', dur: 4.9, ret: -1.9 }
+    };
+    // [x, y, estat] per pas: 1 en tinta, .3 en gris, 0 amagat; 'm', el Gem petit sobre el full
+    var POS = [
+      { cand: [205, 100, 1], ori: [395, 100, 1], xal: [395, 320, 1], emp: [585, 100, 0], sh: [205, 320, 0], gem: [205, 100, 0], tl: [205, 100, 0], mer: [20, 100, 0] },
+      { cand: [110, 100, .3], ori: [300, 100, 1], emp: [490, 100, 1], xal: [300, 320, 1], sh: [110, 320, 0], gem: [110, 100, 0], tl: [110, 100, 0], mer: [20, 100, 0] },
+      { cand: [205, 100, 0], ori: [395, 100, .3], emp: [585, 100, 0], xal: [395, 320, 1], sh: [205, 320, 1], gem: [205, 100, 0], tl: [205, 100, 0], mer: [20, 100, 0] },
+      { cand: [205, 100, 0], ori: [395, 100, 1], emp: [585, 100, 0], xal: [395, 320, .3], sh: [205, 320, 1], gem: [205, 100, 1], tl: [205, 100, 0], mer: [20, 100, 0] },
+      { cand: [300, 100, 0], ori: [490, 100, .3], emp: [600, 100, 0], xal: [490, 320, .3], sh: [300, 320, 1], gem: [262, 286, 'm'], tl: [300, 100, 1], mer: [110, 100, 1] },
+      { cand: [540, 100, 1], ori: [380, 100, 1], emp: [600, 100, 0], xal: [380, 320, .3], sh: [220, 320, 1], gem: [182, 286, 'm'], tl: [220, 100, 1], mer: [60, 100, 1] }
+    ];
+    // Cap fletxa de TalentLab cap a Xaloc: Xaloc no es toca
+    var ARR = [
+      { k: 'candOri', f: 'cand', t: 'ori', label: 'entrevista', col: '--tu', st: { 0: 1, 1: .3 } },
+      { k: 'empOri', f: 'emp', t: 'ori', label: 'oferta', col: '--groc', st: { 1: 1 } },
+      { k: 'oriXal', f: 'ori', t: 'xal', label: 'ho registra', col: '--tu', st: { 0: 1, 1: 1, 2: .3 } },
+      { k: 'xalSh', f: 'xal', t: 'sh', label: 'exporta', col: '--taronja', st: { 2: 1, 3: .3, 4: .3 } },
+      { k: 'oriGem', f: 'ori', t: 'gem', label: 'demana', col: '--tu', st: { 3: 1 } },
+      { k: 'gemSh', f: 'gem', t: 'sh', label: 'enriqueix', col: '--ia', st: { 3: 1 } },
+      { k: 'shTl', f: 'sh', t: 'tl', label: 'llegeix', col: '--verd', st: { 4: 1, 5: 1 } },
+      { k: 'merTl', f: 'mer', t: 'tl', label: 'al dia', col: '--ink-2', st: { 4: 1, 5: 1 } },
+      { k: 'tlOri', f: 'tl', t: 'ori', label: 'ajuda', col: '--ink', st: { 5: 1 } },
+      { k: 'oriCand', f: 'ori', t: 'cand', label: 'orienta', col: '--tu', st: { 5: 1 } }
+    ];
+
+    var nodes = {}, fletxes = {}, etis = {}, tapa = null;
+    function fesPeca(k, soles) {
+      var p = PECES[k], d = document.createElement('div');
+      d.className = 'api-node' + (soles ? ' api-tapa' : '');
+      d.setAttribute('data-n', k);
+      d.style.cssText = '--c:var(' + p.c + ');--aura:var(' + p.aura + ');--dur:' + p.dur + 's;--ret:' + p.ret + 's';
+      d.innerHTML = '<span class="api-ic"' + (soles ? '' : ' data-ic="' + k + '"') + '><svg><use href="#' + p.ic + '"/></svg></span>' +
+        (soles ? '' : '<span class="api-ombra"></span><span class="api-nom">' + p.nom + '</span>');
+      sec.querySelector('.api-capa-nodes').appendChild(d);
+      return d;
+    }
+    ['cand', 'ori', 'emp', 'xal', 'sh', 'gem'].forEach(function (k) { nodes[k] = fesPeca(k); });
+    tapa = fesPeca('sh', true); // el full torna a passar per sobre del Gem petit
+    ['tl', 'mer'].forEach(function (k) { nodes[k] = fesPeca(k); });
+    ARR.forEach(function (a) {
+      var f = document.createElement('div'), e = document.createElement('span');
+      f.className = 'api-fletxa';
+      f.innerHTML = '<i></i><svg viewBox="0 0 14 14"><path d="M7.5 2.5l5 4.5-5 4.5"/></svg>';
+      e.className = 'api-eti'; e.textContent = a.label;
+      sec.querySelector('.api-capa-fletxes').appendChild(f);
+      sec.querySelector('.api-capa-etis').appendChild(e);
+      fletxes[a.k] = { el: f, linia: f.querySelector('i'), cap: f.querySelector('svg') };
+      etis[a.k] = e;
+    });
+
+    var pas = -1, temps = 0, pla = { tN: {}, tA: {}, fi: 0 }, vistes = {}, cadenes = [], signatura = '';
+    var mida = { W: 0, alt: 0, cap: 0, text: 0 }, rellotges = [], anims = [], tempsBoles = [], veu = false, esperant = false;
+
+    function geom(a, P) {
+      var F = P[a.f], T = P[a.t], d;
+      if (Math.abs(F[1] - T[1]) < 1) {
+        d = T[0] > F[0] ? 1 : -1;
+        var x1 = F[0] + d * 50, x2 = T[0] - d * 50;
+        return { x: x1, y: F[1], len: Math.max(0, Math.abs(x2 - x1)), rot: d > 0 ? 0 : 180, lx: (x1 + x2) / 2, ly: F[1] - 18, lt: 'translate(-50%,-50%)' };
+      }
+      d = T[1] > F[1] ? 1 : -1;
+      var y1 = d > 0 ? F[1] + 84 : F[1] - 50, y2 = d > 0 ? T[1] - 50 : T[1] + 84;
+      return { x: F[0], y: y1, len: Math.abs(y2 - y1), rot: d > 0 ? 90 : -90, lx: F[0] + 14, ly: (y1 + y2) / 2, lt: 'translateY(-50%)' };
+    }
+    function delPas(c) { return ARR.filter(function (a) { return a.st[c] === 1; }); }
+    // Quan s'encén cada peça i quan s'allarga cada fletxa: l'origen, un moment de pausa, la línia, i en arribar, la peça
+    function planifica(c) {
+      var tN = {}, tA = {}, P = POS[c], base = .15, CREIX = .7, PAUSA = .25, act = delPas(c);
+      Object.keys(P).forEach(function (k) { if (P[k][2] === 1 && !act.some(function (a) { return a.t === k; })) tN[k] = base; });
+      for (var i = 0; i < 8; i++) {
+        act.forEach(function (a) { if (!tA[a.k] && tN[a.f] != null) { var s = tN[a.f] + PAUSA; tA[a.k] = { s: s, e: s + CREIX }; } });
+        act.forEach(function (a) { var ta = tA[a.k]; if (ta && tN[a.t] == null) tN[a.t] = ta.e; });
+      }
+      Object.keys(P).forEach(function (k) { if (P[k][2] === 1 && tN[k] == null) tN[k] = base; });
+      var fi = base;
+      Object.keys(tA).forEach(function (k) { fi = Math.max(fi, tA[k].e); });
+      return { tN: tN, tA: tA, fi: fi };
+    }
+    function comenca(c) {
+      rellotges.forEach(clearTimeout); rellotges = [];
+      temps = 0;
+      pla = c < 0 ? { tN: {}, tA: {}, fi: 0 } : planifica(c);
+      if (calma) { temps = pla.fi + 1; return; }
+      var moments = [pla.fi];
+      Object.keys(pla.tN).forEach(function (k) { moments.push(pla.tN[k]); });
+      Object.keys(pla.tA).forEach(function (k) { moments.push(pla.tA[k].s, pla.tA[k].e); });
+      moments.filter(function (t, i) { return moments.indexOf(t) === i; }).forEach(function (t) {
+        rellotges.push(setTimeout(function () { temps = t + .001; pinta(); }, t * 1000));
+      });
+    }
+    // Fletxes seguides (a.t === b.f) fan un sol recorregut, i la bola passa per la peça del mig. Si dos recorreguts
+    // comparteixen la cua, el segon s'atura on s'ajunten i hi arriba alhora: en surt una sola bola.
+    function recorreguts(c, P) {
+      var act = delPas(c), surten = [], propi = {};
+      function camina(cami) {
+        var darrera = cami[cami.length - 1];
+        var seguents = act.filter(function (b) { return b.f === darrera.t && cami.indexOf(b) < 0; });
+        if (!seguents.length) surten.push(cami);
+        else seguents.forEach(function (b) { camina(cami.concat(b)); });
+      }
+      act.filter(function (a) { return !act.some(function (b) { return b.t === a.f; }); }).forEach(function (a) { camina([a]); });
+      var meta = surten.map(function (cami, pi) {
+        var tall = -1, ref = null;
+        cami.forEach(function (a, i) { if (tall < 0 && i > 0 && propi[a.k]) { tall = i; ref = propi[a.k]; } });
+        if (tall < 0) cami.forEach(function (a, i) { if (!propi[a.k]) propi[a.k] = { pi: pi, i: i }; });
+        return { cami: tall < 0 ? cami : cami.slice(0, tall), ref: ref };
+      });
+      var fetes = meta.map(function (m) {
+        var punts = [], F = 12;
+        m.cami.forEach(function (a, i) {
+          var g = geom(a, P), r = g.rot * Math.PI / 180, cx = Math.cos(r), cy = Math.sin(r), marge = Math.min(F, g.len / 3);
+          function at(t) { return [g.x + cx * t, g.y + cy * t]; }
+          if (i > 0) punts.push({ p: [P[a.f][0], P[a.f][1]], o: 0 });
+          punts.push({ p: at(0), o: 0 }, { p: at(marge), o: 1 }, { p: at(g.len / 2), o: 1, lab: a.k }, { p: at(g.len - marge), o: 1 }, { p: at(g.len), o: 0, hit: a.t });
+        });
+        var tot = 0, d = [0];
+        for (var i = 1; i < punts.length; i++) {
+          tot += Math.hypot(punts[i].p[0] - punts[i - 1].p[0], punts[i].p[1] - punts[i - 1].p[1]);
+          d.push(tot);
+        }
+        function marques(camp) {
+          return punts.map(function (q, i) { return q[camp] ? { k: q[camp], off: tot ? d[i] / tot : 1 } : null; }).filter(Boolean);
+        }
+        return {
+          id: m.cami.map(function (a) { return a.k; }).join('-'), col: m.cami[0].col, hits: marques('hit'), labs: marques('lab'), dur: Math.max(1.8, tot / 85),
+          kf: punts.map(function (q, i) { return { offset: tot ? d[i] / tot : 0, transform: 'translate(' + q.p[0].toFixed(1) + 'px,' + q.p[1].toFixed(1) + 'px)', opacity: q.o }; })
+        };
+      });
+      meta.forEach(function (m, j) {
+        if (!m.ref) return;
+        var b = fetes[j], o = fetes[m.ref.pi], t = o.hits[m.ref.i - 1].off, darrer = b.kf[b.kf.length - 1];
+        b.kf.forEach(function (f) { f.offset *= t; });
+        b.kf.push({ offset: 1, transform: darrer.transform, opacity: 0 });
+        b.hits.forEach(function (x) { x.off *= t; });
+        b.labs.forEach(function (x) { x.off *= t; });
+        b.dur = o.dur;
+      });
+      return fetes;
+    }
+    // En quin moment (0..1) arriba la bola a un punt del recorregut, amb la corba cubic-bezier(.5,0,.3,1)
+    function momentDe(y) {
+      function B(u, a, b) { return 3 * a * u * (1 - u) * (1 - u) + 3 * b * u * u * (1 - u) + u * u * u; }
+      var lo = 0, hi = 1;
+      for (var i = 0; i < 30; i++) { var u = (lo + hi) / 2; if (B(u, 0, 1) < y) lo = u; else hi = u; }
+      return B((lo + hi) / 2, .5, .3);
+    }
+    function batega(k) {
+      var el = llenc.querySelector('[data-ic="' + k + '"]');
+      if (el && el.animate) el.animate([{ scale: '1' }, { scale: '1.14', offset: .3 }, { scale: '1' }], { duration: 560, easing: 'cubic-bezier(.3,0,.3,1)' });
+    }
+    function engegaBoles() {
+      anims.forEach(function (a) { a.cancel(); }); anims = [];
+      tempsBoles.forEach(clearTimeout); tempsBoles = [];
+      boles.textContent = '';
+      if (!veu) return;
+      cadenes.forEach(function (ch) {
+        var b = document.createElement('span');
+        b.className = 'api-bola'; b.style.setProperty('--c', 'var(' + ch.col + ')');
+        boles.appendChild(b);
+        if (!b.animate) return;
+        function volta() {
+          var ms = ch.dur * 1000, an = b.animate(ch.kf, { duration: ms, easing: 'cubic-bezier(.5,0,.3,1)', fill: 'both' });
+          anims.push(an);
+          ch.hits.forEach(function (h) { tempsBoles.push(setTimeout(function () { batega(h.k); }, momentDe(h.off) * ms)); });
+          ch.labs.forEach(function (l) {
+            tempsBoles.push(setTimeout(function () { if (!vistes[l.k]) { vistes[l.k] = 1; pinta(); } }, momentDe(l.off) * ms));
+          });
+          an.onfinish = function () {
+            anims.splice(anims.indexOf(an), 1);
+            tempsBoles.push(setTimeout(volta, 1100));
+          };
+        }
+        volta();
+      });
+    }
+    function mesures(c, fase) {
+      var W = mida.W || 1100, alt = mida.alt || 820, estreta = W < 860, lliure = Math.max(260, alt - (mida.cap || 240) - 24), s, boxW, boxH;
+      if (!estreta) {
+        boxW = W * .56;
+        s = Math.min(1, (boxW - 16) / 600, lliure / 460);
+        boxH = 460 * s;
+        return { estreta: estreta, s: s, boxLeft: fase === 1 ? 0 : W - boxW, boxTop: 0, boxW: boxW, boxH: boxH, contH: boxH, textW: W * .4,
+          imgY: -60 * s, h3: W > 1100 && alt >= 660 ? '32px' : '26px', cos: '18px', left: [0, W * .6, 0] };
+      }
+      s = Math.max(.3, Math.min(1, W / 620, (lliure - (mida.text || lliure * .5) - 16) / 460));
+      boxH = 460 * s;
+      return { estreta: estreta, s: s, boxLeft: 0, boxTop: Math.max((mida.text || 0) + 16, lliure - boxH), boxW: W, boxH: boxH, contH: lliure, textW: W,
+        imgY: 0, h3: '20px', cos: '16px', left: [0, 0, 0] };
+    }
+    function pinta() {
+      var c = pas, sensePas = c < 0, P = POS[Math.max(0, c)], fase = sensePas ? -1 : FASE[c], L = mesures(c, fase);
+      caixa.style.height = L.contH + 'px';
+      caixa.classList.toggle('api-estreta', L.estreta);
+      caixa.style.setProperty('--api-h3', L.h3);
+      caixa.style.setProperty('--api-lletra', L.cos);
+      imatge.style.left = L.boxLeft + 'px'; imatge.style.top = L.boxTop + 'px';
+      imatge.style.width = L.boxW + 'px'; imatge.style.height = L.boxH + 'px';
+      llenc.style.top = L.imgY + 'px';
+      llenc.style.transform = 'translateX(-50%) scale(' + L.s + ')';
+
+      function vist(k) {
+        for (var i = 0; i < c; i++) if (POS[i][k][2] > 0) return true;
+        return false;
+      }
+      Object.keys(P).forEach(function (k) {
+        var x = P[k][0], y = P[k][1], estat = P[k][2], t = pla.tN[k], el = nodes[k], o, sc;
+        el.classList.toggle('petit', estat === 'm');
+        if (estat === 'm') { o = sensePas ? 0 : 1; sc = .42; }
+        else {
+          if (sensePas || estat === 0) o = 0;
+          else if (estat === 1 && t != null && temps < t) o = vist(k) ? .3 : 0;
+          else o = estat;
+          y = sensePas ? y + 16 : (o === 0 && !vist(k) ? y + 10 : y);
+          sc = o === 1 ? 1 : o > 0 ? .92 : .8;
+        }
+        el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.opacity = o; el.style.setProperty('--s', sc);
+        if (k === 'sh') { tapa.style.left = el.style.left; tapa.style.top = el.style.top; tapa.style.opacity = o; tapa.style.setProperty('--s', sc); }
+      });
+      ARR.forEach(function (a) {
+        var g = geom(a, P), lvl = sensePas ? 0 : a.st[c] || 0, ta = pla.tA[a.k], f = fletxes[a.k], e = etis[a.k], draw, cap, lo, dt;
+        if (lvl === 1 && ta) { draw = temps >= ta.s ? 1 : 0; cap = temps >= ta.e ? 1 : 0; dt = draw ? '.7s' : '0s'; }
+        else { draw = lvl > 0 ? 1 : 0; cap = draw; dt = '.25s'; }
+        lo = lvl === 1 ? (vistes[a.k] || calma ? 1 : 0) : lvl;
+        f.el.style.left = g.x + 'px'; f.el.style.top = g.y + 'px'; f.el.style.width = g.len + 'px';
+        f.el.style.transform = 'rotate(' + g.rot + 'deg)'; f.el.style.opacity = lvl;
+        f.linia.style.transitionDuration = dt; f.linia.style.transform = 'scaleX(' + draw + ')';
+        f.cap.style.opacity = cap;
+        e.style.left = g.lx + 'px'; e.style.top = g.ly + 'px'; e.style.transform = g.lt; e.style.opacity = lo;
+      });
+      fases.forEach(function (f, i) {
+        var ara = i === fase;
+        f.style.top = '0'; f.style.left = L.left[i] + 'px'; f.style.width = L.textW + 'px';
+        f.style.opacity = ara ? 1 : 0; f.style.visibility = ara ? 'visible' : 'hidden';
+        f.style.transform = 'translateY(' + (ara ? 0 : 14) + 'px)';
+        f.style.transition = ara ? 'opacity .5s ease .45s, transform .6s cubic-bezier(.22,.61,.36,1) .45s, visibility 0s linear 0s' : 'opacity .3s ease, transform 0s linear .3s, visibility 0s linear .3s';
+      });
+      passos.forEach(function (li, i) {
+        li.style.display = (L.estreta ? i === c : i <= c) ? 'grid' : 'none';
+        li.classList.toggle('ara', i === c);
+      });
+      var fet = temps >= pla.fi;
+      para.classList.toggle('on', fet && c === 4);
+      para.style.left = P.xal[0] + 'px';
+      cadenes = fet && !sensePas && !calma ? recorreguts(c, P) : [];
+
+      var text = fases[FASE[Math.max(0, c)]].offsetHeight;
+      if (text !== mida.text) { mida.text = text; pinta(); return; }
+      var sig = c + ':' + cadenes.map(function (ch) { return ch.id; }).join('|') + ':' + mida.W + ':' + veu;
+      if (sig !== signatura) { signatura = sig; engegaBoles(); }
+    }
+    function mira() {
+      esperant = false;
+      var r = escena.getBoundingClientRect(), alt = quiet.offsetHeight, espera = window.innerHeight * .12;
+      var cap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cap-alt')) || 64;
+      var t = (cap - r.top - espera) / Math.max(1, r.height - alt - espera) * 6.25;
+      var nou = t > 0 ? Math.min(5, Math.floor(t)) : -1, W = caixa.offsetWidth, hh = capsal.offsetHeight;
+      if (nou === pas && W === mida.W && alt === mida.alt && hh === mida.cap) return;
+      mida.W = W; mida.alt = alt; mida.cap = hh;
+      if (nou !== pas) { pas = nou; vistes = {}; comenca(nou); }
+      pinta();
+    }
+    function demana() { if (!esperant) { esperant = true; requestAnimationFrame(mira); } }
+    window.addEventListener('scroll', demana, { passive: true });
+    window.addEventListener('resize', demana);
+    if (window.ResizeObserver) { var ro = new ResizeObserver(pinta); fases.forEach(function (f) { ro.observe(f); }); }
+    // Fora de la pantalla, ni boles ni peces que suren
+    function alCamp(si) { veu = si; sec.classList.toggle('veu', si); pinta(); }
+    if (hiHaIO) new IntersectionObserver(function (es) { alCamp(es[0].isIntersecting); }).observe(escena);
+    else alCamp(true);
+    mira();
+  })();
 })();
 </script>
 
