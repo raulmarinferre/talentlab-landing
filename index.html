@@ -781,12 +781,6 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 /* L'entrada d'«El territori», lligada a l'scroll (01/11/2026, en Raül): el fons i la línia de dalt els porta el full, que
    apareix; si no, es veuria una llosa grisa abans que ell. L'opacitat i el moviment els posa el lliscament. */
 #context.entra { background: none; border-top-color: transparent; }
-/* Per comparar les entrades: es treu quan en Raül triï */
-.compara-entrada { position: fixed; z-index: 40; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 2px; padding: 3px; border-radius: 10px; background: #ECEAE6; color: #1F1D1A; font: 400 14px/1 var(--f-text); box-shadow: 0 1px 2px rgba(31, 29, 26, .1), 0 12px 24px -12px rgba(31, 29, 26, .35); }
-.compara-entrada span { padding-inline: 10px 8px; color: #6D6A65; font-weight: 300; }
-.compara-entrada button { padding: 8px 12px; border: 0; border-radius: 8px; background: none; cursor: pointer; }
-.compara-entrada button[aria-pressed="true"] { background: #FFFFFF; font-weight: 500; }
-@media (max-width: 859px) { .compara-entrada { display: none; } }
 
 /* Com es va fer (en Raül, 21/10/2026): el tauler de debò del Cicle 0 al Miro, a sang (captura del
    tauler sencer), i a sobre només la caixa del text, en vidre. */
@@ -2353,8 +2347,6 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
 
 </main>
 
-<!-- Per comparar l'entrada del full: es treu quan en Raül triï -->
-<div class="compara-entrada" id="compara-entrada" role="group" aria-label="Entrada del full"><span>El full</span><button type="button" data-v="abans" aria-pressed="false">Abans</button><button type="button" data-v="despres" aria-pressed="true">Després</button></div>
 
 <footer class="peu">
   <div class="amplada peu-in">
@@ -3090,11 +3082,11 @@ function entraDeBaix(el, inici, fi, px) {
     var full = ctx.querySelector('.hs'), vidre = ctx.querySelector('.ctx-vidre');
     var gran = window.matchMedia('(min-width: 860px)');
     function tram(p, a, b) { var t = Math.max(0, Math.min(1, (p - a) / (b - a))); return t * t * (3 - 2 * t); }
-    // El full es munta peça a peça (01/11/2026, en Raül, per comparar amb l'interruptor): la barra, el menú, les eines i cada fila,
+    // El full es munta peça a peça (01/11/2026, en Raül): la barra, el menú, les eines i cada fila,
     // de dalt a baix, amb el gest de sempre. Cada peça entra quan puja a la pantalla, i l'última arriba abans que la secció s'aturi.
     // Les files de sota el full no es veuen: no es toquen. Només s'escriu el que canvia: a cada moment, se'n mouen unes poques.
     var pecesFull = Array.prototype.slice.call(ctx.querySelectorAll('.hs-titol, .hs-menu, .hs-eines, .hs-formula, .hs-f, .hs-pestanyes'));
-    var pecaAPeca = true, posades = [], ambPeces = false;
+    var posades = [], ambPeces = false;
     function mouPeces(p, recorregut) {
       var alt = full.offsetHeight;
       ambPeces = true;
@@ -3120,8 +3112,8 @@ function entraDeBaix(el, inici, fi, px) {
       var cap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cap-alt')) || 0;
       var recorregut = innerHeight - cap, p = (innerHeight - ctx.getBoundingClientRect().top) / recorregut;
       var v = tram(p, .3, .8), g = tram(p, .55, 1);
-      if (pecaAPeca) { full.style.opacity = tram(p, 0, .12).toFixed(3); mouPeces(p, recorregut); }
-      else { treuPeces(); full.style.opacity = tram(p, 0, .6).toFixed(3); }
+      full.style.opacity = tram(p, 0, .12).toFixed(3);
+      mouPeces(p, recorregut);
       vidre.style.opacity = v.toFixed(3);
       vidre.style.transform = v < 1 ? 'translateY(' + ((1 - v) * 120).toFixed(1) + 'px)' : '';
       gm.style.opacity = g.toFixed(3);
@@ -3142,15 +3134,6 @@ function entraDeBaix(el, inici, fi, px) {
     window.addEventListener('scroll', engegaGem, { passive: true });
     window.addEventListener('resize', engegaGem);
     mouEntrada();
-    // L'interruptor: es treu quan en Raül triï
-    var compara = document.getElementById('compara-entrada');
-    compara.addEventListener('click', function (e) {
-      var b = e.target.closest('button');
-      if (!b) return;
-      pecaAPeca = b.getAttribute('data-v') === 'despres';
-      Array.prototype.forEach.call(compara.querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', String(x === b)); });
-      mouEntrada();
-    });
   })();
 </script>
 
