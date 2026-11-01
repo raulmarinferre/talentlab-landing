@@ -109,8 +109,15 @@ button, input, textarea { font: inherit; color: inherit; }
 p { text-wrap: pretty; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
 section[id] { scroll-margin-top: calc(var(--cap-alt) + 8px); }
+/* On aterra cada enllaç del menú (01/11/2026, en Raül: que el que es veu tingui sentit, encara que l'scroll ja hagi fet feina).
+   Com funciona: el títol a prop de la capçalera, no l'aire de sobre. El territori: el full just a sota de la capçalera. Com s'ha
+   fet: la primera caixa, al mig, no el tauler sol, que aniria molt per sobre del títol. Al vostre servei, a section.api. */
+#com-funciona { scroll-margin-top: calc(var(--cap-alt) - var(--aire) + 32px); }
+#context { scroll-margin-top: var(--cap-alt); }
+#com-sha-fet { scroll-margin-top: var(--cap-alt); }
 .amplada { width: min(100% - 2 * var(--gutter), var(--amplada)); margin-inline: auto; }
-.eyebrow { font: 500 1rem/1.4 var(--f-text); color: var(--ink-3); }
+/* Les etiquetes, en Geist Light i gris (01/11/2026, en Raül), perquè no es confonguin amb el text pla, i a 6 px del títol */
+.eyebrow { font: 300 1rem/1.4 var(--f-text); color: var(--ink-3); }
 .petit { font-size: .875rem; font-weight: 300; line-height: 1.5; color: var(--ink-3); }
 .ic { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -245,6 +252,11 @@ section[id] { scroll-margin-top: calc(var(--cap-alt) + 8px); }
 .cf-titol { display: grid; justify-items: center; gap: clamp(14px, 1.2vw, 22px); margin-bottom: clamp(56px, 6vw, 104px); text-align: center; }
 .cf-titol h2 { font: 650 clamp(1.6rem, 3.4vw, 3rem)/1.04 var(--f-titols); letter-spacing: -.032em; text-wrap: balance; }
 .cf-titol p { margin-top: -9px; font-size: 1.3125rem; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+/* Sota l'slider, quan ja s'ha vist (01/11/2026, en Raül: entre el títol i els passos en tallava el fil). És com una secció entre
+   dues, amb el mateix aire a dalt i a baix, i surt quan s'hi arriba. Sense l'exemple, no hi és */
+.cf-prova-fila { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 24px; margin-top: var(--aire); text-align: center; }
+.cf-prova-fila:has(> [hidden]) { display: none; }
+.cf-prova-fila p { font-size: 1.3125rem; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
 .cf-prova::after { content: "↗"; margin-left: 8px; }
 .ep-carril {
   position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 17px; padding: 3px;
@@ -526,28 +538,65 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 
 
 /* Parlem-ne */
-.parlem { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 64px); padding: clamp(22px, 4vw, 48px); border-radius: 18px; border: 1px solid var(--rule); background: var(--card); box-shadow: var(--ombra); }
-.parlem-text { display: grid; gap: 18px; align-content: start; }
-.missatge { display: grid; gap: 14px; }
+/* Parlem-ne (Claude Design, 31/10/2026, «Contacte - versions», 3a i 2a): a la pàgina, sense targeta, amb una línia a dalt
+   i el formulari a sota; en clicar «Parlem-ne», una finestra partida, amb el text sobre gris i el formulari sobre blanc.
+   Tots dos de tu i sense caselles. El padding de dalt de la secció passa a .parlem perquè la línia toqui l'anterior. */
+.seccio#parlem { padding-top: 0; }
+#miro { border-bottom: 0; } /* La línia ja la porta .parlem: si no, n'hi ha dues de juntes */
+.parlem { display: flex; flex-direction: column; gap: 40px; padding-top: var(--aire); border-top: 1px solid var(--rule-2); }
+.parlem-cap { display: grid; gap: 18px; max-width: 36em; }
+.pf-text > div:first-child { display: grid; gap: 18px; }
+.parlem-cap .eyebrow, .pf-text .eyebrow { margin-bottom: -12px; }
+.missatge { display: grid; gap: 16px; }
+#missatge { grid-template-columns: repeat(3, minmax(0, 1fr)); padding-top: 32px; border-top: 1px solid var(--rule); }
+.camp-ample, .form-peu, #missatge [data-estat] { grid-column: 1 / -1; }
 .form-t { font-weight: 600; }
 .camp { display: grid; gap: 6px; min-width: 0; padding: 0; border: 0; }
-.camp > label, .camp legend { font-size: .875rem; font-weight: 500; color: var(--ink-2); }
+.camp > label { display: grid; gap: 6px; font-size: .875rem; font-weight: 500; color: var(--ink-2); }
 .camp input[type="text"], .camp input[type="email"], .camp textarea { width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--rule-2); background: var(--card); color: var(--ink); font: 400 1rem/1.4 var(--f-text); }
 .camp input[type="text"]:focus, .camp input[type="email"]:focus, .camp textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(31, 29, 26, .14); }
-.camp legend { padding: 0; margin-bottom: 6px; }
-.camp textarea { min-height: 88px; resize: vertical; }
-.opcions { display: flex; flex-wrap: wrap; gap: 8px; }
-.opcio { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--rule-2); background: var(--card); font-size: .875rem; cursor: pointer; }
-.opcio:has(input:checked) { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
-.opcio input { margin: 0; accent-color: var(--ink); }
-.form-accions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.camp textarea { min-height: 96px; resize: vertical; }
+.form-peu { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 4px; }
+.form-peu .qui { padding-top: 0; border-top: 0; }
+.form-peu .boto { flex: none; }
 /* El formulari envia a Apps Script (en Raül, 23/10/2026: «sense cap correu a la pàgina»). El camp trampa no es veu ni
    s'hi arriba amb el teclat: només l'omple un robot. */
 .camp-trampa { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .camp input[aria-invalid="true"] { border-color: var(--taronja); }
-#c-estat.fet { color: var(--verd); font-weight: 500; }
-#c-estat.error { color: var(--taronja); }
-@media (max-width: 900px) { .parlem { grid-template-columns: minmax(0, 1fr); } }
+/* L'estat es queda a la graella encara que sigui buit, perquè el lector de pantalla el digui quan s'omple: sense text,
+   el formulari es menja el seu espai. data-estat també el porten peces dels exemples: només dins de .missatge. */
+.missatge:has([data-estat]:empty) { margin-bottom: -16px; }
+.missatge [data-estat].fet { color: var(--verd); font-weight: 500; }
+.missatge [data-estat].error { color: var(--taronja); }
+/* La finestra. La vora i l'ombra van també al dialog: amb overflow: auto, l'ombra de .pf quedaria retallada. */
+#parlem-finestra { width: min(100% - 2 * var(--gutter), 1040px); max-width: none; max-height: calc(100dvh - 48px); margin: auto; padding: 0; overflow: auto; border: 0; border-radius: 18px; background: transparent; color: var(--ink); box-shadow: var(--ombra); }
+/* S'obre escalant-se des del mig (01/11/2026, en Raül) */
+#parlem-finestra[open] { animation: pfEntra .34s cubic-bezier(.2, .7, .2, 1); }
+#parlem-finestra::backdrop { background: rgba(31, 29, 26, .45); backdrop-filter: blur(2px); }
+#parlem-finestra[open]::backdrop { animation: pfFons .18s ease; }
+@keyframes pfEntra { from { opacity: 0; transform: scale(.86); } }
+@media (prefers-reduced-motion: reduce) { #parlem-finestra[open], #parlem-finestra[open]::backdrop { animation: none; } }
+@keyframes pfFons { from { opacity: 0; } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #parlem-finestra::backdrop { background: rgba(0, 0, 0, .6); } }
+:root[data-theme="dark"] #parlem-finestra::backdrop { background: rgba(0, 0, 0, .6); }
+.pf { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); overflow: hidden; border-radius: 18px; border: 1px solid var(--rule); background: var(--card); }
+.pf-text { display: flex; flex-direction: column; justify-content: space-between; gap: 40px; padding: 48px; border-right: 1px solid var(--rule); background: var(--fons); }
+.pf-text h2 { font: 650 clamp(1.75rem, 3vw, 2.5rem)/1.04 var(--f-titols); letter-spacing: -.032em; text-wrap: balance; }
+.pf-text .qui { padding-top: 0; border-top: 0; }
+.pf-text .qui img { background: var(--rule); }
+#pf-missatge { align-content: start; padding: 48px; }
+#pf-missatge .boto { justify-self: start; }
+#pf-missatge .camp textarea { min-height: 104px; }
+.pf-tanca { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 10px; background: transparent; color: var(--ink-2); cursor: pointer; }
+.pf-tanca:hover { background: var(--hover); color: var(--ink); }
+@media (max-width: 760px) {
+  #missatge { grid-template-columns: minmax(0, 1fr); }
+  .form-peu { flex-direction: column; align-items: stretch; }
+  .pf { grid-template-columns: minmax(0, 1fr); }
+  .pf-text { padding: 28px; border-right: 0; border-bottom: 1px solid var(--rule); }
+  #pf-missatge { padding: 28px; }
+  #pf-missatge .boto { justify-self: stretch; }
+}
 
 /* Peu */
 .peu { padding-block: 40px 28px; border-top: 1px solid var(--rule); background: var(--paper-2); }
@@ -708,6 +757,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   -webkit-backdrop-filter: blur(14px) saturate(1.6); backdrop-filter: blur(14px) saturate(1.6);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 1px 2px rgba(31, 29, 26, .05), 0 30px 60px -30px rgba(31, 29, 26, .45);
 }
+.ctx-vidre .eyebrow { margin-bottom: 6px; }
 .ctx-vidre h2 { font: 650 clamp(1.75rem, 2.9vw, 2.5rem)/1.02 var(--f-titols); letter-spacing: -.032em; text-wrap: balance; }
 .ctx-text { margin-top: 18px; font-size: clamp(.875rem, 1.2vw, 1rem); line-height: 1.5; color: var(--ink-2); }
 .ctx-text b { font-weight: 600; color: var(--ink); }
@@ -727,6 +777,16 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   .hs-formula, .hs-graella { margin-right: 0; }
   .gm { position: relative; top: auto; right: auto; bottom: auto; align-self: flex-end; width: min(100% - 2 * var(--gutter), 420px); margin: 24px var(--gutter) 0 auto; box-shadow: 0 2px 4px rgba(31, 29, 26, .08), 0 40px 80px -30px rgba(31, 29, 26, .55); border-radius: 18px; }
 }
+
+/* L'entrada d'«El territori», lligada a l'scroll (01/11/2026, en Raül): el fons i la línia de dalt els porta el full, que
+   apareix; si no, es veuria una llosa grisa abans que ell. L'opacitat i el moviment els posa el lliscament. */
+#context.entra { background: none; border-top-color: transparent; }
+/* Per comparar les entrades: es treu quan en Raül triï */
+.compara-entrada { position: fixed; z-index: 40; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 2px; padding: 3px; border-radius: 10px; background: #ECEAE6; color: #1F1D1A; font: 400 14px/1 var(--f-text); box-shadow: 0 1px 2px rgba(31, 29, 26, .1), 0 12px 24px -12px rgba(31, 29, 26, .35); }
+.compara-entrada span { padding-inline: 10px 8px; color: #6D6A65; font-weight: 300; }
+.compara-entrada button { padding: 8px 12px; border: 0; border-radius: 8px; background: none; cursor: pointer; }
+.compara-entrada button[aria-pressed="true"] { background: #FFFFFF; font-weight: 500; }
+@media (max-width: 859px) { .compara-entrada { display: none; } }
 
 /* Com es va fer (en Raül, 21/10/2026): el tauler de debò del Cicle 0 al Miro, a sang (captura del
    tauler sencer), i a sobre només la caixa del text, en vidre. */
@@ -880,7 +940,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cvf { --velat: rgba(19, 18, 16, .72); } }
 :root[data-theme="dark"] .cvf { --velat: rgba(19, 18, 16, .72); }
 .cvf h3 { font: 650 clamp(1.375rem, 2.2vw, 1.875rem)/1.08 var(--f-titols); letter-spacing: -.028em; text-wrap: balance; }
-.cvf-meta { font: 500 1rem/1.4 var(--f-text); color: var(--ink-3); }
+.cvf-meta { font: 300 1rem/1.4 var(--f-text); color: var(--ink-3); }
 /* El que entra quan es veu: puja una mica i s'encén, cadascun amb el seu retard (--d) */
 .cvf .entra { opacity: 0; transform: translateY(14px); transition: opacity .6s ease var(--d, 0s), transform .8s var(--ease) var(--d, 0s); }
 .cvf .vist .entra, .cvf .entra.vist { opacity: 1; transform: none; }
@@ -910,7 +970,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 .fa-caixa { transition: opacity .6s ease, transform .8s var(--ease); }
 .fa-pas:not(.actiu) .fa-caixa { opacity: .28; transform: scale(.98); }
 .fa-caixa h2 { font: 650 clamp(1.75rem, 2.9vw, 2.5rem)/1.02 var(--f-titols); letter-spacing: -.032em; text-wrap: balance; }
-.fa-caixa .cvf-meta { margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.fa-caixa .cvf-meta { margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
 .fa-num { display: inline-grid; place-items: center; min-width: 28px; height: 28px; padding: 0 8px; border-radius: 999px; background: var(--ink); color: var(--paper); font-weight: 600; }
 .fa-baixa { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; font-size: .875rem; color: var(--ink-3); }
 .fa-baixa .ic { width: 18px; height: 18px; animation: faBaixa 1.8s ease-in-out infinite; }
@@ -1520,11 +1580,11 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   background: var(--llenc) url(miro-tauler-nou-vora.jpg) 352px -8px / 2096px 1103px no-repeat; filter: grayscale(1) blur(3px);
 }
 .fi-base::after, .fi-enc::after { content: ""; position: absolute; inset: 0; background: rgba(226, 226, 224, .62); pointer-events: none; }
-/* Abans del primer pas, el tauler encès: en color, nítid i sense vel; quan es comença a lliscar s'apaga, i després vola
-   cap a l'encàrrec (28/10/2026, en Raül) */
+/* Abans del primer pas, el tauler encès: en blanc i negre (31/10/2026, en Raül), nítid i sense vel; quan es comença a
+   lliscar s'apaga, i després vola cap a l'encàrrec (28/10/2026, en Raül) */
 .fi-base { transition: filter .9s ease; }
 .fi-base::after { transition: opacity .9s ease; }
-.fi .fa-escena.encesa .fi-base, .fi .fa-escena.encesa .fi-enc { filter: grayscale(0) blur(0); }
+.fi .fa-escena.encesa .fi-base, .fi .fa-escena.encesa .fi-enc { filter: grayscale(1) blur(0); }
 .fi .fa-escena.encesa .fi-base::after, .fi .fa-escena.encesa .fi-enc::after { opacity: 0; }
 .fi-nitid {
   position: absolute; background: url(miro-tauler-nou.jpg) no-repeat; background-size: 2000px 1007px;
@@ -1630,8 +1690,9 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 .fi-coment .escriu::after { content: ""; display: inline-block; width: 1.5px; height: 1em; margin-left: 1px; vertical-align: -2px; background: currentColor; animation: fiCursor .9s steps(1) infinite; }
 @keyframes fiCursor { 50% { opacity: 0; } }
 @media (min-width: 860px) {
-  /* Abans del primer pas, una estona amb tot el tauler, de lluny: mig pantalla de lliscar */
-  .fi .fa-passos { padding-top: calc(50svh + 50svh); }
+  /* El primer pas arrenca quan la secció toca la capçalera (01/11/2026, en Raül: no tanta estona la imatge sola): el pas
+     s'encén a mitja pantalla, i per això aquesta mida. Tot el tauler, de lluny, es veu mentre apareix */
+  .fi .fa-passos { padding-top: calc(50svh - var(--cap-alt)); }
   /* Mapejar és més llarg, perquè en lliscar s'hi encenen els taulers un a un, i la caixa s'hi queda quieta; a escoltar
      i a prioritzar (`.atura`), la caixa també s'hi queda quieta una estona */
   .fi .fa-pas[data-trams], .fi .fa-pas.atura { align-items: flex-start; }
@@ -1656,7 +1717,7 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
   .fi-base, .fi-base::after, .fi-nitid, .fi-enc, .fi-enc::after, .fi-titol, .fi .fa-tauler .fi-postit, .fi-barra, .fi-punt, .fi-fric, .fi .fa-pas .fa-caixa { transition: none; }
 }
 
-.ap-parlem { color: var(--ink-2); }
+.ap-parlem { color: var(--ink-2); text-wrap: pretty; }
 /* Què t'aporta (31/10/2026, en Raül): la de Claude Design. La imatge és un gràfic que es refà a cada pas, amb peces que suren, fletxes
    que s'allarguen i boles que hi passen. Les mesures i els temps són els del lliurament; els colors, amb els tokens, perquè
    vagi també en fosc. La capçalera es queda fixa a sota de la de la pàgina, i l'alçada de la caixa la posa el JavaScript. */
@@ -1669,8 +1730,15 @@ button.estat[aria-expanded="true"] { border-color: var(--ink-3); box-shadow: 0 0
 /* L'aire de dalt llisca amb la secció; quan la capçalera es queda fixa, menys que al lliurament, que no tenia la de la pàgina:
    l'alçada que aquesta ocupa surt d'aquí, perquè els passos hi càpiguen. L'enllaç del menú arriba a l'escena. A baix, la meitat: l'alçada de l'escena ja deixa aire sota el gràfic. */
 section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-top: calc(var(--cap-alt) - var(--aire)); }
+/* Menys aire fins a «Com s'ha fet» (01/11/2026, en Raül). A les pantalles altes, on el gràfic no creix, el tauler entra dins del
+   buit de sota: si no, n'hi quedaria més com més alta és la pantalla */
+@media (min-width: 860px) {
+  section.api { padding-bottom: 0; }
+  #miro { margin-top: calc(max(0px, 100svh - 820px) * -.6); }
+}
 .api-cap { padding-block: clamp(24px, 4vh, 40px) clamp(32px, 6vh, 64px); }
 .api-cap > div { display: grid; gap: 14px; max-width: 52rem; }
+.api-cap .eyebrow { margin-bottom: -8px; }
 .api h2 { font: 650 clamp(31px, 3.7vw, 48px)/1.04 var(--f-titols); letter-spacing: -.032em; text-wrap: balance; }
 .api-entrada { max-width: 40em; font: 400 18px/1.6 var(--f-text); color: var(--ink-2); }
 .api-mig { flex: 1; min-height: 0; display: grid; align-items: start; justify-items: center; padding-bottom: 16px; }
@@ -1700,7 +1768,13 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
 .api-para.on { opacity: 1; }
 .api-para svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .api-fase { position: absolute; display: grid; gap: 22px; opacity: 0; visibility: hidden; }
-.api-fase > p { font: 500 1rem/1.4 var(--f-text); color: var(--ink-3); }
+.api-fase > p { font: 300 1rem/1.4 var(--f-text); color: var(--ink-3); }
+/* A baix de la pantalla mentre encara no s'ha baixat dins de la secció (01/11/2026, en Raül): mira() l'encén i l'apaga.
+   Es gronxa tot sencer, a poc a poc, per suggerir el moviment. Va fixa, o abans que el títol es quedi quiet no es veuria. */
+.api-baixa { position: fixed; z-index: 20; left: 0; right: 0; bottom: 48px; justify-content: center; margin-top: 0; pointer-events: none; opacity: 0; transition: opacity .4s ease; animation: apiBaixa 1.6s ease-in-out infinite alternate; }
+.api-baixa.on { opacity: 1; }
+.api-baixa .ic { animation: none; }
+@keyframes apiBaixa { from { transform: translateY(-4px); } to { transform: translateY(4px); } }
 .api-pas { display: none; grid-template-columns: auto minmax(0, 1fr); gap: 16px; animation: apiPuja .6s var(--api-ease) .15s both; }
 .api-pas + .api-pas { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--rule); }
 .api-estreta .api-pas + .api-pas { margin-top: 0; padding-top: 0; border-top: 0; }
@@ -1752,8 +1826,8 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
     <nav class="nav" aria-label="Seccions">
       <a href="#com-funciona" data-t="Com funciona">Com funciona</a>
       <a href="#context" data-t="El territori">El territori</a>
-      <a href="#aporta" data-t="Què t'aporta">Què t'aporta</a>
-      <a href="#miro" data-t="Com s'ha fet">Com s'ha fet</a>
+      <a href="#aporta" data-t="Al vostre servei">Al vostre servei</a>
+      <a href="#com-sha-fet" data-t="Com s'ha fet">Com s'ha fet</a>
     </nav>
     <a class="boto petit-b" href="#parlem">Parlem-ne</a>
   </div>
@@ -1771,8 +1845,8 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
       <div class="foto-fila">
         <div class="foto-text">
           <p class="anotacio">Creada amb les orientadores del Servei del Lluçanès</p>
-          <h1 id="hero-t0">Orienta amb la IA que creua el mercat amb el que només tu saps del territori.</h1>
-          <p class="foto-lede">Treballa al costat de Xaloc, Spin o el programa que fas servir, sense entrar-hi. Creua la fitxa amb les dades del teu territori i en treu una diagnosi contrastada, les ofertes que hi encaixen, un pla d'acció i el CV a punt.</p>
+          <h1 id="hero-t0">Orienta amb la IA <br>que creua el mercat <br>amb el que sabeu <br>del vostre territori.</h1>
+          <p class="foto-lede">TalentLab treballa al costat de Xaloc, Spin o el programa que fas servir, sense entrar-hi. Creua la fitxa amb les dades del teu territori i en treu una diagnosi contrastada, les ofertes que hi encaixen, un pla d'acció i el CV a punt.</p>
           <div class="accions">
             <a class="boto" href="#parlem" data-curt="Parlem-ne" data-curt2="Parlem-ne">Parlem-ne</a>
             <a class="boto secundari" href="#com-funciona" data-curt="Com funciona">Mira com funciona</a>
@@ -1809,8 +1883,7 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
     <div class="cf-cap">
       <div class="cf-titol">
         <h2 id="cf-t">Segueix la Laia en la seva orientació laboral.</h2>
-        <p>Arriba al teu servei després de la seva primera experiència professional.</p>
-        <a class="boto secundari cf-prova" href="#com-funciona" data-exemple="Prova-ho a TalentLab" hidden>Prova-ho a TalentLab</a>
+        <p>Arriba al vostre servei després de la seva primera experiència professional.</p>
       </div>
       <div class="ep-carril" id="ep-carril" role="tablist" aria-label="Els passos de l'eina">
         <span class="ep-pindola" id="ep-pindola" aria-hidden="true"></span>
@@ -1825,20 +1898,20 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
     <div class="cf-escena" id="cf-escena">
       <div class="cf-textos">
         <div class="pas-text actiu" id="text-fitxa">
-          <h3>Puges la fitxa al sistema i TalentLab en fa la resta.</h3>
-          <p>Fas l'entrevista a la Laia i li obres la fitxa a Xaloc, Spin o el programa que fas servir, com sempre. La resta t'ho farà TalentLab automàticament.</p>
+          <h3>Puges la fitxa i TalentLab fa la resta.</h3>
+          <p>Fas l'entrevista a la Laia i li obres la fitxa a Xaloc, Spin o el programa que fas servir, com sempre. Després, la puges a TalentLab.</p>
           <div class="cf-punts">
-            <div class="cf-punt"><h4>Sense dades personals</h4><p>No t'has de preocupar de treure dades personals: l'eina anonimitza segons el RGPD i t'ho ensenya perquè ho comprovis.</p></div>
+            <div class="cf-punt"><h4>Sense dades personals</h4><p>No t'has de preocupar de treure dades personals: l'eina treu el nom i els contactes abans d'enviar res, i t'ho ensenya perquè ho comprovis.</p></div>
             <div class="cf-punt"><h4>Tal com l'exportes del teu programa</h4><p>TalentLab està dissenyat per entendre la fitxa tal com surt de Xaloc, Spin o el que facis servir, sense retocar-la.</p></div>
             <div class="cf-punt"><h4>Puja el CV i enriqueix la diagnosi</h4><p>Si la Laia el té, pots pujar-lo i donar més informació a l'eina.</p></div>
           </div>
         </div>
         <div class="pas-text" id="text-diagnosi" aria-hidden="true">
           <h3>La diagnosi contrastada amb el territori.</h3>
-          <p>La teva intuïció i experiència, contrastades amb dades. La IA creua al moment la fitxa de la Laia amb les dades reals del territori que només tu coneixes.</p>
+          <p>La teva intuïció i experiència, contrastades amb dades. La IA creua al moment la fitxa de la Laia amb les dades reals del territori que només vosaltres coneixeu.</p>
           <div class="cf-punts">
             <div class="cf-punt"><h4>Què demana el territori</h4><p>TalentLab analitza el territori amb les dades reals d'empreses i serveis i et dona un diagnòstic de les possibilitats laborals de la Laia en aquell moment.</p></div>
-            <div class="cf-punt"><h4>Les empreses i contactes</h4><p>Obtens directament qui ha contractat perfils similars a la Laia i amb qui has de contactar per donar-li un cop de mà. El que tens a Xaloc i més.</p></div>
+            <div class="cf-punt"><h4>Les empreses i contactes</h4><p>Obtens directament qui ha contractat perfils similars a la Laia i amb qui has de contactar per donar-li un cop de mà. El que teniu a Xaloc i més.</p></div>
           </div>
         </div>
         <div class="pas-text" id="text-ofertes" aria-hidden="true">
@@ -1846,7 +1919,7 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
           <p>Amb la diagnosi feta, l'eina busca les ofertes obertes a portals públics i privats que encaixen amb el perfil de la Laia.</p>
           <div class="cf-punts">
             <div class="cf-punt"><h4>Els filtres de cerca per a cada portal</h4><p>Obre directament cada portal laboral públic o privat amb la cerca ja filtrada per a la Laia.</p></div>
-            <div class="cf-punt"><h4>Un sol mur amb totes les ofertes classificades</h4><p>Totes les ofertes del mercat que li encaixen, ordenades en un mur d'ofertes exclusivament per a la Laia.</p></div>
+            <div class="cf-punt"><h4>Un sol mur amb totes les ofertes classificades</h4><p>Les ofertes dels portals que li encaixen, ordenades en un sol mur per a la Laia.</p></div>
             <div class="cf-punt"><h4>Selecciona ofertes per proposar-li</h4><p>Entre totes les ofertes, tria quines li encaixen a la Laia.</p></div>
           </div>
         </div>
@@ -1855,20 +1928,20 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
           <p>TalentLab analitza les ofertes seleccionades i les compara amb la fitxa i el CV de la Laia.</p>
           <div class="cf-punts">
             <div class="cf-punt"><h4>Anàlisi de les ofertes seleccionades</h4><p>Tots els requisits principals de les ofertes, agrupats i explicats: d'on provenen i com els ha contrastat amb la informació de la Laia.</p></div>
-            <div class="cf-punt"><h4>Enriqueix els resultats al moment</h4><p>Pregunta a la Laia si té alguns dels requisits, canvia i anota comentaris als resultats obtinguts. Per exemple, li falta el C1, ja que la fitxa no diu que el tingui certificat: toca «Per aclarir» i modifica-ho si el té.</p></div>
+            <div class="cf-punt"><h4>Enriqueix els resultats al moment</h4><p>Pregunta a la Laia si té alguns dels requisits, canvia i anota comentaris als resultats obtinguts. Per exemple, la fitxa no diu si té vehicle: toca «Per aclarir» i canvia-ho si en té.</p></div>
           </div>
         </div>
         <div class="pas-text" id="text-ruta" aria-hidden="true">
           <h3>Un full de ruta per aconseguir els requisits de les ofertes.</h3>
           <p>Obtens un pla d'acció per a la Laia: què ha de fer i com, a curt, mitjà i llarg termini, per assolir els requisits de les feines que vol.</p>
           <div class="cf-punts">
-            <div class="cf-punt"><h4>La IA proposa, la Laia decideix</h4><p>La IA fa una proposta basada en el perfil de la Laia i els requisits detectats a les ofertes seleccionades. A partir d'aquí, pots redissenyar el camí com vulguis.</p></div>
+            <div class="cf-punt"><h4>La IA proposa, tu i la Laia decidiu</h4><p>La IA fa una proposta basada en el perfil de la Laia i els requisits detectats a les ofertes seleccionades. A partir d'aquí, pots redissenyar el camí com vulguis.</p></div>
             <div class="cf-punt"><h4>Coneix la normativa i els terminis de la selecció pública</h4><p>Ajuda la Laia a conèixer els processos de selecció i a poder-s'hi presentar, tant a l'oferta pública com a la privada.</p></div>
           </div>
         </div>
         <div class="pas-text" id="text-cv" aria-hidden="true">
           <h3>Un CV adaptat als requisits reals.</h3>
-          <p>Amb tota la informació del valor de la Laia i de com encaixa millor amb les ofertes que vol, és el moment de fer-li el CV a mida per a les ofertes triades.</p>
+          <p>Amb el que ja saps de la Laia i de les ofertes que vol, és el moment de fer-li el CV a mida.</p>
           <div class="cf-punts">
             <div class="cf-punt"><h4>Adaptat per a la lectura dels ATS</h4><p>Avui dia moltes ofertes les gestionen aquests robots, que escanegen el CV i el comparen amb l'oferta. TalentLab adapta el CV perquè els ATS hi trobin les paraules que busquen.</p></div>
             <div class="cf-punt"><h4>Adaptat per a la lectura humana</h4><p>Alhora, el CV i la carta de presentació, si s'escau, estan adaptats i dissenyats perquè siguin atractius per a les persones que els llegeixen.</p></div>
@@ -2057,6 +2130,10 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
         </div>
       </div></div>
     </div>
+    <div class="cf-prova-fila">
+      <p>Ara prova-ho tu amb la Laia directament a l'eina.</p>
+      <a class="boto secundari cf-prova" href="#com-funciona" data-exemple="Ves a TalentLab" hidden>Ves a TalentLab</a>
+    </div>
   </div>
 </section>
 
@@ -2074,13 +2151,14 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
   </div>
   <div class="amplada ctx-fila">
     <div class="ctx-vidre">
+      <p class="eyebrow">El territori</p>
       <h2 id="ctx-t">El que saps del territori, convertit en dades que la IA treballa per a tu.</h2>
-      <p class="ctx-text">El context del territori <b>el tens tu millor que ningú</b>, i l'has guardat durant anys al teu programa, sigui Xaloc, Spin o un de propi: les empreses, els contactes i les ofertes que has gestionat.</p>
-      <p class="ctx-text">Aquest context el posem en un <b>full compartit</b>, on creuem les dades, les estandarditzem i hi connectem un <b>assistent de Gemini</b> que el manté al dia amb el que li vas explicant. La IA treballa amb aquest full, i <b>l'eina hi comprova la diagnosi</b>.</p>
+      <p class="ctx-text">El context del territori <b>el teniu vosaltres millor que ningú</b>, i l'heu guardat durant anys al vostre programa, sigui Xaloc, Spin o un de propi: les empreses, els contactes i les ofertes que heu gestionat.</p>
+      <p class="ctx-text">Aquest context el posem en un <b>full compartit</b>, on creuem les dades, les estandarditzem i hi connectem un <b>assistent de Gemini</b> que el manté al dia amb el que li aneu explicant. La IA treballa amb aquest full, i <b>l'eina hi comprova la diagnosi</b>.</p>
     </div>
   </div>
   <figure class="gm" id="gm" aria-label="Exemple: expliques a l'assistent del territori el que has sabut d'una entitat i n'afegeix la fila al full; després li preguntes per una altra i te la troba al full">
-    <div class="gm-cap"><span class="gm-ic" aria-hidden="true">✦</span><span class="gm-nom"><b>Assistent del territori</b><span>Gemini, amb el teu full</span></span><button type="button" class="gm-torna" id="gm-torna" hidden>Torna-ho a veure</button></div>
+    <div class="gm-cap"><span class="gm-ic" aria-hidden="true">✦</span><span class="gm-nom"><b>Assistent del territori</b><span>Gemini, amb el vostre full</span></span><button type="button" class="gm-torna" id="gm-torna" hidden>Torna-ho a veure</button></div>
     <div class="gm-fil">
       <div class="gm-torn">
       <p class="gm-tu">Avui he parlat amb un centre obert de Prats de Lluçanès: a la tardor obren un segon grup i buscaran una educadora social.</p>
@@ -2119,11 +2197,12 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
 <section class="api" id="aporta" aria-labelledby="api-t">
   <div class="api-escena" id="api-escena">
     <div class="api-quiet">
+      <p class="fa-baixa api-baixa"><svg class="ic" aria-hidden="true"><use href="#i-avall"/></svg>Fes scroll i descobreix-ho</p>
       <div class="api-cap amplada">
         <div>
-          <p class="eyebrow">Com ho portem al vostre servei?</p>
-          <h2 id="api-t">Partim del que ja feu cada dia.</h2>
-          <p class="api-entrada">Sense canviar d'eina ni de manera de treballar; TalentLab s'adapta a la vostra eina i afegeix valor a l'orientació.</p>
+          <p class="eyebrow">Al vostre servei</p>
+          <h2 id="api-t">S'adapta a com treballeu, no al revés.</h2>
+          <p class="api-entrada">Partim del que ja feu cada dia: el vostre programa no es toca i TalentLab s'hi suma.</p>
         </div>
       </div>
       <div class="api-mig">
@@ -2140,22 +2219,22 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
           <div class="api-fase">
             <p>El que ja feu</p>
           <ol>
-            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-persona"/></svg></span><div><h3>Ve la Laia, l'entrevistes i ho registres.</h3><div class="api-cos"><div><p>Li feu l'entrevista i ho apunteu a Xaloc, o al programa que feu servir.</p></div></div></div></li>
+            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-persona"/></svg></span><div><h3>Ve la Laia, l'entrevistes i ho registres.</h3><div class="api-cos"><div><p>Li fas l'entrevista i ho apuntes a Xaloc, o al programa que fas servir.</p></div></div></div></li>
             <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-empresa"/></svg></span><div><h3>Coneixeu una empresa, i també ho apunteu.</h3><div class="api-cos"><div><p>La visiteu o li gestioneu una oferta, i vosaltres en poseu les dades al mateix lloc.</p></div></div></div></li>
           </ol>
           </div>
           <div class="api-fase">
             <p>Com ho aprofitem</p>
           <ol>
-            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-full"/></svg></span><div><h3>Les empreses, les exportem a un full de Google.</h3><div class="api-cos"><div><p>Les empreses passen de Xaloc a un Sheets. Xaloc no es toca: només en traiem una còpia.</p></div></div></div></li>
-            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-espurna"/></svg></span><div><h3>Un full fàcil d'enriquir i de mantenir.</h3><div class="api-cos"><div><p>Hi podeu afegir el que Xaloc no guarda, i un assistent d'IA fet per a aquest full (un Gem) us ajuda a tenir-lo al dia.</p></div></div></div></li>
+            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-full"/></svg></span><div><h3>Les empreses, les exportem a un full de Google.</h3><div class="api-cos"><div><p>Les empreses passen de Xaloc a aquest full. Xaloc no es toca: només en traiem una còpia.</p></div></div></div></li>
+            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-espurna"/></svg></span><div><h3>Un full fàcil d'enriquir i de mantenir.</h3><div class="api-cos"><div><p>Hi podeu afegir el que Xaloc no guarda, i un assistent d'IA fet per a aquest full us ajuda a tenir-lo al dia.</p></div></div></div></li>
           </ol>
           </div>
           <div class="api-fase">
-            <p>Una eina al vostre costat</p>
+            <p>TalentLab, al vostre servei</p>
           <ol>
             <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-marca"/></svg></span><div><h3>Sobre el full, muntem TalentLab.</h3><div class="api-cos"><div><p>Aprofita com està construït el full i hi suma les ofertes dels portals, al dia. S'obre al navegador, sense instal·lar res, i treballa en paral·lel a Xaloc, sense substituir-lo.</p></div></div></div></li>
-            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-persona"/></svg></span><div><h3>Al costat de l'orientadora, mentre orienta.</h3><div class="api-cos"><div><p>Creua la persona amb el full i les ofertes: us fa la diagnosi i us diu on encaixa. La decisió és vostra.</p></div></div></div></li>
+            <li class="api-pas"><span class="api-pas-ic"><svg><use href="#i-persona"/></svg></span><div><h3>Al teu costat, mentre orientes.</h3><div class="api-cos"><div><p>Creua la persona amb el full i les ofertes: et fa la diagnosi i et diu on encaixa. La decisió és teva.</p></div></div></div></li>
           </ol>
           </div>
         </div>
@@ -2186,13 +2265,13 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
       </div>
     </div>
     <ol class="amplada fa-passos">
-      <li class="fa-pas actiu fi-detall dreta atura" data-zona="13,203,191,266" data-max="4" data-focus="encarrec" data-cursors="g:70,545;v:150,550;r:178,255" data-guio="escoltar">
+      <li class="fa-pas actiu fi-detall dreta atura" id="com-sha-fet" data-zona="13,203,191,266" data-max="4" data-focus="encarrec" data-cursors="g:70,545;v:150,550;r:178,255" data-guio="escoltar">
         <span class="fa-retall" role="img" aria-label="La primera foto del projecte, al tauler: «Que el talent qualificat no hagi de marxar del territori», amb la Gemma i la Vanessa i el que diu cadascuna"></span>
         <div class="ctx-vidre mr-vidre fa-caixa">
           <p class="cvf-meta fi-meta"><span class="fi-progres" aria-hidden="true"><i class="fet"></i><i></i><i></i><i></i></span>Com s'ha fet · Escoltar</p>
           <h2 id="fi-t">Primer, escoltar qui ho fa cada dia.</h2>
           <blockquote class="fh-veu"><span class="fh-avs"><span class="fh-av"><img src="foto-gemma.jpg" alt=""><i>G</i></span><span class="fh-av"><img src="foto-vanessa.jpg" alt=""><i>V</i></span></span><p><b>Gemma i Vanessa</b>«Som les dues orientadores del Servei d'Ocupació del Lluçanès. Abans de construir res, en Raül va voler entendre com treballem. Per fer-ho, vam fer diversos exercicis plegats.»</p></blockquote>
-          <p class="fa-baixa"><svg class="ic" aria-hidden="true"><use href="#i-avall"/></svg>Fes scroll i t'ho expliquem</p>
+          <p class="fa-baixa"><svg class="ic" aria-hidden="true"><use href="#i-avall"/></svg>Fes scroll i descobreix-ho</p>
         </div>
       </li>
       <li class="fa-pas dreta" data-zona="207,10,1002,620" data-focus="ubicacio portals linkedin context eines" data-trams="ubicacio portals linkedin context eines" data-cursors="g:997,501;v:962,135;r:675,385" data-guio="mapejar">
@@ -2227,43 +2306,61 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
 <section class="seccio" id="parlem" aria-labelledby="pa-t">
   <div class="amplada">
     <div class="parlem">
-      <div class="parlem-text">
+      <div class="parlem-cap">
         <p class="eyebrow">Parlem-ne</p>
-        <h2 id="pa-t">Orienteu en un altre territori? Us l'ensenyo.</h2>
-        <p class="ap-parlem">Escriviu-me i en parlem: mitja hora per conèixer el servei, i us ensenyo l'eina amb fitxes inventades. Quant triga i quant costa depèn de com tingueu les dades: ho mirem en aquesta conversa.</p>
-        <div class="qui"><img src="avatar-raul.png" width="44" height="44" alt=""><p>Us respondré jo mateix: <a href="https://raulhere.com" target="_blank" rel="noopener">Raül Marín</a>. Faig TalentLab amb les orientadores que el fan servir.</p></div>
+        <h2 id="pa-t">Treballes en un altre territori? Te l'ensenyo.</h2>
+        <p class="ap-parlem">Escriu-me i en parlem: en mitja hora t'ensenyo com funciona l'eina, veiem com teniu muntat el servei i com l'adaptem. Quant triga i quant costa depèn de com tingueu les dades: ho mirem en aquesta conversa.</p>
       </div>
       <form class="missatge" id="missatge" novalidate>
-        <p class="form-t">Escriviu-me</p>
-        <div class="camp"><label for="c-nom">El vostre nom</label><input id="c-nom" type="text" autocomplete="name" maxlength="120"></div>
-        <div class="camp"><label for="c-correu">El vostre correu <span class="petit">On us responc</span></label><input id="c-correu" type="email" autocomplete="email" maxlength="160" required></div>
-        <div class="camp"><label for="c-servei">Servei i territori</label><input id="c-servei" type="text" placeholder="Servei d'ocupació de…" autocomplete="organization" maxlength="160"></div>
-        <fieldset class="camp">
-          <legend>Què us interessa?</legend>
-          <div class="opcions">
-            <label class="opcio"><input type="checkbox" id="c-o1" value="una demostració" checked>Una demostració</label>
-            <label class="opcio"><input type="checkbox" id="c-o2" value="adaptar-la al nostre territori">Adaptar-la al nostre territori</label>
-            <label class="opcio"><input type="checkbox" id="c-o3" value="preus i condicions">Preus i condicions</label>
-          </div>
-        </fieldset>
-        <div class="camp"><label for="c-text">Alguna cosa més? <span class="petit">Opcional</span></label><textarea id="c-text" rows="3" maxlength="3000"></textarea></div>
-        <div class="camp-trampa" aria-hidden="true"><label for="c-web">Web</label><input id="c-web" type="text" tabindex="-1" autocomplete="off"></div>
-        <div class="form-accions">
-          <button type="submit" class="boto" id="c-envia">Envia el missatge</button>
+        <div class="camp"><label for="c-nom">El teu nom</label><input id="c-nom" data-camp="nom" type="text" autocomplete="name" maxlength="120"></div>
+        <div class="camp"><label for="c-correu">El teu correu</label><input id="c-correu" data-camp="correu" type="email" autocomplete="email" maxlength="160" required></div>
+        <div class="camp"><label for="c-servei">Servei i territori</label><input id="c-servei" data-camp="servei" type="text" placeholder="Servei d'ocupació de…" autocomplete="organization" maxlength="160"></div>
+        <div class="camp camp-ample"><label for="c-text">Què t'interessa? <span class="petit">Una demostració, adaptar-la al teu territori, preus…</span></label><textarea id="c-text" data-camp="text" rows="3" maxlength="3000"></textarea></div>
+        <div class="camp-trampa" aria-hidden="true"><label for="c-web">Web</label><input id="c-web" data-camp="web" type="text" tabindex="-1" autocomplete="off"></div>
+        <div class="form-peu">
+          <div class="qui"><img src="avatar-raul.png" width="44" height="44" alt=""><p>Et respondré jo mateix: <a href="https://raulhere.com" target="_blank" rel="noopener">Raül Marín</a>. Faig TalentLab amb les orientadores que el fan servir.</p></div>
+          <button type="submit" class="boto" data-envia>Envia el missatge</button>
         </div>
-        <p class="petit" id="c-estat" role="status"></p>
+        <p class="petit" data-estat role="status"></p>
       </form>
     </div>
   </div>
 </section>
 
+<dialog id="parlem-finestra" aria-labelledby="pf-t">
+  <div class="pf">
+    <div class="pf-text">
+      <div>
+        <p class="eyebrow">Parlem-ne</p>
+        <h2 id="pf-t">Treballes en un altre territori? Te l'ensenyo.</h2>
+        <p class="ap-parlem">Escriu-me i en parlem: en mitja hora t'ensenyo com funciona l'eina, veiem com teniu muntat el servei i com l'adaptem. Quant triga i quant costa depèn de com tingueu les dades: ho mirem en aquesta conversa.</p>
+      </div>
+      <div class="qui"><img src="avatar-raul.png" width="44" height="44" alt=""><p>Et respondré jo mateix: <a href="https://raulhere.com" target="_blank" rel="noopener">Raül Marín</a>. Faig TalentLab amb les orientadores que el fan servir.</p></div>
+    </div>
+    <form class="missatge" id="pf-missatge" novalidate>
+      <p class="form-t">Escriu-me</p>
+      <div class="camp"><label for="pf-nom">El teu nom</label><input id="pf-nom" data-camp="nom" type="text" autocomplete="name" maxlength="120"></div>
+      <div class="camp"><label for="pf-correu">El teu correu</label><input id="pf-correu" data-camp="correu" type="email" autocomplete="email" maxlength="160" required></div>
+      <div class="camp"><label for="pf-servei">Servei i territori</label><input id="pf-servei" data-camp="servei" type="text" placeholder="Servei d'ocupació de…" autocomplete="organization" maxlength="160"></div>
+      <div class="camp"><label for="pf-text">Què t'interessa? <span class="petit">Una demostració, adaptar-la al teu territori, preus…</span></label><textarea id="pf-text" data-camp="text" rows="3" maxlength="3000"></textarea></div>
+      <div class="camp-trampa" aria-hidden="true"><label for="pf-web">Web</label><input id="pf-web" data-camp="web" type="text" tabindex="-1" autocomplete="off"></div>
+      <button type="submit" class="boto" data-envia>Envia el missatge</button>
+      <p class="petit" data-estat role="status"></p>
+    </form>
+    <button type="button" class="pf-tanca" aria-label="Tanca"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+</dialog>
+
 </main>
+
+<!-- Per comparar l'entrada del full: es treu quan en Raül triï -->
+<div class="compara-entrada" id="compara-entrada" role="group" aria-label="Entrada del full"><span>El full</span><button type="button" data-v="abans" aria-pressed="false">Abans</button><button type="button" data-v="despres" aria-pressed="true">Després</button></div>
 
 <footer class="peu">
   <div class="amplada peu-in">
     <div class="peu-marca">
       <a class="marca" href="#inici"><svg aria-hidden="true"><use href="#i-marca"/></svg>TalentLab</a>
-      <p class="petit">Cerques de feina amb el coneixement del vostre territori. Fet amb el Servei d'Ocupació del Lluçanès per <a href="https://raulhere.com" target="_blank" rel="noopener">Raül Marín</a>, 2026.</p>
+      <p class="petit">Cerques de feina amb el coneixement del teu territori. Fet amb el Servei d'Ocupació del Lluçanès per <a href="https://raulhere.com" target="_blank" rel="noopener">Raül Marín</a>, 2026.</p>
     </div>
     <div class="peu-dreta">
       <div class="peu-logos" role="group" aria-label="Qui hi ha al darrere">
@@ -2296,7 +2393,7 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
   // L'exemple de la Laia a l'eina de debò, sense compte (23/10/2026): l'adreça /exec del projecte d'Apps Script
   // d'apps_script_exemple/. La posa sola «Puja a Apps Script.command» en publicar-lo. Mentre és buida, els botons
   // no hi són: la pàgina no ensenya mai un enllaç que no va. Des del 27/10/2026, el de dalt diu sempre «Mira com
-  // funciona» i porta als passos; l'exemple s'obre des de «Prova-ho a TalentLab», a sota dels passos.
+  // funciona» i porta als passos; l'exemple s'obre des de «Ves a TalentLab», a sota dels passos (01/11/2026, en Raül).
   var EXEMPLE = 'https://script.google.com/macros/s/AKfycbzZ0QGCel2VdHO505w6RUlEpXpi17pd1JclOoit5ON-xDfuuln1ynbaF9l1g3lSAAwG/exec';
   if (/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(EXEMPLE)) {
     Array.prototype.forEach.call(document.querySelectorAll('[data-exemple]'), function (a) {
@@ -2314,10 +2411,6 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
   // és buida, el botó no envia res i ho diu.
   var CONTACTE = 'https://script.google.com/macros/s/AKfycbzKNupFR6qPtddS3PoEG4pNPTTVbvJyF6J7UvvsyJ3yn5II0WFL5SjRFe3J33_h4TZP/exec';
 
-  function llista(a) {
-    return a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' i ' + a[a.length - 1];
-  }
-
   // La capçalera, amb línia quan es baixa
   var cap = document.getElementById('cap');
   function linia() { cap.classList.toggle('avall', window.scrollY > 8); }
@@ -2327,7 +2420,7 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
   // El menú diu on ets (31/10/2026, en Raül): la secció que toca una línia a un terç de la pantalla. A les que no són
   // al menú (la portada, Parlem-ne), cap.
   var menu = Array.prototype.map.call(document.querySelectorAll('.nav a'), function (a) {
-    return { a: a, s: document.querySelector(a.getAttribute('href')) };
+    return { a: a, s: document.querySelector(a.getAttribute('href')).closest('section') };
   });
   var menuDemanat = false;
   function pintaMenu() {
@@ -2394,54 +2487,99 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !rqPop.hidden) tancaPop(true); });
 
   // Parlem-ne: el missatge va a Apps Script, que l'envia al correu d'en Raül. Es diu el que ha passat de debò: «Enviat»
-  // només quan el projecte respon que l'ha enviat.
-  var form = document.getElementById('missatge'), cEstat = document.getElementById('c-estat');
-  var cEnvia = document.getElementById('c-envia'), cCorreu = document.getElementById('c-correu');
+  // només quan el projecte respon que l'ha enviat. Hi ha dos formularis, la secció i la finestra, i un sol camí: els
+  // camps es busquen dins de cada form (data-camp, data-envia, data-estat). Sense caselles, «interessa» va buit i el que
+  // s'hi escriu va a «text»: el correu ja no porta la línia «Li interessa».
   var CONNECTAT = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(CONTACTE);
-  function valor(id) { return document.getElementById(id).value.trim(); }
-  function diuEstat(text, classe) { cEstat.textContent = text; cEstat.className = 'petit' + (classe ? ' ' + classe : ''); }
   var ERRORS = {
-    correu: 'Aquest correu no sembla una adreça. Mireu-lo, que és on us respondré.',
-    buit: 'Escriviu-hi alguna cosa: el nom, el servei o el que vulgueu.',
-    topall: 'Avui ja n\'han arribat molts. Torneu-ho a provar demà, si us plau.'
+    correu: 'Aquest correu no sembla una adreça. Mira\'l, que és on et respondré.',
+    buit: 'Escriu-hi alguna cosa: el nom, el servei o el que vulguis.',
+    topall: 'Avui ja n\'han arribat molts. Torna-ho a provar demà, si et plau.'
   };
-  if (!CONNECTAT) {
-    cEnvia.setAttribute('aria-disabled', 'true');
-    diuEstat('El formulari encara no està connectat: de moment no envia res.');
-  }
-  cCorreu.addEventListener('input', function () { cCorreu.removeAttribute('aria-invalid'); });
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    if (!CONNECTAT || cEnvia.disabled) return;
-    var d = {
-      nom: valor('c-nom'), correu: valor('c-correu'), servei: valor('c-servei'), text: valor('c-text'),
-      interessa: llista(Array.prototype.slice.call(form.querySelectorAll('.opcions input:checked')).map(function (i) { return i.value; })),
-      web: valor('c-web')
-    };
-    if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(d.correu)) {
-      cCorreu.setAttribute('aria-invalid', 'true');
-      cCorreu.focus();
-      diuEstat(ERRORS.correu, 'error');
-      return;
+  function connectaFormulari(form, enviat) {
+    var estat = form.querySelector('[data-estat]'), envia = form.querySelector('[data-envia]');
+    var correu = form.querySelector('[data-camp="correu"]');
+    function valor(nom) { return form.querySelector('[data-camp="' + nom + '"]').value.trim(); }
+    function diuEstat(text, classe) { estat.textContent = text; estat.className = 'petit' + (classe ? ' ' + classe : ''); }
+    if (!CONNECTAT) {
+      envia.setAttribute('aria-disabled', 'true');
+      diuEstat('El formulari encara no està connectat: de moment no envia res.');
     }
-    cEnvia.disabled = true;
-    diuEstat('Enviant…');
-    // Sense capçaleres: text pla, perquè el navegador no demani permís abans (Apps Script no el sabria donar).
-    fetch(CONTACTE, { method: 'POST', body: JSON.stringify(d) })
-      .then(function (r) { return r.json(); })
-      .then(function (r) {
-        if (r && r.ok) {
-          form.reset();
-          diuEstat('Enviat. Us respondré a ' + d.correu + '.', 'fet');
-        } else diuEstat(ERRORS[r && r.error] || 'No s\'ha pogut enviar. Torneu-ho a provar d\'aquí a una estona.', 'error');
-      })
-      .catch(function () { diuEstat('No s\'ha pogut enviar. Mireu la connexió i torneu-ho a provar.', 'error'); })
-      .then(function () { cEnvia.disabled = false; });
+    correu.addEventListener('input', function () { correu.removeAttribute('aria-invalid'); });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!CONNECTAT || envia.disabled) return;
+      var d = { nom: valor('nom'), correu: valor('correu'), servei: valor('servei'), text: valor('text'), interessa: '', web: valor('web') };
+      if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(d.correu)) {
+        correu.setAttribute('aria-invalid', 'true');
+        correu.focus();
+        diuEstat(ERRORS.correu, 'error');
+        return;
+      }
+      envia.disabled = true;
+      diuEstat('Enviant…');
+      // Sense capçaleres: text pla, perquè el navegador no demani permís abans (Apps Script no el sabria donar).
+      fetch(CONTACTE, { method: 'POST', body: JSON.stringify(d) })
+        .then(function (r) { return r.json(); })
+        .then(function (r) {
+          if (r && r.ok) {
+            form.reset();
+            diuEstat('Enviat. Et respondré a ' + d.correu + '.', 'fet');
+            if (enviat) enviat();
+          } else diuEstat(ERRORS[r && r.error] || 'No s\'ha pogut enviar. Torna-ho a provar d\'aquí a una estona.', 'error');
+        })
+        .catch(function () { diuEstat('No s\'ha pogut enviar. Mira la connexió i torna-ho a provar.', 'error'); })
+        .then(function () { envia.disabled = false; });
+    });
+  }
+  connectaFormulari(document.getElementById('missatge'));
+
+  // La finestra de «Parlem-ne»: s'obre amb els botons de la capçalera i de la portada. Sense JavaScript, o amb Ctrl o Cmd,
+  // l'enllaç continua portant a la secció. L'Esc i el focus atrapat ja venen amb <dialog>.
+  var finestra = document.getElementById('parlem-finestra'), pfForm = document.getElementById('pf-missatge');
+  var pfOrigen = null, pfTemps = null, pfDesDelFons = false;
+  connectaFormulari(pfForm, function () { pfTemps = setTimeout(function () { finestra.close(); }, 2500); });
+  document.querySelectorAll('a[href="#parlem"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+      e.preventDefault();
+      pfOrigen = a;
+      // Sense la barra de lliscar, la pàgina no s'ha de moure de lloc darrere la finestra.
+      var barra = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.overflow = 'hidden';
+      if (barra) document.documentElement.style.paddingRight = barra + 'px';
+      finestra.showModal();
+      document.getElementById('pf-nom').focus();
+    });
+  });
+  finestra.querySelector('.pf-tanca').addEventListener('click', function () { finestra.close(); });
+  // Només es tanca si el clic ha començat al fons: seleccionar text d'un camp i deixar anar a fora no la tanca.
+  finestra.addEventListener('pointerdown', function (e) { pfDesDelFons = e.target === finestra; });
+  finestra.addEventListener('click', function (e) { if (e.target === finestra && pfDesDelFons) finestra.close(); });
+  finestra.addEventListener('close', function () {
+    clearTimeout(pfTemps);
+    document.documentElement.style.removeProperty('overflow');
+    document.documentElement.style.removeProperty('padding-right');
+    var estat = pfForm.querySelector('[data-estat]');
+    if (estat.classList.contains('fet')) { estat.textContent = ''; estat.className = 'petit'; }
+    if (pfOrigen) pfOrigen.focus();
   });
 })();
 </script>
 
 <script>
+// Les entrades lligades a l'scroll (01/11/2026, en Raül): el mateix gest a tota la pàgina, opacitat i venint de baix. La peça va
+// de res, amb el seu dalt a «inici» de la pantalla (1 és el peu), a tot, a «fi». offsetTop no compta el moviment. Torna fins on ha
+// arribat; sense offsetParent, la peça no es veu i no s'hi fa res.
+function entraDeBaix(el, inici, fi, px) {
+  if (!el.offsetParent) return 1;
+  var dalt = el.offsetParent.getBoundingClientRect().top + el.offsetTop;
+  var t = Math.max(0, Math.min(1, (inici * innerHeight - dalt) / ((inici - fi) * innerHeight)));
+  var s = t * t * (3 - 2 * t);
+  el.style.opacity = s.toFixed(3);
+  el.style.transform = s < 1 ? 'translateY(' + ((1 - s) * px).toFixed(1) + 'px)' : '';
+  return t;
+}
 (function () {
   'use strict';
   var calma = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -2751,16 +2889,31 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
       new ResizeObserver(function () { requestAnimationFrame(apila); }).observe(escena);
     } else window.addEventListener('resize', function () { mesura(); apila(); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(mesura);
+    // L'entrada lligada a l'scroll (01/11/2026, en Raül): cada peça entra quan hi arriba, els passos, el text i, a l'últim i amb més
+    // recorregut, la pantalla de l'eina, que no es posa en marxa fins que ha arribat. El títol no: a moltes pantalles es veu a la
+    // primera, tallat pel peu, i és el que diu que hi ha més a baix. Al mòbil, com abans.
+    var colText = escena.children[0], maqs = escena.children[1];
+    var gran = window.matchMedia('(min-width: 860px)');
+    function mouEntrada() {
+      if (calma || !gran.matches) {
+        [carril, colText, maqs].forEach(function (el) { el.style.opacity = el.style.transform = ''; });
+        return 1;
+      }
+      entraDeBaix(carril, .98, .72, 40);
+      entraDeBaix(colText, 1, .72, 64);
+      return entraDeBaix(maqs, .94, .62, 96);
+    }
     // Les animacions de dins comencen quan el slider es veu
     function mira() {
+      var arribada = mouEntrada() >= .98;
       if (escena.classList.contains('vist')) return;
       var r = escena.getBoundingClientRect();
-      if (r.top < innerHeight * .8 && r.bottom > innerHeight * .2) {
+      if (arribada && r.top < innerHeight * .8 && r.bottom > innerHeight * .2) {
         escena.classList.add('vist'); compta(panells[ara]); encen(ara);
-        window.removeEventListener('scroll', mira);
       }
     }
     window.addEventListener('scroll', mira, { passive: true });
+    window.addEventListener('resize', mira);
     if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { if (es[0].isIntersecting) mira(); }, { threshold: [0, .3] }).observe(escena);
     mira();
   })();
@@ -2819,6 +2972,8 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
     // uns quants alhora, tots sumaven marge i la secció creixia sense parar. El Gem al lateral no tapa el full:
     // només compta quan va a sota del text.
     var torn = 0;
+    // On acaba quedant una fila: l'entrada la pot tenir desplaçada
+    function llocDe(f) { var t = f.offsetParent.getBoundingClientRect().top + f.offsetTop; return { top: t, bottom: t + f.offsetHeight }; }
     function ajustaFila() {
       var jo = ++torn, extra = 0, abans = Infinity;
       ctx.style.paddingBottom = '';
@@ -2835,7 +2990,11 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
         var lim = graella.getBoundingClientRect().bottom, baix = 0;
         Array.prototype.forEach.call(ctx.querySelectorAll('.gm, .ctx-vidre'), function (b) {
           if (b === gm && getComputedStyle(gm).position === 'absolute') return;
+          // L'entrada la té desplaçada: es mesura on acaba quedant
+          var mogut = b.style.transform;
+          b.style.transform = '';
           baix = Math.max(baix, b.getBoundingClientRect().bottom);
+          b.style.transform = mogut;
         });
         var falta = Math.ceil(baix + 32 + 31 + 8 - lim);
         // Si créixer no ho arregla (la falta no baixa), o ja ha crescut prou, s'atura: mai una secció sense fi
@@ -2847,8 +3006,8 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
           return;
         }
         var nova = null;
-        files.some(function (f) { var r = f.getBoundingClientRect(); if (r.top >= baix + 32 && r.bottom <= lim) { nova = f; return true; } return false; });
-        if (!nova) { var vis = files.filter(function (f) { return f.getBoundingClientRect().bottom <= lim; }); nova = vis[vis.length - 1]; }
+        files.some(function (f) { var r = llocDe(f); if (r.top >= baix + 32 && r.bottom <= lim) { nova = f; return true; } return false; });
+        if (!nova) { var vis = files.filter(function (f) { return llocDe(f).bottom <= lim; }); nova = vis[vis.length - 1]; }
         if (!nova) return;
         tria = nova;
         pintaFila();
@@ -2925,12 +3084,73 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
     torna.addEventListener('click', juga);
     if (calma || !('IntersectionObserver' in window)) { posa(true); return; }
     posa(false);
+    // L'entrada lligada a l'scroll (01/11/2026, en Raül). Tres temps, mentre la secció va de
+    // la part de baix de la pantalla a la capçalera: el full apareix (les vostres dades), la targeta puja més de pressa que ell
+    // i, a l'últim, el Gem s'obre pel costat, com el panell a Sheets, i comença a parlar. Arribar-hi amb el menú ho deixa fet.
+    var full = ctx.querySelector('.hs'), vidre = ctx.querySelector('.ctx-vidre');
+    var gran = window.matchMedia('(min-width: 860px)');
+    function tram(p, a, b) { var t = Math.max(0, Math.min(1, (p - a) / (b - a))); return t * t * (3 - 2 * t); }
+    // El full es munta peça a peça (01/11/2026, en Raül, per comparar amb l'interruptor): la barra, el menú, les eines i cada fila,
+    // de dalt a baix, amb el gest de sempre. Cada peça entra quan puja a la pantalla, i l'última arriba abans que la secció s'aturi.
+    // Les files de sota el full no es veuen: no es toquen. Només s'escriu el que canvia: a cada moment, se'n mouen unes poques.
+    var pecesFull = Array.prototype.slice.call(ctx.querySelectorAll('.hs-titol, .hs-menu, .hs-eines, .hs-formula, .hs-f, .hs-pestanyes'));
+    var pecaAPeca = true, posades = [], ambPeces = false;
+    function mouPeces(p, recorregut) {
+      var alt = full.offsetHeight;
+      ambPeces = true;
+      pecesFull.forEach(function (el, i) {
+        var y = el.offsetTop;
+        if (y > alt) return;
+        var fi = Math.min(.98, y / recorregut + .22), t = tram(p, fi - .14, fi), o = t < 1 ? t.toFixed(2) : '';
+        if (posades[i] === o) return;
+        posades[i] = o;
+        el.style.opacity = o;
+        el.style.transform = t < 1 ? 'translateY(' + ((1 - t) * 14).toFixed(1) + 'px)' : '';
+      });
+    }
+    function treuPeces() {
+      if (!ambPeces) return;
+      ambPeces = false; posades = [];
+      pecesFull.forEach(function (el) { el.style.opacity = el.style.transform = ''; });
+    }
+    function mouEntrada() {
+      var si = gran.matches;
+      ctx.classList.toggle('entra', si);
+      if (!si) { treuPeces(); full.style.opacity = vidre.style.opacity = vidre.style.transform = gm.style.opacity = gm.style.transform = ''; return 1; }
+      var cap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cap-alt')) || 0;
+      var recorregut = innerHeight - cap, p = (innerHeight - ctx.getBoundingClientRect().top) / recorregut;
+      var v = tram(p, .3, .8), g = tram(p, .55, 1);
+      if (pecaAPeca) { full.style.opacity = tram(p, 0, .12).toFixed(3); mouPeces(p, recorregut); }
+      else { treuPeces(); full.style.opacity = tram(p, 0, .6).toFixed(3); }
+      vidre.style.opacity = v.toFixed(3);
+      vidre.style.transform = v < 1 ? 'translateY(' + ((1 - v) * 120).toFixed(1) + 'px)' : '';
+      gm.style.opacity = g.toFixed(3);
+      gm.style.transform = g < 1 ? 'translateX(' + ((1 - g) * 72).toFixed(1) + 'px)' : '';
+      return p;
+    }
+    // El Gem parla quan ja hi és: si es veu però encara entra, espera
+    var esVeu = false, jugat = false;
+    function engegaGem() {
+      if (mouEntrada() < .98 || !esVeu || jugat) return;
+      jugat = true; mira.disconnect(); juga();
+    }
     var mira = new IntersectionObserver(function (es) {
-      if (!es[0].isIntersecting) return;
-      mira.disconnect();
-      juga();
+      esVeu = es[0].isIntersecting;
+      engegaGem();
     }, { threshold: .45 });
     mira.observe(gm);
+    window.addEventListener('scroll', engegaGem, { passive: true });
+    window.addEventListener('resize', engegaGem);
+    mouEntrada();
+    // L'interruptor: es treu quan en Raül triï
+    var compara = document.getElementById('compara-entrada');
+    compara.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      pecaAPeca = b.getAttribute('data-v') === 'despres';
+      Array.prototype.forEach.call(compara.querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      mouEntrada();
+    });
   })();
 </script>
 
@@ -3685,10 +3905,14 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
     }
     // Abans del primer pas, el tauler encès fins que es llisca una mica dins de la zona
     var apagat = 0;
-    // Primer apareix: de res quan la secció entra per baix, a tot quan n'ocupa el 60 % de la pantalla (31/10/2026, en Raül)
+    // L'aparició és l'entrada de la secció (01/11/2026, en Raül: que tingui més importància): de res quan el gràfic d'«Al vostre
+    // servei» es deixa anar, a tot just quan la secció arriba a la capçalera, que és quan la càmera arrenca cap al primer pas.
+    // Mentre el gràfic és fix no se'n veu res, encara que a les pantalles altes la secció ja hi sigui (#miro entra dins del buit)
+    var apiEscena = document.getElementById('api-escena');
     function apareixElTauler() {
-      var vist = (innerHeight - sec.getBoundingClientRect().top) / (innerHeight * .6);
-      escena.style.opacity = calma ? '' : Math.max(0, Math.min(1, vist)).toFixed(3);
+      var cap = parseFloat(getComputedStyle(escena).top) || 0, dalt = sec.getBoundingClientRect().top;
+      var entra = Math.min(innerHeight, innerHeight + dalt - apiEscena.getBoundingClientRect().bottom);
+      escena.style.opacity = calma ? '' : Math.max(0, Math.min(1, (entra - dalt) / (entra - cap))).toFixed(3);
     }
     function encenElTauler() {
       apareixElTauler();
@@ -3796,7 +4020,7 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
     var escena = document.getElementById('api-escena'), quiet = escena.querySelector('.api-quiet');
     var capsal = sec.querySelector('.api-cap'), caixa = document.getElementById('api-caixa');
     var imatge = sec.querySelector('.api-imatge'), llenc = sec.querySelector('.api-llenc');
-    var para = sec.querySelector('.api-para');
+    var para = sec.querySelector('.api-para'), baixa = sec.querySelector('.api-baixa');
     var boles = sec.querySelector('.api-boles');
     var fases = tots('.api-fase', sec), passos = tots('.api-pas', sec);
     var FASE = [0, 0, 1, 1, 2, 2];
@@ -3859,6 +4083,7 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
     });
 
     var pas = -1, temps = 0, pla = { tN: {}, tA: {}, fi: 0 }, vistes = {}, cadenes = [], signatura = '';
+    var venDeSota = true;
     var mida = { W: 0, alt: 0, cap: 0, text: 0 }, rellotges = [], anims = [], tempsBoles = [], veu = false, esperant = false;
 
     function geom(a, P) {
@@ -4037,13 +4262,17 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
         f.cap.style.opacity = cap;
         e.style.left = g.lx + 'px'; e.style.top = g.ly + 'px'; e.style.transform = g.lt; e.style.opacity = lo;
       });
+      var ve = venDeSota;
       fases.forEach(function (f, i) {
         var ara = i === fase;
         f.style.top = '0'; f.style.left = L.left[i] + 'px'; f.style.width = L.textW + 'px';
         f.style.opacity = ara ? 1 : 0; f.style.visibility = ara ? 'visible' : 'hidden';
-        f.style.transform = 'translateY(' + (ara ? 0 : 14) + 'px)';
-        f.style.transition = ara ? 'opacity .5s ease .45s, transform .6s cubic-bezier(.22,.61,.36,1) .45s, visibility 0s linear 0s' : 'opacity .3s ease, transform 0s linear .3s, visibility 0s linear .3s';
+        // La primera vegada, el text ve de baix com les altres peces (01/11/2026, en Raül), i de seguida: encara no hi ha res per deixar lloc
+        f.style.transform = 'translateY(' + (ara ? 0 : sensePas ? 56 : 14) + 'px)';
+        var torn = ve ? '.1s' : '.45s';
+        f.style.transition = ara ? 'opacity .5s ease ' + torn + ', transform ' + (ve ? '.8s' : '.6s') + ' cubic-bezier(.22,.61,.36,1) ' + torn + ', visibility 0s linear 0s' : 'opacity .3s ease, transform 0s linear .3s, visibility 0s linear .3s';
       });
+      venDeSota = sensePas;
       passos.forEach(function (li, i) {
         li.style.display = (L.estreta ? i === c : i <= c) ? 'grid' : 'none';
         li.classList.toggle('ara', i === c);
@@ -4062,8 +4291,13 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
       esperant = false;
       var r = escena.getBoundingClientRect(), alt = quiet.offsetHeight, espera = window.innerHeight * .12;
       var cap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cap-alt')) || 64;
+      // La capçalera entra com les altres peces (01/11/2026, en Raül), abans que el primer pas
+      if (!calma) entraDeBaix(capsal, 1, .65, 48);
       var t = (cap - r.top - espera) / Math.max(1, r.height - alt - espera) * 6.25;
-      var nou = t > 0 ? Math.min(5, Math.floor(t)) : -1, W = caixa.offsetWidth, hh = capsal.offsetHeight;
+      // El primer pas no espera que el títol es quedi fix (01/11/2026, en Raül: «es veu buit»): entra quan el gràfic arriba al 70 % de la pantalla
+      var nou = t > 0 ? Math.min(5, Math.floor(t)) : caixa.getBoundingClientRect().top < window.innerHeight * .7 ? 0 : -1;
+      baixa.classList.toggle('on', nou === 0 && t <= 0);
+      var W = caixa.offsetWidth, hh = capsal.offsetHeight;
       if (nou === pas && W === mida.W && alt === mida.alt && hh === mida.cap) return;
       mida.W = W; mida.alt = alt; mida.cap = hh;
       if (nou !== pas) { pas = nou; vistes = {}; comenca(nou); }
@@ -4078,6 +4312,28 @@ section.api { padding-block: var(--aire) calc(var(--aire) / 2); scroll-margin-to
     if (hiHaIO) new IntersectionObserver(function (es) { alCamp(es[0].isIntersecting); }).observe(escena);
     else alCamp(true);
     mira();
+  })();
+
+  // La franja de l'exemple apareix amb l'scroll, també en tornar-hi (01/11/2026, en Raül). Abans s'animava un sol cop i, en
+  // tornar-hi, ja hi era. Sense botó de l'exemple, la franja no es veu i entraDeBaix no hi fa res
+  (function () {
+    var fila = document.querySelector('.cf-prova-fila');
+    if (calma) return;
+    function mou() { entraDeBaix(fila, 1, .7, 40); }
+    window.addEventListener('scroll', mou, { passive: true });
+    window.addEventListener('resize', mou);
+    mou();
+  })();
+
+  // «Parlem-ne» entra com les altres seccions (01/11/2026, en Raül): el text i, després, el formulari. El formulari és a prop del
+  // final de la pàgina: «fi» ha de ser un lloc on arribi, o es quedaria mig apagat
+  (function () {
+    var text = document.querySelector('.parlem-cap'), form = document.getElementById('missatge');
+    if (calma) return;
+    function mou() { entraDeBaix(text, 1, .72, 48); entraDeBaix(form, .96, .6, 64); }
+    window.addEventListener('scroll', mou, { passive: true });
+    window.addEventListener('resize', mou);
+    mou();
   })();
 })();
 </script>
